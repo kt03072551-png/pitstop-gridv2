@@ -1,9 +1,15 @@
 import { PrismaClient, Role, VehicleType, PartGrade, FulfillmentType, OrderStatus } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log("🌱 Starting database seeding for Pitstop Grid v2...");
+
+  // Hash passwords with bcrypt (cost factor 10)
+  const adminHash = await bcrypt.hash("admin1234", 10);
+  const sellerHash = await bcrypt.hash("seller1234", 10);
+  const customerHash = await bcrypt.hash("customer1234", 10);
 
   // 1. Create Users
   const admin = await prisma.user.upsert({
@@ -12,7 +18,7 @@ async function main() {
     create: {
       email: "admin@pitstopgrid.co.th",
       name: "Master Warehouse Controller",
-      passwordHash: "$2b$10$hashedAdminPasswordExampleOnly",
+      passwordHash: adminHash,
       role: Role.ADMIN,
       phone: "02-889-1928",
     },
@@ -24,7 +30,7 @@ async function main() {
     create: {
       email: "seller@pitstopgrid.co.th",
       name: "Spoon Sports Authorized Dealer",
-      passwordHash: "$2b$10$hashedSellerPasswordExampleOnly",
+      passwordHash: sellerHash,
       role: Role.SELLER,
       phone: "081-992-8812",
     },
@@ -36,7 +42,7 @@ async function main() {
     create: {
       email: "somchai@gmail.com",
       name: "Somchai Kiatikun",
-      passwordHash: "$2b$10$hashedCustomerPasswordExampleOnly",
+      passwordHash: customerHash,
       role: Role.CUSTOMER,
       phone: "089-112-3344",
     },

@@ -95,3 +95,13 @@ export interface CartItem {
   selectedVehicleTrimId?: string;
   fitmentStatusAtAdd: FitmentStatus;
 }
+
+export type UserRole = "CUSTOMER" | "SELLER" | "ADMIN";
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  phone?: string;
+}

@@ -3,20 +3,25 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  Wrench, 
-  ShoppingCart, 
-  Warehouse, 
-  ShieldCheck, 
-  ChevronRight, 
-  LayoutDashboard, 
-  Menu, 
+import {
+  Wrench,
+  ShoppingCart,
+  Warehouse,
+  ShieldCheck,
+  ChevronRight,
+  LayoutDashboard,
+  Menu,
   X,
   Search,
-  Sparkles
+  Sparkles,
+  LogIn,
+  LogOut,
+  UserCircle,
+  Crown,
 } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { useCartStore } from "@/store/useCartStore";
+import { useAuthStore } from "@/store/useAuthStore";
 import { MyGarageDrawer } from "./MyGarageDrawer";
 import { cn } from "@/lib/utils";
 
@@ -24,6 +29,7 @@ export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const { activeVehicle, savedVehicles } = useVehicleStore();
   const { items } = useCartStore();
+  const { user, isAuthenticated, logout } = useAuthStore();
   const [isGarageOpen, setIsGarageOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -35,6 +41,10 @@ export const Navbar: React.FC = () => {
   const totalCartCount = mounted ? items.reduce((sum, item) => sum + item.quantity, 0) : 0;
   const currentActiveVehicle = mounted ? activeVehicle : null;
   const savedVehiclesCount = mounted ? savedVehicles.length : 0;
+  const currentUser = mounted ? user : null;
+  const currentIsAuthenticated = mounted ? isAuthenticated : false;
+
+  const isAdmin = currentUser?.role === "ADMIN" || currentUser?.role === "SELLER";
 
   return (
     <>
@@ -54,18 +64,21 @@ export const Navbar: React.FC = () => {
               </span>
             </div>
             <div className="flex items-center gap-3">
-              <Link
-                href="/admin/dashboard"
-                className={cn(
-                  "flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold tracking-wide transition-all",
-                  pathname.startsWith("/admin")
-                    ? "bg-amber-500/20 border border-amber-500/50 text-amber-300"
-                    : "bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700"
-                )}
-              >
-                <LayoutDashboard className="w-3 h-3 text-amber-400" />
-                <span>Seller Portal</span>
-              </Link>
+              {/* Only show Seller Portal link for admin/seller users */}
+              {currentIsAuthenticated && isAdmin && (
+                <Link
+                  href="/admin/dashboard"
+                  className={cn(
+                    "flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold tracking-wide transition-all",
+                    pathname.startsWith("/admin")
+                      ? "bg-amber-500/20 border border-amber-500/50 text-amber-300"
+                      : "bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700"
+                  )}
+                >
+                  <LayoutDashboard className="w-3 h-3 text-amber-400" />
+                  <span>Seller Portal</span>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -162,6 +175,54 @@ export const Navbar: React.FC = () => {
               )}
             </Link>
 
+            {/* Auth: Login Button or User Menu */}
+            {currentIsAuthenticated && currentUser ? (
+              <div className="hidden sm:flex items-center gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                  <div className={cn(
+                    "w-7 h-7 rounded-full flex items-center justify-center shrink-0 border",
+                    isAdmin
+                      ? "bg-amber-950/80 border-amber-500/50"
+                      : "bg-sky-950/80 border-sky-500/50"
+                  )}>
+                    {isAdmin ? (
+                      <Crown className="w-3.5 h-3.5 text-amber-400" />
+                    ) : (
+                      <UserCircle className="w-3.5 h-3.5 text-sky-400" />
+                    )}
+                  </div>
+                  <div className="max-w-[120px]">
+                    <span className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                      {currentUser.role}
+                    </span>
+                    <span className="block text-xs font-semibold text-slate-200 truncate">
+                      {currentUser.name.split(" ")[0]}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={logout}
+                  className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 hover:border-rose-500/50 transition-all"
+                  title="Sign Out"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                className={cn(
+                  "hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-lg border transition-all shadow-md font-mono font-semibold text-xs",
+                  pathname === "/login"
+                    ? "bg-emerald-500 text-slate-950 border-emerald-400"
+                    : "bg-slate-900 border-slate-800 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-400"
+                )}
+              >
+                <LogIn className="w-4 h-4" />
+                <span>Login</span>
+              </Link>
+            )}
+
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -175,6 +236,48 @@ export const Navbar: React.FC = () => {
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden border-t border-slate-800 bg-slate-900 px-4 py-4 space-y-3">
+            {/* Mobile Auth Status */}
+            {currentIsAuthenticated && currentUser ? (
+              <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
+                <div className="flex items-center gap-2.5">
+                  <div className={cn(
+                    "w-8 h-8 rounded-full flex items-center justify-center border",
+                    isAdmin
+                      ? "bg-amber-950/80 border-amber-500/50"
+                      : "bg-sky-950/80 border-sky-500/50"
+                  )}>
+                    {isAdmin ? (
+                      <Crown className="w-4 h-4 text-amber-400" />
+                    ) : (
+                      <UserCircle className="w-4 h-4 text-sky-400" />
+                    )}
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-mono text-slate-400 uppercase">{currentUser.role}</span>
+                    <span className="block text-sm font-semibold text-white">{currentUser.name}</span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono font-semibold text-rose-400 hover:bg-rose-950/50 hover:border-rose-500/50 transition-all"
+                >
+                  Sign Out
+                </button>
+              </div>
+            ) : (
+              <Link
+                href="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-full flex items-center justify-center gap-2 p-3 rounded-lg bg-emerald-500 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider"
+              >
+                <LogIn className="w-4 h-4" />
+                Sign In to Your Account
+              </Link>
+            )}
+
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
