@@ -1,0 +1,342 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum Role {
+  CUSTOMER
+  SELLER
+  ADMIN
+}
+
+enum VehicleType {
+  CAR
+  MOTORBIKE
+}
+
+enum PartGrade {
+  OEM_GENUINE
+  AFTERMARKET
+  PERFORMANCE
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  VERIFYING_SLIP
+  APPROVED
+  PREPARING_PARTS
+  SHIPPED
+  READY_FOR_PICKUP
+  COMPLETED
+  REJECTED
+  CANCELLED
+}
+
+enum FulfillmentType {
+  EXPRESS_SHIPPING
+  INSTORE_PICKUP
+}
+
+enum AnalyticsEventType {
+  PAGE_VIEW
+  PART_SEARCH
+  VIN_LOOKUP
+  FITMENT_CHECK
+  DIAGRAM_VIEW
+}
+
+// ==========================================
+// USERS & ROLES
+// ==========================================
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  phone        String?
+  role         Role     @default(CUSTOMER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  savedVehicles  CustomerGarage[]
+  orders         Order[]          @relation("CustomerOrders")
+  verifiedOrders Order[]          @relation("AdminVerifier")
+  analyticsLogs  AnalyticsLog[]
+
+  @@index([email])
+  @@index([role])
+}
+
+// ==========================================
+// VEHICLE MASTER DATABASE
+// ==========================================
+
+model VehicleMake {
+  id      String      @id @default(uuid())
+  name    String      @unique // e.g. Honda, Yamaha, Toyota
+  type    VehicleType // CAR or MOTORBIKE
+  logoUrl String?
+
+  // Relations
+  models VehicleModel[]
+
+  @@index([type])
+}
+
+model VehicleModel {
+  id         String @id @default(uuid())
+  makeId     String
+  name       String // e.g. Civic, YZF-R15
+  generation String? // e.g. FL5 (11th Gen Type R), V3
+  startYear  Int
+  endYear    Int? // null indicates currently in production
+
+  // Relations
+  make                  VehicleMake          @relation(fields: [makeId], references: [id], onDelete: Cascade)
+  trims                 VehicleTrim[]
+  compatibilityMappings PartFitmentMapping[]
+
+  @@index([makeId])
+  @@index([name])
+}
+
+model VehicleTrim {
+  id         String  @id @default(uuid())
+  modelId    String
+  name       String // e.g. 2.0T VTEC Turbo Type R, 155cc VVA
+  engineCode String? // e.g. K20C1
+  horsepower Int?
+  fuelType   String? // Petrol, Hybrid, EV
+
+  // Relations
+  model                 VehicleModel         @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  customerGarages       CustomerGarage[]
+  compatibilityMappings PartFitmentMapping[]
+  orderItems            OrderItem[]
+
+  @@index([modelId])
+  @@index([engineCode])
+}
+
+// ==========================================
+// CUSTOMER GARAGE
+// ==========================================
+
+model CustomerGarage {
+  id            String   @id @default(uuid())
+  userId        String
+  vehicleTrimId String
+  nickname      String? // e.g. "Track Day FL5"
+  vin           String? // Vehicle Identification Number for exact OEM lookup
+  isDefault     Boolean  @default(false)
+  notes         String? // Modification notes (e.g. "Installed aftermarket downpipe")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  vehicleTrim VehicleTrim @relation(fields: [vehicleTrimId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([vehicleTrimId])
+}
+
+// ==========================================
+// PARTS CATALOG & INVENTORY
+// ==========================================
+
+model PartCategory {
+  id       String  @id @default(uuid())
+  name     String
+  slug     String  @unique
+  parentId String? // For category hierarchy (e.g., Engine -> Oil System -> Filters)
+  iconName String? // Lucide icon identifier
+
+  // Relations
+  parent   PartCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
+  children PartCategory[] @relation("CategoryHierarchy")
+  parts    Part[]
+
+  @@index([parentId])
+}
+
+model Part {
+  id                String    @id @default(uuid())
+  sku               String    @unique // Internal warehouse SKU (e.g., HND-OF-003)
+  oemPartNumber     String // OEM reference (e.g., 15400-RTA-003)
+  title             String
+  brand             String // Honda Genuine, Motul, Spoon Sports
+  categoryId        String
+  grade             PartGrade @default(OEM_GENUINE)
+  price             Decimal   @db.Decimal(10, 2)
+  costPrice         Decimal?  @db.Decimal(10, 2)
+  stockQuantity     Int       @default(0)
+  minStockThreshold Int       @default(5)
+  warehouseBin      String? // e.g. Bin A12
+  warehouseAisle    String? // e.g. Row 4
+  isUniversalFit    Boolean   @default(false)
+  description       String?   @db.Text
+  specifications    Json? // Key-value technical specs (Thread size, weight, dimensions)
+  weightGrams       Int?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  category              PartCategory             @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  images                PartImage[]
+  compatibilityMappings PartFitmentMapping[]
+  orderItems            OrderItem[]
+  diagramCallouts       ExplodedDiagramCallout[]
+
+  @@index([oemPartNumber])
+  @@index([categoryId])
+  @@index([brand])
+  @@index([grade])
+}
+
+model PartImage {
+  id                String  @id @default(uuid())
+  partId            String
+  s3Key             String // AWS S3 / Cloudflare R2 object key
+  imageUrl          String // Public CDN URL
+  isPrimary         Boolean @default(false)
+  isExplodedDiagram Boolean @default(false)
+  displayOrder      Int     @default(0)
+
+  // Relations
+  part            Part                     @relation(fields: [partId], references: [id], onDelete: Cascade)
+  diagramCallouts ExplodedDiagramCallout[]
+
+  @@index([partId])
+}
+
+model ExplodedDiagramCallout {
+  id             String  @id @default(uuid())
+  partId         String
+  diagramImageId String
+  calloutNumber  String // e.g. "#2" or "14"
+  subPartSku     String? // If the callout points to another sellable SKU
+  label          String  @db.Text // Description of the sub-piece
+  xCoord         Float // X coordinate percentage on the exploded SVG/Image
+  yCoord         Float // Y coordinate percentage on the exploded SVG/Image
+
+  // Relations
+  part         Part      @relation(fields: [partId], references: [id], onDelete: Cascade)
+  diagramImage PartImage @relation(fields: [diagramImageId], references: [id], onDelete: Cascade)
+
+  @@index([partId])
+  @@index([diagramImageId])
+}
+
+// ==========================================
+// COMPATIBILITY MAPPING (MANY-TO-MANY JUNCTION)
+// ==========================================
+
+model PartFitmentMapping {
+  id                   String  @id @default(uuid())
+  partId               String
+  vehicleModelId       String? // Can map broadly to a Model
+  vehicleTrimId        String? // Or narrowly to a specific Trim/Engine
+  yearStart            Int
+  yearEnd              Int? // null indicates up to current model year
+  fitmentNotes         String? // e.g. "Direct bolt-on for JDM spec only"
+  requiresModification Boolean @default(false)
+
+  // Relations
+  part         Part          @relation(fields: [partId], references: [id], onDelete: Cascade)
+  vehicleModel VehicleModel? @relation(fields: [vehicleModelId], references: [id], onDelete: Cascade)
+  vehicleTrim  VehicleTrim?  @relation(fields: [vehicleTrimId], references: [id], onDelete: Cascade)
+
+  @@index([partId])
+  @@index([vehicleModelId])
+  @@index([vehicleTrimId])
+}
+
+// ==========================================
+// ORDERS & TRANSACTIONS
+// ==========================================
+
+model Order {
+  id                    String          @id @default(uuid())
+  orderNumber           String          @unique // e.g. ORD-20260723-00992
+  userId                String
+  status                OrderStatus     @default(PENDING_PAYMENT)
+  totalAmount           Decimal         @db.Decimal(10, 2)
+  subtotal              Decimal         @db.Decimal(10, 2)
+  shippingFee           Decimal         @db.Decimal(10, 2)
+  vatAmount             Decimal         @db.Decimal(10, 2)
+  fulfillmentType       FulfillmentType
+  shippingAddress       Json? // Shipping details for Express delivery
+  pickupBranchId        String? // Branch code for In-Store Pickup
+  paymentSlipUrl        String? // CDN URL for uploaded bank transfer slip
+  paymentSlipS3Key      String? // S3 storage key
+  paymentSlipUploadedAt DateTime?
+  promptPayRef          String? // Bank transaction ref extracted via OCR/QR
+  ocrVerifiedAmount     Decimal?        @db.Decimal(10, 2) // Amount detected by OCR
+  rejectionReason       String?         @db.Text
+  verifiedByAdminId     String?
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+
+  // Relations
+  user     User        @relation("CustomerOrders", fields: [userId], references: [id], onDelete: Restrict)
+  verifier User?       @relation("AdminVerifier", fields: [verifiedByAdminId], references: [id], onDelete: SetNull)
+  items    OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([orderNumber])
+}
+
+model OrderItem {
+  id            String  @id @default(uuid())
+  orderId       String
+  partId        String
+  vehicleTrimId String? // Tracks what vehicle the customer purchased this part for (Fitment Audit)
+  quantity      Int
+  unitPrice     Decimal @db.Decimal(10, 2)
+  totalPrice    Decimal @db.Decimal(10, 2)
+
+  // Relations
+  order       Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  part        Part         @relation(fields: [partId], references: [id], onDelete: Restrict)
+  vehicleTrim VehicleTrim? @relation(fields: [vehicleTrimId], references: [id], onDelete: SetNull)
+
+  @@index([orderId])
+  @@index([partId])
+}
+
+// ==========================================
+// VISITOR & ANALYTICS LOGGING
+// ==========================================
+
+model AnalyticsLog {
+  id            String             @id @default(uuid())
+  visitorId     String // UUID stored in cookie for guest/registered tracking
+  userId        String? // Optional if logged in
+  eventType     AnalyticsEventType
+  searchedSku   String?
+  searchedMake  String?
+  searchedModel String?
+  urlPath       String
+  ipAddress     String?
+  userAgent     String?
+  createdAt     DateTime           @default(now())
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([visitorId])
+  @@index([eventType])
+  @@index([createdAt])
+  @@index([searchedSku])
+}
