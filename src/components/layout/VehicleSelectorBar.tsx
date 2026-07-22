@@ -57,33 +57,33 @@ export const VehicleSelectorBar: React.FC = () => {
   };
 
   return (
-    <div className="w-full bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border-y border-slate-800 shadow-xl py-4 px-4">
+    <div className="w-full bg-[#DBE2EF]/70 dark:bg-[#0F4C75]/70 border-y border-[#3F72AF]/20 dark:border-[#3282B8]/30 shadow-md py-4 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
         {/* Title / Status */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 to-sky-500/20 border border-emerald-500/40 flex items-center justify-center shrink-0 shadow-inner">
-            <Car className="w-5 h-5 text-emerald-400" />
+          <div className="w-10 h-10 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#3F72AF]/40 dark:border-[#3282B8]/40 flex items-center justify-center shrink-0 shadow-inner">
+            <Car className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1">
+              <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#3F72AF] dark:text-[#3282B8] flex items-center gap-1">
                 <Sparkles className="w-3.5 h-3.5" /> Smart Fitment Selector
               </span>
-              <span className="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.5 rounded font-mono border border-slate-700">
+              <span className="text-[10px] bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] px-1.5 py-0.5 rounded font-mono border border-[#DBE2EF] dark:border-[#0F4C75]">
                 OEM Verified
               </span>
             </div>
-            <p className="text-xs text-slate-300 mt-0.5 font-medium">
+            <p className="text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 mt-0.5 font-medium">
               Filter 10,000+ parts guaranteed to bolt-on to your exact vehicle
             </p>
           </div>
         </div>
 
         {/* 4-Step Dropdown Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 w-full lg:w-auto flex-1 max-w-4xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 w-full lg:w-auto flex-1 max-w-4xl">
           {/* Step 1: Make */}
           <div className="relative">
-            <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+            <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
               1. Make
             </label>
             <select
@@ -93,7 +93,7 @@ export const VehicleSelectorBar: React.FC = () => {
                 setSelectedModel("");
                 setSelectedTrim("");
               }}
-              className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 transition-colors cursor-pointer"
+              className="w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors cursor-pointer shadow-sm"
             >
               <option value="">Select Make</option>
               {MOCK_VEHICLE_MAKES.map((m) => (
@@ -106,7 +106,7 @@ export const VehicleSelectorBar: React.FC = () => {
 
           {/* Step 2: Model */}
           <div className="relative">
-            <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+            <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
               2. Model
             </label>
             <select
@@ -117,8 +117,8 @@ export const VehicleSelectorBar: React.FC = () => {
                 setSelectedTrim("");
               }}
               className={cn(
-                "w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 transition-colors cursor-pointer",
-                !selectedMake && "opacity-40 cursor-not-allowed"
+                "w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors cursor-pointer shadow-sm",
+                !selectedMake && "opacity-50 cursor-not-allowed"
               )}
             >
               <option value="">Select Model</option>
@@ -132,7 +132,7 @@ export const VehicleSelectorBar: React.FC = () => {
 
           {/* Step 3: Year */}
           <div className="relative">
-            <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+            <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
               3. Year
             </label>
             <select
@@ -140,8 +140,8 @@ export const VehicleSelectorBar: React.FC = () => {
               disabled={!selectedModel}
               onChange={(e) => setSelectedYear(Number(e.target.value))}
               className={cn(
-                "w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 transition-colors cursor-pointer",
-                !selectedModel && "opacity-40 cursor-not-allowed"
+                "w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors cursor-pointer shadow-sm",
+                !selectedModel && "opacity-50 cursor-not-allowed"
               )}
             >
               {yearsList.map((y) => (
@@ -154,7 +154,7 @@ export const VehicleSelectorBar: React.FC = () => {
 
           {/* Step 4: Engine / Trim */}
           <div className="relative">
-            <label className="block text-[10px] font-mono uppercase text-slate-400 mb-1">
+            <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
               4. Engine / Trim
             </label>
             <select
@@ -162,8 +162,8 @@ export const VehicleSelectorBar: React.FC = () => {
               disabled={!selectedModel}
               onChange={(e) => setSelectedTrim(e.target.value)}
               className={cn(
-                "w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 transition-colors cursor-pointer",
-                !selectedModel && "opacity-40 cursor-not-allowed"
+                "w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors cursor-pointer shadow-sm",
+                !selectedModel && "opacity-50 cursor-not-allowed"
               )}
             >
               <option value="">Select Engine/Trim</option>
@@ -182,10 +182,10 @@ export const VehicleSelectorBar: React.FC = () => {
             onClick={handleApplyFilter}
             disabled={!selectedTrim}
             className={cn(
-              "w-full lg:w-auto px-5 py-2.5 rounded-lg font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-lg",
+              "w-full lg:w-auto min-h-[44px] px-6 py-2.5 rounded-xl font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md",
               selectedTrim
-                ? "bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-950 hover:from-emerald-400 hover:to-emerald-300 shadow-emerald-500/20 active:scale-[0.98]"
-                : "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700"
+                ? "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] hover:opacity-90 shadow-[#3F72AF]/20 dark:shadow-[#3282B8]/20 active:scale-[0.98]"
+                : "bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E]/40 dark:text-[#BBE1FA]/40 cursor-not-allowed border border-[#DBE2EF] dark:border-[#0F4C75]"
             )}
           >
             {isSavedNotice ? (

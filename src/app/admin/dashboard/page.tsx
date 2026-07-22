@@ -34,19 +34,19 @@ export default function AdminDashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 py-10 px-4">
+    <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-10 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-950 border border-amber-500/60 flex items-center justify-center shadow-lg">
-              <LayoutDashboard className="w-6 h-6 text-amber-400" />
+            <div className="w-12 h-12 rounded-2xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] flex items-center justify-center shadow-md">
+              <LayoutDashboard className="w-6 h-6" />
             </div>
             <div>
-              <span className="font-mono text-xs uppercase text-amber-400 font-bold tracking-wider">
+              <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
                 • Seller & Warehouse Operations Portal
               </span>
-              <h1 className="text-2xl sm:text-3xl font-mono font-black text-white uppercase tracking-tight mt-0.5">
+              <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight mt-0.5">
                 Executive Command Center
               </h1>
             </div>
@@ -55,7 +55,7 @@ export default function AdminDashboardPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/admin/orders"
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 hover:to-amber-300 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all"
+              className="min-h-[44px] px-6 py-3 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all"
             >
               <span>Verify Payment Slips ({recentOrders.filter(o => o.status === "VERIFYING_SLIP").length})</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -68,16 +68,16 @@ export default function AdminDashboardPage() {
           {stats.map((stat, idx) => {
             const IconComponent = stat.icon;
             return (
-              <div key={idx} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl flex flex-col justify-between space-y-4">
+              <div key={idx} className="p-5 rounded-2xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] shadow-md flex flex-col justify-between space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-slate-400 uppercase font-semibold">{stat.title}</span>
+                  <span className="font-mono text-xs text-[#112D4E]/80 dark:text-[#85B5D9] uppercase font-bold">{stat.title}</span>
                   <div className={`w-10 h-10 rounded-xl border flex items-center justify-center ${stat.color}`}>
                     <IconComponent className="w-5 h-5" />
                   </div>
                 </div>
                 <div>
-                  <span className="font-mono font-black text-2xl text-white block tracking-tight">{stat.value}</span>
-                  <span className="text-xs font-mono text-slate-400 mt-1 block">{stat.change}</span>
+                  <span className="font-mono font-black text-2xl text-[#112D4E] dark:text-white block tracking-tight">{stat.value}</span>
+                  <span className="text-xs font-mono font-semibold text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 block">{stat.change}</span>
                 </div>
               </div>
             );
@@ -85,15 +85,15 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Quick Orders & Slip Audit Queue Table */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-xl space-y-6">
+          <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-4">
             <div className="flex items-center gap-2.5">
-              <span className="font-mono text-xs font-bold uppercase text-amber-400">Live Queue</span>
-              <h3 className="font-mono font-bold text-lg text-white uppercase">Recent Orders & Slip Verification Feed</h3>
+              <span className="font-mono text-xs font-bold uppercase text-[#3F72AF] dark:text-[#3282B8]">Live Queue</span>
+              <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA] uppercase">Recent Orders & Slip Verification Feed</h3>
             </div>
             <Link
               href="/admin/orders"
-              className="text-xs font-mono text-emerald-400 hover:text-emerald-300 flex items-center gap-1 font-bold"
+              className="min-h-[36px] flex items-center text-xs font-mono text-[#3F72AF] dark:text-[#3282B8] hover:underline gap-1 font-bold"
             >
               View Full Audit Table &rarr;
             </Link>
@@ -101,7 +101,7 @@ export default function AdminDashboardPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
-              <thead className="bg-slate-950 text-slate-400 border-b border-slate-800 uppercase">
+              <thead className="bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E]/80 dark:text-[#85B5D9] border-b border-[#DBE2EF] dark:border-[#0F4C75] uppercase font-bold">
                 <tr>
                   <th className="p-3">Order ID</th>
                   <th className="p-3">Customer</th>
@@ -112,27 +112,27 @@ export default function AdminDashboardPage() {
                   <th className="p-3 text-right">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 text-slate-200">
+              <tbody className="divide-y divide-[#DBE2EF]/80 dark:divide-[#0F4C75]/80 text-[#112D4E] dark:text-slate-200 font-medium">
                 {recentOrders.map((o) => (
-                  <tr key={o.id} className="hover:bg-slate-850/60 transition-colors">
-                    <td className="p-3 font-bold text-white">{o.id}</td>
-                    <td className="p-3 text-slate-300">{o.customer}</td>
-                    <td className="p-3 font-bold text-emerald-400">{formatTHB(o.amount)}</td>
-                    <td className="p-3 text-slate-300">{o.branch}</td>
+                  <tr key={o.id} className="hover:bg-[#DBE2EF]/40 dark:hover:bg-[#0F4C75]/40 transition-colors">
+                    <td className="p-3 font-bold text-[#112D4E] dark:text-white">{o.id}</td>
+                    <td className="p-3 text-[#112D4E]/90 dark:text-slate-300">{o.customer}</td>
+                    <td className="p-3 font-bold text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(o.amount)}</td>
+                    <td className="p-3 text-[#112D4E]/90 dark:text-slate-300">{o.branch}</td>
                     <td className="p-3">
-                      <span className={`px-2.5 py-1 rounded font-bold uppercase ${
-                        o.status === "VERIFYING_SLIP" ? "bg-amber-950 text-amber-300 border border-amber-500/50 animate-pulse" :
-                        o.status === "APPROVED" ? "bg-emerald-950 text-emerald-300 border border-emerald-500/50" :
-                        "bg-sky-950 text-sky-300 border border-sky-500/50"
+                      <span className={`px-2.5 py-1 rounded-lg font-bold uppercase ${
+                        o.status === "VERIFYING_SLIP" ? "bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500/50 animate-pulse" :
+                        o.status === "APPROVED" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500/50" :
+                        "bg-sky-500/10 text-sky-600 dark:text-sky-300 border border-sky-500/50"
                       }`}>
                         {o.status.replace("_", " ")}
                       </span>
                     </td>
-                    <td className="p-3 text-slate-400">{o.time}</td>
+                    <td className="p-3 text-[#112D4E]/70 dark:text-slate-400">{o.time}</td>
                     <td className="p-3 text-right">
                       <Link
                         href={`/admin/orders?focus=${o.id}`}
-                        className="px-3 py-1 rounded bg-slate-800 hover:bg-slate-750 text-white border border-slate-700 inline-flex items-center gap-1 text-[11px]"
+                        className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold border border-[#DBE2EF] dark:border-[#0F4C75] inline-flex items-center justify-center gap-1.5 text-[11px] shadow-sm"
                       >
                         <Eye className="w-3.5 h-3.5" /> Inspect Slip
                       </Link>

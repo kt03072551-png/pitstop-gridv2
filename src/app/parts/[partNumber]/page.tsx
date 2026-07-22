@@ -55,9 +55,9 @@ export default function ProductDetailPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-slate-950 py-20 px-4 flex items-center justify-center">
-        <div className="font-mono text-emerald-400 text-sm animate-pulse flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-20 px-4 flex items-center justify-center">
+        <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
+          <span className="w-2 h-2 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-ping" />
           Loading Product Schematics & Fitment Matrix...
         </div>
       </div>
@@ -74,34 +74,34 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 py-8 px-4">
+    <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-8 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-mono text-slate-400">
-          <Link href="/" className="hover:text-emerald-400">Home</Link>
+        <nav className="flex items-center gap-2 text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9]">
+          <Link href="/" className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] font-semibold">Home</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href="/catalog" className="hover:text-emerald-400">Catalog</Link>
+          <Link href="/catalog" className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] font-semibold">Catalog</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <Link href={`/catalog?category=${part.category}`} className="hover:text-emerald-400">{part.category}</Link>
+          <Link href={`/catalog?category=${part.category}`} className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] font-semibold">{part.category}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-white font-semibold truncate max-w-xs">{part.oemPartNumber}</span>
+          <span className="text-[#112D4E] dark:text-white font-bold truncate max-w-xs">{part.oemPartNumber}</span>
         </nav>
 
-        {/* 1. Dynamic Vehicle Fitment Status Banner (Sticky alert below breadcrumbs) */}
+        {/* 1. Dynamic Vehicle Fitment Status Banner */}
         <div className={cn(
-          "p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg transition-all",
-          fitStatus === "FITS" && "bg-gradient-to-r from-emerald-950/90 via-emerald-950/70 to-slate-900 border-emerald-500/80 text-emerald-200",
-          fitStatus === "INCOMPATIBLE" && "bg-gradient-to-r from-rose-950/90 via-rose-950/70 to-slate-900 border-rose-500/80 text-rose-200 animate-pulse",
-          fitStatus === "UNIVERSAL" && "bg-gradient-to-r from-sky-950/90 via-sky-950/70 to-slate-900 border-sky-500/80 text-sky-200",
-          fitStatus === "UNSELECTED" && "bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border-slate-700 text-slate-300"
+          "p-4 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md transition-all",
+          fitStatus === "FITS" && "bg-gradient-to-r from-[#3F72AF]/20 via-[#DBE2EF] to-[#DBE2EF] dark:from-[#3282B8]/30 dark:via-[#0F4C75] dark:to-[#0F4C75] border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA]",
+          fitStatus === "INCOMPATIBLE" && "bg-gradient-to-r from-rose-500/20 via-[#DBE2EF] to-[#DBE2EF] dark:from-rose-950 dark:via-[#0F4C75] dark:to-[#0F4C75] border-rose-500 text-rose-800 dark:text-rose-200 animate-pulse",
+          fitStatus === "UNIVERSAL" && "bg-gradient-to-r from-[#3F72AF]/20 via-[#DBE2EF] to-[#DBE2EF] dark:from-[#3282B8]/30 dark:via-[#0F4C75] dark:to-[#0F4C75] border-[#3F72AF] text-[#112D4E] dark:text-[#BBE1FA]",
+          fitStatus === "UNSELECTED" && "bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/80 dark:text-[#BBE1FA]/80"
         )}>
           <div className="flex items-center gap-3.5">
             <div className={cn(
-              "w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border shadow-inner font-mono font-bold text-lg",
-              fitStatus === "FITS" && "bg-emerald-900/80 border-emerald-400 text-emerald-300",
-              fitStatus === "INCOMPATIBLE" && "bg-rose-900/80 border-rose-400 text-rose-300",
-              fitStatus === "UNIVERSAL" && "bg-sky-900/80 border-sky-400 text-sky-300",
-              fitStatus === "UNSELECTED" && "bg-slate-800 border-slate-600 text-slate-400"
+              "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border shadow-inner font-mono font-bold text-lg",
+              fitStatus === "FITS" && "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-[#3F72AF]",
+              fitStatus === "INCOMPATIBLE" && "bg-rose-600 text-white border-rose-400",
+              fitStatus === "UNIVERSAL" && "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-[#3F72AF]",
+              fitStatus === "UNSELECTED" && "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/60 dark:text-[#85B5D9]"
             )}>
               {fitStatus === "FITS" && "✅"}
               {fitStatus === "INCOMPATIBLE" && "⚠️"}
@@ -109,13 +109,13 @@ export default function ProductDetailPage() {
               {fitStatus === "UNSELECTED" && "🔍"}
             </div>
             <div>
-              <h2 className="font-mono font-bold text-base uppercase tracking-tight text-white flex items-center gap-2">
+              <h2 className="font-mono font-bold text-base uppercase tracking-tight text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-2">
                 {fitStatus === "FITS" && `Guaranteed Fit for your ${currentActiveVehicle?.year} ${currentActiveVehicle?.model}`}
                 {fitStatus === "INCOMPATIBLE" && `Does NOT fit your ${currentActiveVehicle?.year} ${currentActiveVehicle?.model}`}
                 {fitStatus === "UNIVERSAL" && "Universal Fit Engine — Compatible with All Vehicles"}
                 {fitStatus === "UNSELECTED" && "Select Your Vehicle in My Garage to Verify Exact Fitment"}
               </h2>
-              <p className="text-xs opacity-90 mt-0.5">
+              <p className="text-xs opacity-90 mt-0.5 font-medium">
                 {fitStatus === "FITS" && `Exact OEM direct bolt-on verification for ${currentActiveVehicle?.trim}. No modifications required.`}
                 {fitStatus === "INCOMPATIBLE" && "Warning: This part thread size or mounting flanges differ from your active trim specifications."}
                 {fitStatus === "UNIVERSAL" && "Engineered to operate seamlessly across gasoline turbo, NA, and motorcycle engines."}
@@ -128,37 +128,37 @@ export default function ProductDetailPage() {
             {fitStatus === "INCOMPATIBLE" && (
               <Link
                 href={`/catalog?category=${part.category}`}
-                className="px-3.5 py-1.5 rounded-lg bg-rose-500 hover:bg-rose-400 text-slate-950 font-mono font-bold text-xs uppercase transition-colors shrink-0"
+                className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-mono font-bold text-xs uppercase transition-colors shrink-0 min-h-[40px] flex items-center"
               >
                 View Compatible Parts &rarr;
               </Link>
             )}
             <Link
               href="/garage"
-              className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-750 text-white border border-slate-700 font-mono text-xs font-semibold transition-colors shrink-0"
+              className="px-4 py-2 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75] font-mono text-xs font-bold transition-colors shrink-0 min-h-[40px] flex items-center"
             >
               Change Vehicle
             </Link>
           </div>
         </div>
 
-        {/* 2. Main Layout (8/12 Left Gallery & Specs, 4/12 Right Sticky Buy Box) */}
+        {/* 2. Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Left Column (8/12 Span) */}
           <div className="lg:col-span-8 space-y-8">
             {/* Gallery & Exploded Diagram Viewer Container */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-2xl space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+            <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-md space-y-4">
+              <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="font-mono text-xs font-bold text-[#3F72AF] dark:text-[#3282B8] uppercase tracking-wider flex items-center gap-1.5">
                     <ZoomIn className="w-4 h-4" /> Technical Gallery & Interactive Schematics
                   </span>
                 </div>
-                <div className="flex items-center gap-2 font-mono text-xs text-slate-400">
+                <div className="flex items-center gap-2 font-mono text-xs text-[#112D4E]/70 dark:text-[#85B5D9]">
                   <span>Mode:</span>
                   <span className={cn(
-                    "px-2 py-0.5 rounded font-bold uppercase",
-                    selectedImage.isExplodedDiagram ? "bg-sky-950 text-sky-300 border border-sky-500" : "bg-slate-800 text-slate-200"
+                    "px-2.5 py-1 rounded-lg font-bold uppercase",
+                    selectedImage.isExplodedDiagram ? "bg-[#3F72AF] text-white dark:text-[#1B262C]" : "bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75]"
                   )}>
                     {selectedImage.isExplodedDiagram ? "Exploded Diagram Blueprint 📐" : "High-Res Photo 📸"}
                   </span>
@@ -166,7 +166,7 @@ export default function ProductDetailPage() {
               </div>
 
               {/* Main Viewer Box */}
-              <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-slate-950 border border-slate-800 flex items-center justify-center group">
+              <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-center group shadow-inner">
                 <img
                   src={selectedImage.imageUrl}
                   alt={part.title}
@@ -186,8 +186,8 @@ export default function ProductDetailPage() {
                       className={cn(
                         "absolute -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer w-8 h-8 rounded-full flex items-center justify-center font-mono font-bold text-xs shadow-lg transition-all border-2",
                         isActive
-                          ? "bg-sky-500 text-slate-950 border-white scale-125 shadow-sky-500/60 ring-4 ring-sky-500/30"
-                          : "bg-slate-900/90 text-sky-300 border-sky-400 hover:scale-110 hover:bg-sky-500 hover:text-slate-950 animate-bounce"
+                          ? "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-white scale-125 shadow-[#3F72AF]/60 ring-4 ring-[#3F72AF]/30"
+                          : "bg-[#112D4E]/90 dark:bg-[#1B262C]/90 text-[#BBE1FA] border-[#3F72AF] hover:scale-110 hover:bg-[#3F72AF] hover:text-white animate-bounce"
                       )}
                     >
                       {callout.calloutNumber}
@@ -197,18 +197,18 @@ export default function ProductDetailPage() {
 
                 {/* Exploded Diagram Floating Tooltip Card */}
                 {activeCallout && (
-                  <div className="absolute top-4 left-4 z-30 max-w-sm p-4 rounded-xl bg-slate-900/95 backdrop-blur-md border border-sky-500/60 shadow-2xl space-y-2 animate-in fade-in zoom-in-95 duration-200 pointer-events-none">
-                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                      <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-sky-500 text-slate-950 uppercase">
+                  <div className="absolute top-4 left-4 z-30 max-w-sm p-4 rounded-xl bg-[#112D4E]/95 dark:bg-[#1B262C]/95 backdrop-blur-md border border-[#3F72AF] shadow-2xl space-y-2 animate-in fade-in zoom-in-95 duration-200 pointer-events-none">
+                    <div className="flex items-center justify-between border-b border-[#3F72AF]/40 pb-2">
+                      <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] uppercase">
                         Callout Pin {activeCallout.calloutNumber}
                       </span>
                       {activeCallout.subPartSku && (
-                        <span className="font-mono text-xs text-sky-400">SKU: {activeCallout.subPartSku}</span>
+                        <span className="font-mono text-xs text-[#BBE1FA]">SKU: {activeCallout.subPartSku}</span>
                       )}
                     </div>
                     <h4 className="font-bold text-sm text-white">{activeCallout.label}</h4>
                     {activeCallout.specs && (
-                      <p className="text-xs font-mono text-slate-300 leading-relaxed bg-slate-950/80 p-2.5 rounded border border-slate-800">
+                      <p className="text-xs font-mono text-[#BBE1FA] leading-relaxed bg-black/40 p-2.5 rounded border border-[#3F72AF]/30">
                         ⚙️ {activeCallout.specs}
                       </p>
                     )}
@@ -225,15 +225,15 @@ export default function ProductDetailPage() {
                       key={img.id || idx}
                       onClick={() => setSelectedImage(img)}
                       className={cn(
-                        "relative w-24 h-16 rounded-lg overflow-hidden border-2 shrink-0 transition-all shadow-md",
+                        "relative w-24 h-16 rounded-xl overflow-hidden border-2 shrink-0 transition-all shadow-sm",
                         isSelected
-                          ? img.isExplodedDiagram ? "border-sky-500 ring-2 ring-sky-500/40 scale-105" : "border-emerald-500 ring-2 ring-emerald-500/40 scale-105"
-                          : "border-slate-800 opacity-60 hover:opacity-100"
+                          ? "border-[#3F72AF] dark:border-[#3282B8] ring-2 ring-[#3F72AF]/40 scale-105"
+                          : "border-[#DBE2EF] dark:border-[#0F4C75] opacity-60 hover:opacity-100"
                       )}
                     >
                       <img src={img.imageUrl} alt="" className="w-full h-full object-cover" />
                       {img.isExplodedDiagram && (
-                        <span className="absolute bottom-1 right-1 px-1 py-0.5 rounded bg-sky-950/90 text-sky-300 text-[9px] font-mono font-bold">
+                        <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-[#3F72AF] text-white text-[9px] font-mono font-bold">
                           📐 Diagram
                         </span>
                       )}
@@ -244,49 +244,49 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Part Specifications Table */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl space-y-4">
-              <h3 className="font-mono text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2 border-b border-slate-800 pb-3">
-                <Sparkles className="w-4 h-4 text-emerald-400" /> Technical Specifications Table
+            <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-md space-y-4">
+              <h3 className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider flex items-center gap-2 border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
+                <Sparkles className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Technical Specifications Table
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex justify-between items-center">
-                  <span className="text-xs font-mono text-slate-400 uppercase">OEM Part Number</span>
-                  <span className="font-mono font-bold text-sm text-emerald-400">{part.oemPartNumber}</span>
+                <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">OEM Part Number</span>
+                  <span className="font-mono font-bold text-sm text-[#3F72AF] dark:text-[#3282B8]">{part.oemPartNumber}</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex justify-between items-center">
-                  <span className="text-xs font-mono text-slate-400 uppercase">Internal SKU</span>
-                  <span className="font-mono font-bold text-sm text-slate-200">{part.sku}</span>
+                <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Internal SKU</span>
+                  <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-[#BBE1FA]">{part.sku}</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex justify-between items-center">
-                  <span className="text-xs font-mono text-slate-400 uppercase">Manufacturer Brand</span>
-                  <span className="font-semibold text-sm text-white">{part.brand}</span>
+                <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Manufacturer Brand</span>
+                  <span className="font-bold text-sm text-[#112D4E] dark:text-white">{part.brand}</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex justify-between items-center">
-                  <span className="text-xs font-mono text-slate-400 uppercase">Part Grade / Condition</span>
-                  <span className="font-mono font-bold text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/40">
+                <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Part Grade / Condition</span>
+                  <span className="font-mono font-bold text-xs px-2.5 py-0.5 rounded bg-[#3F72AF]/20 dark:bg-[#3282B8]/30 text-[#3F72AF] dark:text-[#3282B8] border border-[#3F72AF]/50">
                     {part.grade.replace("_", " ")}
                   </span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex justify-between items-center">
-                  <span className="text-xs font-mono text-slate-400 uppercase">Warehouse Bin Location</span>
-                  <span className="font-mono font-bold text-sm text-sky-400">{part.warehouseBin} ({part.warehouseAisle})</span>
+                <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Warehouse Bin Location</span>
+                  <span className="font-mono font-bold text-sm text-[#3F72AF] dark:text-[#3282B8]">{part.warehouseBin} ({part.warehouseAisle})</span>
                 </div>
-                <div className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800/80 flex justify-between items-center">
-                  <span className="text-xs font-mono text-slate-400 uppercase">Universal Fitment</span>
-                  <span className="font-mono font-bold text-xs text-slate-300">{part.isUniversalFit ? "Yes (Universal)" : "No (Vehicle Specific)"}</span>
+                <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Universal Fitment</span>
+                  <span className="font-mono font-bold text-xs text-[#112D4E] dark:text-[#BBE1FA]">{part.isUniversalFit ? "Yes (Universal)" : "No (Vehicle Specific)"}</span>
                 </div>
               </div>
 
               {/* Dynamic Key-Value Specs */}
               {Object.keys(part.specifications).length > 0 && (
-                <div className="pt-4 border-t border-slate-800/80 space-y-2">
-                  <h4 className="text-xs font-mono uppercase text-slate-400 tracking-wide">Detailed Engineering Specs</h4>
+                <div className="pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75] space-y-2">
+                  <h4 className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] tracking-wide font-bold">Detailed Engineering Specs</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {Object.entries(part.specifications).map(([key, val]) => (
-                      <div key={key} className="p-3 rounded-lg bg-slate-950/60 border border-slate-800 flex justify-between items-center text-xs">
-                        <span className="text-slate-400">{key}:</span>
-                        <span className="font-mono font-semibold text-slate-200 text-right">{val}</span>
+                      <div key={key} className="p-3 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center text-xs shadow-sm">
+                        <span className="text-[#112D4E]/70 dark:text-[#85B5D9] font-semibold">{key}:</span>
+                        <span className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] text-right">{val}</span>
                       </div>
                     ))}
                   </div>
@@ -295,35 +295,35 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Compatibility List Accordion */}
-            <div className="rounded-2xl border border-slate-800 bg-slate-900/80 shadow-xl overflow-hidden">
+            <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 shadow-md overflow-hidden">
               <button
                 onClick={() => setIsAccordionOpen(!isAccordionOpen)}
-                className="w-full p-5 flex items-center justify-between text-left hover:bg-slate-850 transition-colors"
+                className="w-full p-5 flex items-center justify-between text-left hover:opacity-90 transition-opacity"
               >
                 <div className="flex items-center gap-2.5">
-                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-emerald-400">
+                  <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#3F72AF] dark:text-[#3282B8]">
                     Vehicle Compatibility Matrix
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 text-xs font-mono">
+                  <span className="px-2.5 py-0.5 rounded-full bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75] text-xs font-mono font-bold">
                     {part.compatibilityList.length} Supported Platforms
                   </span>
                 </div>
-                {isAccordionOpen ? <ChevronUp className="w-5 h-5 text-slate-400" /> : <ChevronDown className="w-5 h-5 text-slate-400" />}
+                {isAccordionOpen ? <ChevronUp className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" /> : <ChevronDown className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />}
               </button>
 
               {isAccordionOpen && (
-                <div className="p-5 border-t border-slate-800 bg-slate-950 space-y-3">
-                  <p className="text-xs text-slate-400">
+                <div className="p-5 border-t border-[#DBE2EF] dark:border-[#0F4C75] bg-[#F9F7F7] dark:bg-[#1B262C] space-y-3">
+                  <p className="text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 font-medium">
                     This part SKU has been verified by factory service documentation to mount directly onto the following models without drilling or modification:
                   </p>
-                  <ul className="space-y-2 font-mono text-xs text-slate-200">
+                  <ul className="space-y-2 font-mono text-xs text-[#112D4E] dark:text-[#BBE1FA]">
                     {part.compatibilityList.map((item, idx) => (
-                      <li key={idx} className="p-3 rounded-lg bg-slate-900/80 border border-slate-800 flex items-center justify-between">
+                      <li key={idx} className="p-3 rounded-xl bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between font-semibold">
                         <span className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <Check className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8] shrink-0" />
                           <span>{item}</span>
                         </span>
-                        <span className="text-emerald-400 font-bold text-[11px]">Direct Bolt-On</span>
+                        <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold text-[11px]">Direct Bolt-On</span>
                       </li>
                     ))}
                   </ul>
@@ -334,41 +334,41 @@ export default function ProductDetailPage() {
 
           {/* Right Column (4/12 Sticky Buy Box) */}
           <div className="lg:col-span-4 sticky top-24 space-y-6">
-            <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-6">
+            <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-xl space-y-6">
               {/* Brand & Title */}
               <div>
-                <span className="inline-block px-2.5 py-1 rounded bg-slate-950 text-emerald-400 border border-slate-800 font-mono text-xs font-bold uppercase mb-2">
+                <span className="inline-block px-2.5 py-1 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] text-[#3F72AF] dark:text-[#3282B8] border border-[#DBE2EF] dark:border-[#0F4C75] font-mono text-xs font-bold uppercase mb-2 shadow-sm">
                   {part.brand}
                 </span>
-                <h1 className="text-xl font-bold text-white leading-snug">{part.title}</h1>
-                <p className="text-xs font-mono text-slate-400 mt-2">OEM Reference: <strong className="text-slate-200">{part.oemPartNumber}</strong></p>
+                <h1 className="text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] leading-snug">{part.title}</h1>
+                <p className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">OEM Reference: <strong className="text-[#112D4E] dark:text-white font-bold">{part.oemPartNumber}</strong></p>
               </div>
 
               {/* Price & Stock */}
-              <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between">
+              <div className="p-4 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between shadow-sm">
                 <div>
-                  <span className="block text-[10px] font-mono text-slate-500 uppercase">Total Price (Inc 7% VAT)</span>
-                  <span className="font-mono font-black text-3xl text-emerald-400 tracking-tight">{formatTHB(part.price)}</span>
+                  <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">Total Price (Inc 7% VAT)</span>
+                  <span className="font-mono font-black text-3xl text-[#3F72AF] dark:text-[#3282B8] tracking-tight">{formatTHB(part.price)}</span>
                 </div>
                 <div className="text-right">
-                  <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 bg-emerald-950/80 px-2.5 py-1 rounded border border-emerald-500/50">
+                  <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#3F72AF] dark:text-[#3282B8] bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/80 px-2.5 py-1 rounded-lg border border-[#3F72AF]/40">
                     ✅ In Stock ({part.stockQuantity})
                   </span>
-                  <span className="block text-[11px] font-mono text-slate-400 mt-1">{part.warehouseBin} • {part.warehouseAisle}</span>
+                  <span className="block text-[11px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 font-semibold">{part.warehouseBin} • {part.warehouseAisle}</span>
                 </div>
               </div>
 
               {/* Fulfillment Selectors */}
               <div className="space-y-3">
-                <label className="block text-xs font-mono uppercase text-slate-400 font-bold">Select Fulfillment Method:</label>
+                <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Select Fulfillment Method:</label>
                 <div className="space-y-2.5">
                   <label
                     onClick={() => setFulfillmentType("EXPRESS_SHIPPING")}
                     className={cn(
-                      "p-3.5 rounded-xl border flex items-start gap-3 cursor-pointer transition-all",
+                      "p-3.5 rounded-xl border flex items-start gap-3 cursor-pointer transition-all shadow-sm",
                       fulfillmentType === "EXPRESS_SHIPPING"
-                        ? "bg-slate-950 border-emerald-500 shadow-md ring-1 ring-emerald-500/50"
-                        : "bg-slate-900/60 border-slate-800 hover:border-slate-700"
+                        ? "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#3F72AF] ring-2 ring-[#3F72AF]/40"
+                        : "bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]"
                     )}
                   >
                     <input
@@ -376,26 +376,26 @@ export default function ProductDetailPage() {
                       name="fulfillment"
                       checked={fulfillmentType === "EXPRESS_SHIPPING"}
                       onChange={() => setFulfillmentType("EXPRESS_SHIPPING")}
-                      className="mt-1 text-emerald-500 focus:ring-0 bg-slate-950 border-slate-700"
+                      className="mt-1 w-4 h-4 text-[#3F72AF] focus:ring-0 bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75]"
                     />
                     <div className="flex-1">
-                      <div className="flex items-center justify-between text-xs font-bold text-white">
+                      <div className="flex items-center justify-between text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA]">
                         <span className="flex items-center gap-1.5">
-                          <Truck className="w-4 h-4 text-emerald-400" /> Express Courier Shipping
+                          <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Express Courier Shipping
                         </span>
-                        <span className="font-mono text-emerald-400">+฿250.00</span>
+                        <span className="font-mono text-[#3F72AF] dark:text-[#3282B8]">+฿250.00</span>
                       </div>
-                      <p className="text-[11px] text-slate-400 mt-1">Dispatched next morning via Kerry/DHL Express (1-2 Days).</p>
+                      <p className="text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] mt-1 font-medium">Dispatched next morning via Kerry/DHL Express (1-2 Days).</p>
                     </div>
                   </label>
 
                   <label
                     onClick={() => setFulfillmentType("INSTORE_PICKUP")}
                     className={cn(
-                      "p-3.5 rounded-xl border flex items-start gap-3 cursor-pointer transition-all",
+                      "p-3.5 rounded-xl border flex items-start gap-3 cursor-pointer transition-all shadow-sm",
                       fulfillmentType === "INSTORE_PICKUP"
-                        ? "bg-slate-950 border-emerald-500 shadow-md ring-1 ring-emerald-500/50"
-                        : "bg-slate-900/60 border-slate-800 hover:border-slate-700"
+                        ? "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#3F72AF] ring-2 ring-[#3F72AF]/40"
+                        : "bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]"
                     )}
                   >
                     <input
@@ -403,36 +403,36 @@ export default function ProductDetailPage() {
                       name="fulfillment"
                       checked={fulfillmentType === "INSTORE_PICKUP"}
                       onChange={() => setFulfillmentType("INSTORE_PICKUP")}
-                      className="mt-1 text-emerald-500 focus:ring-0 bg-slate-950 border-slate-700"
+                      className="mt-1 w-4 h-4 text-[#3F72AF] focus:ring-0 bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75]"
                     />
                     <div className="flex-1">
-                      <div className="flex items-center justify-between text-xs font-bold text-white">
+                      <div className="flex items-center justify-between text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA]">
                         <span className="flex items-center gap-1.5">
-                          <Warehouse className="w-4 h-4 text-sky-400" /> In-Store / Warehouse Hub Pickup
+                          <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> In-Store / Warehouse Hub Pickup
                         </span>
-                        <span className="font-mono text-emerald-400 font-bold">FREE (฿0.00)</span>
+                        <span className="font-mono text-[#3F72AF] dark:text-[#3282B8] font-bold">FREE (฿0.00)</span>
                       </div>
-                      <p className="text-[11px] text-slate-400 mt-1">Ready for collection at Bangna Hub within 120 minutes.</p>
+                      <p className="text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] mt-1 font-medium">Ready for collection at Bangna Hub within 120 minutes.</p>
                     </div>
                   </label>
                 </div>
               </div>
 
               {/* Quantity & CTA Buttons */}
-              <div className="space-y-4 pt-2 border-t border-slate-800">
+              <div className="space-y-4 pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-mono uppercase text-slate-400 font-semibold">Quantity:</label>
-                  <div className="flex items-center gap-2 bg-slate-950 border border-slate-800 rounded-lg p-1">
+                  <label className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Quantity:</label>
+                  <div className="flex items-center gap-2 bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl p-1 shadow-inner">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="w-7 h-7 rounded bg-slate-800 hover:bg-slate-750 text-white font-mono font-bold flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-[#DBE2EF] dark:bg-[#0F4C75] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold flex items-center justify-center transition-all"
                     >
                       -
                     </button>
-                    <span className="w-10 text-center font-mono font-bold text-sm text-white">{quantity}</span>
+                    <span className="w-10 text-center font-mono font-bold text-sm text-[#112D4E] dark:text-[#BBE1FA]">{quantity}</span>
                     <button
                       onClick={() => setQuantity(Math.min(part.stockQuantity, quantity + 1))}
-                      className="w-7 h-7 rounded bg-slate-800 hover:bg-slate-750 text-white font-mono font-bold flex items-center justify-center"
+                      className="w-8 h-8 rounded-lg bg-[#DBE2EF] dark:bg-[#0F4C75] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold flex items-center justify-center transition-all"
                     >
                       +
                     </button>
@@ -442,15 +442,15 @@ export default function ProductDetailPage() {
                 <div className="space-y-2.5">
                   <button
                     onClick={() => handleAddToCart(false)}
-                    className="w-full py-3.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-white font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-all"
+                    className="w-full min-h-[46px] py-3.5 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-all"
                   >
-                    <ShoppingCart className="w-4 h-4 text-emerald-400" />
+                    <ShoppingCart className="w-4 h-4" />
                     <span>Add {quantity} to Cart</span>
                   </button>
 
                   <button
                     onClick={() => handleAddToCart(true)}
-                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-400 hover:from-emerald-400 hover:to-emerald-300 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 active:scale-[0.98] transition-all"
+                    className="w-full min-h-[46px] py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#112D4E] via-[#3F72AF] to-[#112D4E] dark:from-[#BBE1FA] dark:via-[#3282B8] dark:to-[#BBE1FA] text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg hover:opacity-95 active:scale-[0.98] transition-all"
                   >
                     <Sparkles className="w-4 h-4 stroke-[2.5]" />
                     <span>Instant Checkout with PromptPay QR</span>
@@ -458,7 +458,7 @@ export default function ProductDetailPage() {
                 </div>
 
                 {isAddedToast && (
-                  <div className="p-3 rounded-xl bg-emerald-950/90 border border-emerald-500 text-emerald-300 text-xs font-mono text-center animate-in fade-in duration-200">
+                  <div className="p-3.5 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] text-xs font-mono font-bold text-center shadow-md animate-in fade-in duration-200">
                     ✅ Part added to cart! Fitment verified against your garage.
                   </div>
                 )}

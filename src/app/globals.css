@@ -1,34 +1,100 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
-    --background: 2 6 23;
-    --foreground: 248 250 252;
+    /* Light Mode Color Hunt Palette: #F9F7F7, #DBE2EF, #3F72AF, #112D4E */
+    --bg-canvas: #F9F7F7;
+    --bg-surface: #DBE2EF;
+    --bg-surface-card: rgba(219, 226, 239, 0.45);
+    --border-color: #DBE2EF;
+    --border-accent: #3F72AF;
+    --accent-color: #3F72AF;
+    --text-primary: #112D4E;
+    --text-secondary: #3F72AF;
+    --text-muted: #5B7B9A;
+    --scrollbar-track: #F9F7F7;
+    --scrollbar-thumb: #DBE2EF;
+    --scrollbar-thumb-hover: #3F72AF;
+  }
+
+  .dark {
+    /* Dark Mode Color Hunt Palette: #1B262C, #0F4C75, #3282B8, #BBE1FA */
+    --bg-canvas: #1B262C;
+    --bg-surface: #0F4C75;
+    --bg-surface-card: rgba(15, 76, 117, 0.35);
+    --border-color: rgba(50, 130, 184, 0.25);
+    --border-accent: #3282B8;
+    --accent-color: #3282B8;
+    --text-primary: #BBE1FA;
+    --text-secondary: #85B5D9;
+    --text-muted: #648BA6;
+    --scrollbar-track: #1B262C;
+    --scrollbar-thumb: #0F4C75;
+    --scrollbar-thumb-hover: #3282B8;
+  }
+
+  body {
+    background-color: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 }
 
-body {
-  background-color: rgb(2, 6, 23);
-  color: rgb(248, 250, 252);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  overflow-x: hidden;
-}
-
-/* Custom Scrollbar for sleek industrial theme */
+/* Custom Scrollbar matching Color Hunt Palettes */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Theme Utility Classes for seamless Color Hunt adaptation */
+.theme-canvas {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+}
+
+.theme-surface {
+  background-color: var(--bg-surface-card);
+  border-color: var(--border-color);
+}
+
+.theme-card {
+  background-color: var(--bg-surface-card);
+  border: 1px solid var(--border-color);
+}
+
+.theme-card-hover {
+  transition: all 0.2s ease;
+}
+.theme-card-hover:hover {
+  border-color: var(--border-accent);
+}
+
+.theme-text-primary {
+  color: var(--text-primary);
+}
+
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+
+.theme-accent {
+  background-color: var(--accent-color);
+  color: #1B262C;
 }

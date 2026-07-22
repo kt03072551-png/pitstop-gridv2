@@ -132,19 +132,19 @@ export default function AdminOrdersPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 py-10 px-4 relative">
+    <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-10 px-4 relative transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-6">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-950 border border-amber-500/60 flex items-center justify-center shadow-lg">
-              <FileText className="w-6 h-6 text-amber-400" />
+            <div className="w-12 h-12 rounded-2xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] flex items-center justify-center shadow-md">
+              <FileText className="w-6 h-6" />
             </div>
             <div>
-              <span className="font-mono text-xs uppercase text-amber-400 font-bold tracking-wider">
+              <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
                 • Slip Audit & Order Verification Engine
               </span>
-              <h1 className="text-2xl sm:text-3xl font-mono font-black text-white uppercase tracking-tight mt-0.5">
+              <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight mt-0.5">
                 Orders & Payment Verification
               </h1>
             </div>
@@ -152,7 +152,7 @@ export default function AdminOrdersPage() {
 
           <Link
             href="/admin/dashboard"
-            className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+            className="min-h-[44px] px-4 py-2 rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 text-xs font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] hover:bg-[#3F72AF] hover:text-white dark:hover:bg-[#3282B8] dark:hover:text-[#1B262C] flex items-center justify-center gap-2 transition-all shadow-sm"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Dashboard
           </Link>
@@ -160,8 +160,8 @@ export default function AdminOrdersPage() {
 
         {/* Toast Notification */}
         {toastMsg && (
-          <div className="p-4 rounded-xl bg-emerald-950 border border-emerald-500 text-emerald-200 font-mono text-xs flex items-center gap-2 shadow-xl animate-in fade-in duration-200">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="p-4 rounded-xl bg-[#DBE2EF] dark:bg-[#0F4C75] border-2 border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-white font-mono text-xs font-bold flex items-center gap-2 shadow-xl animate-in fade-in duration-200">
+            <CheckCircle2 className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8] shrink-0" />
             <span>{toastMsg}</span>
           </div>
         )}
@@ -178,23 +178,23 @@ export default function AdminOrdersPage() {
               key={tab.value}
               onClick={() => setFilterStatus(tab.value)}
               className={cn(
-                "px-4 py-2 rounded-xl font-mono text-xs font-bold transition-all border flex items-center gap-2",
+                "min-h-[44px] px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all border flex items-center gap-2 shadow-sm",
                 filterStatus === tab.value
-                  ? "bg-amber-500 text-slate-950 border-amber-400 shadow-md"
-                  : "bg-slate-900 border-slate-800 text-slate-400 hover:text-white hover:bg-slate-850"
+                  ? "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-[#3F72AF] dark:border-[#3282B8] shadow-md"
+                  : "bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/80 dark:text-[#85B5D9] hover:border-[#3F72AF]"
               )}
             >
               <span>{tab.label}</span>
-              <span className="px-1.5 py-0.2 rounded bg-slate-950/60 text-[10px]">{tab.count}</span>
+              <span className="px-2 py-0.5 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-white text-[10px] font-black border border-[#DBE2EF] dark:border-[#0F4C75]">{tab.count}</span>
             </button>
           ))}
         </div>
 
         {/* Orders Table */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden shadow-2xl">
+        <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left font-mono text-xs">
-              <thead className="bg-slate-950 text-slate-400 border-b border-slate-800 uppercase">
+              <thead className="bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E]/80 dark:text-[#85B5D9] border-b border-[#DBE2EF] dark:border-[#0F4C75] uppercase font-bold">
                 <tr>
                   <th className="p-4">Order Ref</th>
                   <th className="p-4">Customer & Items</th>
@@ -205,36 +205,36 @@ export default function AdminOrdersPage() {
                   <th className="p-4 text-right">Verification Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-200">
+              <tbody className="divide-y divide-[#DBE2EF]/80 dark:divide-[#0F4C75]/80 text-[#112D4E] dark:text-slate-200 font-medium">
                 {filteredOrders.map((o) => (
-                  <tr key={o.id} className="hover:bg-slate-850 transition-colors">
-                    <td className="p-4 font-bold text-white">{o.id}</td>
+                  <tr key={o.id} className="hover:bg-[#DBE2EF]/40 dark:hover:bg-[#0F4C75]/40 transition-colors">
+                    <td className="p-4 font-bold text-[#112D4E] dark:text-white">{o.id}</td>
                     <td className="p-4">
-                      <span className="font-semibold text-white block">{o.customerName}</span>
-                      <span className="text-[11px] text-slate-400 line-clamp-1 max-w-xs mt-0.5">{o.itemsSummary}</span>
+                      <span className="font-bold text-[#112D4E] dark:text-white block">{o.customerName}</span>
+                      <span className="text-[11px] text-[#112D4E]/70 dark:text-slate-400 line-clamp-1 max-w-xs mt-0.5">{o.itemsSummary}</span>
                     </td>
-                    <td className="p-4 font-black text-emerald-400 text-sm">{formatTHB(o.amount)}</td>
+                    <td className="p-4 font-black text-[#3F72AF] dark:text-[#3282B8] text-sm">{formatTHB(o.amount)}</td>
                     <td className="p-4">
                       {o.ocrMatched ? (
-                        <span className="inline-flex items-center gap-1 text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-500/40 text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-300 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/40 text-[10px] font-bold">
                           <Check className="w-3 h-3" /> Exact Match
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-rose-400 bg-rose-950/80 px-2 py-0.5 rounded border border-rose-500/40 text-[10px] font-bold">
+                        <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-300 bg-rose-500/10 px-2.5 py-1 rounded-lg border border-rose-500/40 text-[10px] font-bold">
                           <AlertTriangle className="w-3 h-3" /> Mismatch (-฿500)
                         </span>
                       )}
                     </td>
-                    <td className="p-4 text-slate-300">
-                      <span className="block">{o.fulfillment}</span>
-                      <span className="text-[11px] text-sky-400 font-bold">{o.warehouseBin}</span>
+                    <td className="p-4 text-[#112D4E]/90 dark:text-slate-300">
+                      <span className="block font-semibold">{o.fulfillment}</span>
+                      <span className="text-[11px] text-[#3F72AF] dark:text-[#3282B8] font-bold">{o.warehouseBin}</span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded font-bold uppercase ${
-                        o.status === "VERIFYING_SLIP" ? "bg-amber-950 text-amber-300 border border-amber-500 animate-pulse" :
-                        o.status === "APPROVED" ? "bg-emerald-950 text-emerald-300 border border-emerald-500" :
-                        o.status === "REJECTED" ? "bg-rose-950 text-rose-300 border border-rose-500" :
-                        "bg-sky-950 text-sky-300 border border-sky-500"
+                      <span className={`px-2.5 py-1 rounded-lg font-bold uppercase ${
+                        o.status === "VERIFYING_SLIP" ? "bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500 animate-pulse" :
+                        o.status === "APPROVED" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500" :
+                        o.status === "REJECTED" ? "bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-500" :
+                        "bg-sky-500/10 text-sky-600 dark:text-sky-300 border border-sky-500"
                       }`}>
                         {o.status.replace("_", " ")}
                       </span>
@@ -242,7 +242,7 @@ export default function AdminOrdersPage() {
                     <td className="p-4 text-right">
                       <button
                         onClick={() => { setSelectedOrder(o); setZoomLevel(1); setRotation(0); }}
-                        className="px-3.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold uppercase text-[11px] inline-flex items-center gap-1.5 shadow-md"
+                        className="min-h-[40px] px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold uppercase text-[11px] inline-flex items-center gap-1.5 shadow-md"
                       >
                         <Eye className="w-3.5 h-3.5" /> Inspect & Verify Slip
                       </button>
@@ -257,32 +257,32 @@ export default function AdminOrdersPage() {
 
       {/* Side-by-Side Slip Verification Modal */}
       {selectedOrder && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-4 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-4xl bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+          <div className="relative w-full max-w-4xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
             {/* Left Box: High-Res Image Viewer with Zoom & Rotate */}
-            <div className="w-full md:w-1/2 bg-slate-950 p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-800">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-850">
-                <span className="font-mono text-xs uppercase font-bold text-amber-400 flex items-center gap-1.5">
+            <div className="w-full md:w-1/2 bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#DBE2EF] dark:border-[#0F4C75]">
+              <div className="flex items-center justify-between pb-3 border-b border-[#DBE2EF] dark:border-[#0F4C75]">
+                <span className="font-mono text-xs uppercase font-bold text-[#3F72AF] dark:text-[#3282B8] flex items-center gap-1.5">
                   <ZoomIn className="w-4 h-4" /> High-Res Slip Inspector
                 </span>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setZoomLevel((z) => Math.min(2.5, z + 0.25))}
-                    className="p-1 rounded bg-slate-800 hover:bg-slate-750 text-white font-mono text-xs"
+                    className="min-h-[36px] px-2.5 py-1 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-white font-mono text-xs font-bold border border-[#DBE2EF] dark:border-[#0F4C75]"
                     title="Zoom in"
                   >
                     + Zoom
                   </button>
                   <button
                     onClick={() => setZoomLevel((z) => Math.max(0.75, z - 0.25))}
-                    className="p-1 rounded bg-slate-800 hover:bg-slate-750 text-white font-mono text-xs"
+                    className="min-h-[36px] px-2.5 py-1 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-white font-mono text-xs font-bold border border-[#DBE2EF] dark:border-[#0F4C75]"
                     title="Zoom out"
                   >
                     - Zoom
                   </button>
                   <button
                     onClick={() => setRotation((r) => (r + 90) % 360)}
-                    className="p-1.5 rounded bg-slate-800 hover:bg-slate-750 text-white"
+                    className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-white border border-[#DBE2EF] dark:border-[#0F4C75]"
                     title="Rotate 90 degrees"
                   >
                     <RotateCw className="w-3.5 h-3.5" />
@@ -296,11 +296,11 @@ export default function AdminOrdersPage() {
                   src={selectedOrder.slipImageUrl}
                   alt="Transfer Slip"
                   style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}
-                  className="max-h-[360px] object-contain rounded border border-slate-800 transition-transform duration-200 select-none shadow-xl"
+                  className="max-h-[360px] object-contain rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] transition-transform duration-200 select-none shadow-xl"
                 />
               </div>
 
-              <div className="text-center font-mono text-[11px] text-slate-500 pt-2 border-t border-slate-850">
+              <div className="text-center font-mono text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75] font-semibold">
                 Extracted Slip Timestamp: {selectedOrder.timestamp} • Ref: {selectedOrder.ocrBankRef}
               </div>
             </div>
@@ -308,25 +308,25 @@ export default function AdminOrdersPage() {
             {/* Right Box: Order Audit Checklist & Approval Actions */}
             <div className="w-full md:w-1/2 p-6 flex flex-col justify-between space-y-6 overflow-y-auto">
               <div>
-                <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3 mb-4">
                   <div>
-                    <h3 className="font-mono font-bold text-lg text-white">Order #{selectedOrder.id} Audit</h3>
-                    <span className="text-xs text-slate-400">{selectedOrder.customerName} ({selectedOrder.customerPhone})</span>
+                    <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA]">Order #{selectedOrder.id} Audit</h3>
+                    <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium">{selectedOrder.customerName} ({selectedOrder.customerPhone})</span>
                   </div>
-                  <button onClick={() => setSelectedOrder(null)} className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
+                  <button onClick={() => setSelectedOrder(null)} className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 text-[#112D4E] dark:text-white hover:opacity-80">
                     <X className="w-5 h-5" />
                   </button>
                 </div>
 
                 {/* Audit Checklist Items */}
                 <div className="space-y-3 font-mono text-xs">
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
-                    <span className="text-slate-400 uppercase text-[10px] block">Expected Order Amount</span>
-                    <span className="font-black text-2xl text-emerald-400 block">{formatTHB(selectedOrder.amount)}</span>
+                  <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1.5">
+                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">Expected Order Amount</span>
+                    <span className="font-black text-2xl text-[#3F72AF] dark:text-[#3282B8] block">{formatTHB(selectedOrder.amount)}</span>
                   </div>
 
-                  <div className={`p-3 rounded-xl border space-y-1 ${
-                    selectedOrder.ocrMatched ? "bg-emerald-950/40 border-emerald-500/50 text-emerald-300" : "bg-rose-950/40 border-rose-500/50 text-rose-300"
+                  <div className={`p-3.5 rounded-xl border space-y-1 ${
+                    selectedOrder.ocrMatched ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/10 border-rose-500/50 text-rose-700 dark:text-rose-300"
                   }`}>
                     <span className="uppercase text-[10px] font-bold block">Automated OCR & QR Audit Result</span>
                     <div className="flex items-center justify-between font-bold text-sm">
@@ -334,30 +334,30 @@ export default function AdminOrdersPage() {
                       <span>{formatTHB(selectedOrder.ocrExtractedAmount)}</span>
                     </div>
                     {!selectedOrder.ocrMatched && (
-                      <p className="text-[11px] text-rose-400 font-normal pt-1 border-t border-rose-500/30 mt-1">
+                      <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium pt-1 border-t border-rose-500/30 mt-1">
                         ⚠️ Mismatch warning: The transfer amount on the slip is ฿500 less than the required invoice amount. Double-check before approval.
                       </p>
                     )}
                   </div>
 
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1 text-slate-300">
-                    <span className="text-slate-400 uppercase text-[10px] block">Fulfillment Coordinates</span>
-                    <span className="font-bold text-white block">{selectedOrder.fulfillment}</span>
-                    <span className="text-sky-400 font-bold block">Allocated Bin: {selectedOrder.warehouseBin}</span>
+                  <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1 text-[#112D4E] dark:text-slate-300 font-medium">
+                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">Fulfillment Coordinates</span>
+                    <span className="font-bold text-[#112D4E] dark:text-white block">{selectedOrder.fulfillment}</span>
+                    <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold block">Allocated Bin: {selectedOrder.warehouseBin}</span>
                   </div>
 
-                  <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1 text-slate-300">
-                    <span className="text-slate-400 uppercase text-[10px] block">Items Summary</span>
-                    <p className="text-xs leading-relaxed text-slate-200">{selectedOrder.itemsSummary}</p>
+                  <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1 text-[#112D4E] dark:text-slate-300 font-medium">
+                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">Items Summary</span>
+                    <p className="text-xs leading-relaxed text-[#112D4E] dark:text-slate-200">{selectedOrder.itemsSummary}</p>
                   </div>
                 </div>
               </div>
 
               {/* Approval Actions */}
-              <div className="space-y-3 pt-4 border-t border-slate-800">
+              <div className="space-y-3 pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
                 <button
                   onClick={() => handleApproveOrder(selectedOrder.id)}
-                  className="w-full py-3.5 px-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/25 transition-all"
+                  className="w-full min-h-[48px] py-3.5 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]"
                 >
                   <Check className="w-4 h-4 stroke-[3]" />
                   <span>Approve Order & Release to {selectedOrder.warehouseBin}</span>
@@ -365,7 +365,7 @@ export default function AdminOrdersPage() {
 
                 <button
                   onClick={() => handleRejectOrder(selectedOrder.id)}
-                  className="w-full py-3 rounded-xl bg-slate-800 hover:bg-rose-950 hover:text-rose-300 border border-slate-700 hover:border-rose-500/50 text-slate-300 font-mono font-semibold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
+                  className="w-full min-h-[46px] py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/50 text-rose-600 dark:text-rose-300 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
                 >
                   <XCircle className="w-4 h-4" />
                   <span>Reject Slip & Request Re-Upload</span>

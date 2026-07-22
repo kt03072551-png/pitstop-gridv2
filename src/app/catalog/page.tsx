@@ -34,6 +34,7 @@ function CatalogContent() {
   const [selectedGrades, setSelectedGrades] = useState<PartGrade[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<"featured" | "price_asc" | "price_desc">("featured");
+  const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState<boolean>(false);
 
   const categories = [
     "ALL",
@@ -102,9 +103,9 @@ function CatalogContent() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-slate-950 py-20 px-4 flex items-center justify-center">
-        <div className="font-mono text-emerald-400 text-sm animate-pulse flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-20 px-4 flex items-center justify-center">
+        <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
+          <span className="w-2 h-2 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-ping" />
           Loading Catalog & Fitment Engine...
         </div>
       </div>
@@ -112,26 +113,26 @@ function CatalogContent() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col py-8 px-4">
+    <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex flex-col py-8 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto w-full space-y-6">
         {/* 1. Active Fitment Header Banner */}
-        <div className="p-5 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="p-5 rounded-2xl bg-[#DBE2EF]/70 dark:bg-[#0F4C75]/70 border border-[#3F72AF]/20 dark:border-[#3282B8]/30 shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4 transition-colors duration-200">
           <div className="flex items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-emerald-950 border border-emerald-500/50 flex items-center justify-center shrink-0">
-              <Car className="w-6 h-6 text-emerald-400" />
+            <div className="w-11 h-11 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center shrink-0 shadow-inner">
+              <Car className="w-6 h-6 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs uppercase text-emerald-400 font-bold tracking-wider">
+                <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
                   Active Fitment Engine Filter
                 </span>
                 {activeVehicle && (
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-mono font-bold">
+                  <span className="text-[10px] bg-[#112D4E] dark:bg-[#BBE1FA] text-white dark:text-[#1B262C] border border-[#3F72AF] dark:border-[#3282B8] px-2.5 py-0.5 rounded font-mono font-bold">
                     100% Synced
                   </span>
                 )}
               </div>
-              <h1 className="text-lg sm:text-xl font-bold text-white tracking-tight mt-0.5">
+              <h1 className="text-lg sm:text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] tracking-tight mt-0.5">
                 {activeVehicle 
                   ? `${activeVehicle.year} ${activeVehicle.make} ${activeVehicle.model} (${activeVehicle.trim})`
                   : "No Vehicle Selected — Showing All Universal & Model-Specific Catalog Parts"}
@@ -144,10 +145,10 @@ function CatalogContent() {
               <button
                 onClick={() => setFitmentFilter(fitmentFilter === "FITS_ONLY" ? "ALL" : "FITS_ONLY")}
                 className={cn(
-                  "px-4 py-2 rounded-lg font-mono text-xs font-bold uppercase tracking-wide transition-all border flex items-center gap-2",
+                  "px-4 py-2 rounded-xl font-mono text-xs font-bold uppercase tracking-wide transition-all border flex items-center gap-2 min-h-[44px]",
                   fitmentFilter === "FITS_ONLY"
-                    ? "bg-emerald-500 text-slate-950 border-emerald-400 shadow-lg shadow-emerald-500/20"
-                    : "bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-750"
+                    ? "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-[#3F72AF] shadow-md shadow-[#3F72AF]/20"
+                    : "bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]"
                 )}
               >
                 <Sparkles className="w-3.5 h-3.5" />
@@ -156,20 +157,37 @@ function CatalogContent() {
             )}
             <Link
               href="/garage"
-              className="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 text-xs font-mono font-semibold transition-colors"
+              className="px-4 py-2 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:border-[#3F72AF] dark:hover:border-[#3282B8] border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] text-xs font-mono font-bold transition-colors min-h-[44px] flex items-center justify-center"
             >
               Change Vehicle
             </Link>
           </div>
         </div>
 
+        {/* Mobile Filter Toggle Button */}
+        <div className="lg:hidden flex items-center justify-between gap-3">
+          <button
+            onClick={() => setIsMobileFiltersOpen(!isMobileFiltersOpen)}
+            className="w-full flex items-center justify-between px-4 py-3 rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold text-xs"
+          >
+            <span className="flex items-center gap-2">
+              <SlidersHorizontal className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
+              {isMobileFiltersOpen ? "Hide Filters" : "Show Filters & Search"}
+            </span>
+            <span>{isMobileFiltersOpen ? "▲" : "▼"}</span>
+          </button>
+        </div>
+
         {/* 2. Search & Main Controls */}
         <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Left Sidebar Filters */}
-          <aside className="w-full lg:w-72 space-y-6 bg-slate-900/60 border border-slate-800 p-5 rounded-2xl shrink-0">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <span className="font-mono text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-emerald-400" /> Catalog Filters
+          <aside className={cn(
+            "w-full lg:w-72 space-y-6 bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] p-5 rounded-2xl shrink-0 transition-all",
+            !isMobileFiltersOpen && "hidden lg:block"
+          )}>
+            <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
+              <span className="font-mono text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider flex items-center gap-2">
+                <SlidersHorizontal className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Catalog Filters
               </span>
               {(selectedCategory !== "ALL" || fitmentFilter !== "ALL" || selectedGrades.length > 0 || searchQuery !== "") && (
                 <button
@@ -179,7 +197,7 @@ function CatalogContent() {
                     setSelectedGrades([]);
                     setSearchQuery("");
                   }}
-                  className="text-xs text-rose-400 hover:text-rose-300 font-mono underline"
+                  className="text-xs text-rose-500 hover:text-rose-400 font-mono underline font-bold"
                 >
                   Reset All
                 </button>
@@ -188,62 +206,62 @@ function CatalogContent() {
 
             {/* Search Box */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono uppercase text-slate-400">Search Part / SKU / OEM</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Search Part / SKU / OEM</label>
               <div className="relative">
-                <Search className="w-4 h-4 text-slate-500 absolute left-3 top-3" />
+                <Search className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8] absolute left-3 top-3.5" />
                 <input
                   type="text"
                   placeholder="e.g. 15400-RTA or Spoon..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-3 py-2 text-xs font-medium text-white placeholder:text-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
+                  className="w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl pl-9 pr-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] placeholder:text-[#112D4E]/40 dark:placeholder:text-[#85B5D9]/50 focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors shadow-sm"
                 />
               </div>
             </div>
 
             {/* Fitment Status Filter */}
             <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-slate-400">Compatibility Verification</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Compatibility Verification</label>
               <div className="space-y-1.5">
                 <button
                   onClick={() => setFitmentFilter("ALL")}
                   className={cn(
-                    "w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-between border",
+                    "w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between border min-h-[40px]",
                     fitmentFilter === "ALL"
-                      ? "bg-slate-800 border-slate-700 text-white font-semibold"
-                      : "border-transparent text-slate-400 hover:bg-slate-900"
+                      ? "bg-[#3F72AF] dark:bg-[#3282B8] border-[#3F72AF] text-white dark:text-[#1B262C] font-bold shadow-sm"
+                      : "border-transparent text-[#112D4E]/80 dark:text-[#BBE1FA]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C]"
                   )}
                 >
                   <span>Show All Parts</span>
-                  <span className="font-mono text-[10px] bg-slate-950 px-1.5 py-0.5 rounded text-slate-400">{MOCK_PARTS_CATALOG.length}</span>
+                  <span className="font-mono text-[10px] bg-[#F9F7F7] dark:bg-[#1B262C] px-1.5 py-0.5 rounded text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75] font-bold">{MOCK_PARTS_CATALOG.length}</span>
                 </button>
                 <button
                   onClick={() => setFitmentFilter("FITS_ONLY")}
                   disabled={!activeVehicle}
                   className={cn(
-                    "w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-between border",
+                    "w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between border min-h-[40px]",
                     fitmentFilter === "FITS_ONLY"
-                      ? "bg-emerald-950/80 border-emerald-500 text-emerald-300 font-semibold"
+                      ? "bg-[#3F72AF]/20 dark:bg-[#3282B8]/30 border-[#3F72AF] dark:border-[#3282B8] text-[#3F72AF] dark:text-[#3282B8] font-bold shadow-sm"
                       : !activeVehicle
-                      ? "opacity-40 cursor-not-allowed border-transparent text-slate-600"
-                      : "border-transparent text-slate-400 hover:bg-slate-900"
+                      ? "opacity-50 cursor-not-allowed border-transparent text-[#112D4E]/40 dark:text-[#85B5D9]/40"
+                      : "border-transparent text-[#112D4E]/80 dark:text-[#BBE1FA]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C]"
                   )}
                 >
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Fits Active Vehicle
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" /> Fits Active Vehicle
                   </span>
                 </button>
                 <button
                   onClick={() => setFitmentFilter("UNIVERSAL")}
                   className={cn(
-                    "w-full text-left px-3 py-2 rounded-lg text-xs font-medium transition-all flex items-center justify-between border",
+                    "w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between border min-h-[40px]",
                     fitmentFilter === "UNIVERSAL"
-                      ? "bg-sky-950/80 border-sky-500 text-sky-300 font-semibold"
-                      : "border-transparent text-slate-400 hover:bg-slate-900"
+                      ? "bg-[#3F72AF]/20 dark:bg-[#3282B8]/30 border-[#3F72AF] dark:border-[#3282B8] text-[#3F72AF] dark:text-[#3282B8] font-bold shadow-sm"
+                      : "border-transparent text-[#112D4E]/80 dark:text-[#BBE1FA]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C]"
                   )}
                 >
                   <span className="flex items-center gap-1.5">
-                    <Info className="w-3.5 h-3.5 text-sky-400" /> Universal Fit Only
+                    <Info className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" /> Universal Fit Only
                   </span>
                 </button>
               </div>
@@ -251,17 +269,17 @@ function CatalogContent() {
 
             {/* Categories */}
             <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-slate-400">Technical Category</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Technical Category</label>
               <div className="space-y-1">
                 {categories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
                     className={cn(
-                      "w-full text-left px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center justify-between",
+                      "w-full text-left px-3 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-between min-h-[38px]",
                       selectedCategory === cat
-                        ? "bg-emerald-500 text-slate-950 font-bold"
-                        : "text-slate-400 hover:bg-slate-900 hover:text-slate-200"
+                        ? "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] font-bold shadow-sm"
+                        : "text-[#112D4E]/80 dark:text-[#BBE1FA]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C]"
                     )}
                   >
                     <span>{cat === "ALL" ? "All Categories" : cat}</span>
@@ -271,21 +289,21 @@ function CatalogContent() {
             </div>
 
             {/* Grade Checkboxes */}
-            <div className="space-y-2 pt-2 border-t border-slate-800">
-              <label className="block text-xs font-mono uppercase text-slate-400">Part Grade / Condition</label>
-              <div className="space-y-2">
+            <div className="space-y-2 pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Part Grade / Condition</label>
+              <div className="space-y-2.5">
                 {grades.map((g) => {
                   const isChecked = selectedGrades.includes(g.value);
                   return (
                     <label
                       key={g.value}
-                      className="flex items-center gap-2.5 text-xs text-slate-300 cursor-pointer select-none"
+                      className="flex items-center gap-2.5 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] cursor-pointer select-none min-h-[28px]"
                     >
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleGrade(g.value)}
-                        className="rounded border-slate-700 bg-slate-950 text-emerald-500 focus:ring-0 focus:ring-offset-0 cursor-pointer"
+                        className="w-4 h-4 rounded border-[#DBE2EF] dark:border-[#0F4C75] bg-[#F9F7F7] dark:bg-[#1B262C] text-[#3F72AF] dark:text-[#3282B8] focus:ring-0 focus:ring-offset-0 cursor-pointer"
                       />
                       <span>{g.label}</span>
                     </label>
@@ -295,12 +313,12 @@ function CatalogContent() {
             </div>
 
             {/* Warehouse Stock Notice */}
-            <div className="p-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5 text-xs text-slate-400">
-              <div className="flex items-center gap-1.5 text-emerald-400 font-mono font-semibold">
+            <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1.5 text-xs text-[#112D4E]/70 dark:text-[#85B5D9] shadow-inner">
+              <div className="flex items-center gap-1.5 text-[#3F72AF] dark:text-[#3282B8] font-mono font-bold">
                 <Warehouse className="w-4 h-4" />
                 <span>Immediate Bin Picking</span>
               </div>
-              <p className="text-[11px] leading-relaxed">
+              <p className="text-[11px] leading-relaxed font-medium">
                 All listed parts display physical warehouse bin coordinates (`Bin A12`, `Row 4`) ready for 2-hour Express Pickup.
               </p>
             </div>
@@ -309,18 +327,18 @@ function CatalogContent() {
           {/* Main Product Grid */}
           <div className="flex-1 space-y-6">
             {/* Top Sort & Count Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-900/40 border border-slate-800">
-              <div className="font-mono text-xs text-slate-300">
-                Showing <strong className="text-emerald-400 font-bold text-sm">{filteredParts.length}</strong> parts for{" "}
-                <span className="text-white font-semibold">{selectedCategory === "ALL" ? "All Categories" : selectedCategory}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75]">
+              <div className="font-mono text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80">
+                Showing <strong className="text-[#3F72AF] dark:text-[#3282B8] font-bold text-sm">{filteredParts.length}</strong> parts for{" "}
+                <span className="text-[#112D4E] dark:text-white font-bold">{selectedCategory === "ALL" ? "All Categories" : selectedCategory}</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <label className="text-xs font-mono text-slate-400">Sort By:</label>
+                <label className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] font-semibold">Sort By:</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 text-xs font-medium text-white focus:outline-none focus:border-emerald-500 cursor-pointer"
+                  className="min-h-[40px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] cursor-pointer shadow-sm"
                 >
                   <option value="featured">Featured / Stock Status</option>
                   <option value="price_asc">Price: Low to High</option>
@@ -331,10 +349,10 @@ function CatalogContent() {
 
             {/* Product Cards Grid */}
             {filteredParts.length === 0 ? (
-              <div className="text-center py-20 border border-dashed border-slate-800 rounded-2xl p-8 bg-slate-900/20 space-y-3">
-                <AlertTriangle className="w-12 h-12 text-slate-600 mx-auto" />
-                <h3 className="font-mono text-lg font-bold text-white uppercase">No Compatible Parts Found</h3>
-                <p className="text-xs text-slate-400 max-w-md mx-auto">
+              <div className="text-center py-20 border border-dashed border-[#DBE2EF] dark:border-[#0F4C75] rounded-2xl p-8 bg-[#DBE2EF]/30 dark:bg-[#0F4C75]/30 space-y-3">
+                <AlertTriangle className="w-12 h-12 text-[#3F72AF] dark:text-[#3282B8] mx-auto" />
+                <h3 className="font-mono text-lg font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase">No Compatible Parts Found</h3>
+                <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] max-w-md mx-auto font-medium">
                   We could not find items matching your filters or vehicle compatibility criteria (`{fitmentFilter}`). Try adjusting your grade selections or selecting `Show All Parts`.
                 </p>
                 <button
@@ -344,7 +362,7 @@ function CatalogContent() {
                     setSelectedGrades([]);
                     setSearchQuery("");
                   }}
-                  className="px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 font-mono font-bold text-xs uppercase tracking-wide"
+                  className="min-h-[44px] px-6 py-2.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wide shadow-md hover:opacity-90 transition-all"
                 >
                   Reset Catalog Filters
                 </button>
@@ -356,10 +374,10 @@ function CatalogContent() {
                   return (
                     <div
                       key={part.id}
-                      className="group flex flex-col justify-between rounded-2xl bg-slate-900 border border-slate-800 hover:border-slate-700 overflow-hidden shadow-lg transition-all hover:shadow-2xl"
+                      className="group flex flex-col justify-between rounded-2xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF] dark:hover:border-[#3282B8] overflow-hidden shadow-md transition-all hover:shadow-xl hover:-translate-y-0.5"
                     >
                       {/* Thumbnail & Badges */}
-                      <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden border-b border-slate-800">
+                      <div className="relative aspect-[16/10] bg-[#F9F7F7] dark:bg-[#1B262C] overflow-hidden border-b border-[#DBE2EF] dark:border-[#0F4C75]">
                         <img
                           src={part.images[0]?.imageUrl}
                           alt={part.title}
@@ -369,14 +387,14 @@ function CatalogContent() {
                           <FitmentBadge status={fitStatus} size="sm" />
                         </div>
                         <div className="absolute top-3 right-3 z-10 flex flex-col items-end gap-1">
-                          <span className="px-2 py-0.5 rounded bg-slate-950/90 text-[10px] font-mono font-bold text-slate-300 border border-slate-800">
+                          <span className="px-2 py-0.5 rounded bg-[#F9F7F7]/90 dark:bg-[#1B262C]/90 text-[10px] font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75]">
                             {part.brand}
                           </span>
                           <span className={cn(
-                            "px-2 py-0.5 rounded text-[10px] font-mono font-bold border",
-                            part.grade === "OEM_GENUINE" && "bg-emerald-950 text-emerald-300 border-emerald-500/50",
-                            part.grade === "PERFORMANCE" && "bg-amber-950 text-amber-300 border-amber-500/50",
-                            part.grade === "AFTERMARKET" && "bg-sky-950 text-sky-300 border-sky-500/50"
+                            "px-2 py-0.5 rounded text-[10px] font-mono font-bold border shadow-sm",
+                            part.grade === "OEM_GENUINE" && "bg-[#3F72AF] text-white border-[#3F72AF]",
+                            part.grade === "PERFORMANCE" && "bg-amber-500 text-slate-950 border-amber-400",
+                            part.grade === "AFTERMARKET" && "bg-sky-600 text-white border-sky-500"
                           )}>
                             {part.grade.replace("_", " ")}
                           </span>
@@ -384,7 +402,7 @@ function CatalogContent() {
 
                         {part.images.some((i) => i.isExplodedDiagram) && (
                           <div className="absolute bottom-3 right-3 z-10">
-                            <span className="px-2 py-1 rounded bg-slate-900/95 text-sky-300 border border-sky-500/60 text-[10px] font-mono flex items-center gap-1.5 shadow-md">
+                            <span className="px-2 py-1 rounded bg-[#3F72AF] text-white text-[10px] font-mono flex items-center gap-1.5 shadow-md font-bold">
                               📐 Exploded Blueprint
                             </span>
                           </div>
@@ -394,27 +412,33 @@ function CatalogContent() {
                       {/* Content */}
                       <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                         <div className="space-y-2">
-                          <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                            <span>OEM: <strong className="text-slate-300">{part.oemPartNumber}</strong></span>
-                            <span className="text-emerald-400 font-semibold">{part.warehouseBin}</span>
+                          <div className="flex items-center justify-between text-xs font-mono text-[#112D4E]/60 dark:text-[#85B5D9] font-semibold">
+                            <span>OEM: <strong className="text-[#112D4E] dark:text-white">{part.oemPartNumber}</strong></span>
+                            <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold">{part.warehouseBin}</span>
                           </div>
                           <Link
                             href={`/parts/${part.oemPartNumber}`}
-                            className="font-bold text-base text-white group-hover:text-emerald-300 transition-colors line-clamp-2 leading-snug"
+                            className="font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors line-clamp-2 leading-snug"
                           >
                             {part.title}
                           </Link>
-                          <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
+                          <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] line-clamp-2 leading-relaxed font-medium">
                             {part.description}
                           </p>
                         </div>
 
                         {/* Price & Action */}
-                        <div className="pt-4 border-t border-slate-800/80 flex items-center justify-between">
+                        <div className="pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between">
                           <div>
-                            <span className="block text-[10px] font-mono text-slate-500 uppercase">Price (Inc 7% VAT)</span>
-                            <span className="font-mono font-black text-xl text-emerald-400">{formatTHB(part.price)}</span>
+                            <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">Price (Inc 7% VAT)</span>
+                            <span className="font-mono font-black text-xl text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(part.price)}</span>
                           </div>
+                          <Link
+                            href={`/parts/${part.oemPartNumber}`}
+                            className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs flex items-center justify-center shadow-sm transition-all"
+                          >
+                            Inspect Part
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -432,8 +456,8 @@ function CatalogContent() {
 export default function CatalogPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-10">
-        <div className="flex flex-col items-center gap-3 text-emerald-400 font-mono text-sm">
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex items-center justify-center p-10">
+        <div className="flex flex-col items-center gap-3 text-[#3F72AF] dark:text-[#3282B8] font-mono text-sm font-bold">
           <Loader2 className="w-8 h-8 animate-spin" />
           <span>Loading Catalog & Fitment Matrix...</span>
         </div>

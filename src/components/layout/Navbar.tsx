@@ -23,6 +23,7 @@ import { useVehicleStore } from "@/store/useVehicleStore";
 import { useCartStore } from "@/store/useCartStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import { MyGarageDrawer } from "./MyGarageDrawer";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 export const Navbar: React.FC = () => {
@@ -48,16 +49,16 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/90 backdrop-blur-md">
+      <header className="sticky top-0 z-40 w-full border-b border-[#3F72AF]/20 dark:border-[#3282B8]/30 bg-[#DBE2EF]/85 dark:bg-[#0F4C75]/80 backdrop-blur-md transition-colors duration-200">
         {/* Top Metallic Info Bar */}
-        <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border-b border-slate-800/80 px-4 py-1.5 text-xs text-slate-400">
+        <div className="bg-[#F9F7F7] dark:bg-[#1B262C] border-b border-[#DBE2EF] dark:border-[#0F4C75] px-4 py-1.5 text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 transition-colors duration-200">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="flex items-center gap-1.5 text-[#3F72AF] dark:text-[#3282B8] font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-pulse" />
                 Bangna & Laksi Warehouse Hubs Live
               </span>
-              <span className="hidden md:inline text-slate-500">|</span>
+              <span className="hidden md:inline text-slate-400">|</span>
               <span className="hidden md:flex items-center gap-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
                 100% Genuine OEM & Verified Aftermarket Parts Guarantee
@@ -86,27 +87,27 @@ export const Navbar: React.FC = () => {
         {/* Main Header */}
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500 to-sky-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-              <Wrench className="w-5 h-5 text-slate-950 stroke-[2.5]" />
+          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0">
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-[#3F72AF] to-[#112D4E] dark:from-[#3282B8] dark:to-[#0F4C75] flex items-center justify-center shadow-md shadow-[#3F72AF]/20 dark:shadow-[#3282B8]/20 group-hover:scale-105 transition-transform">
+              <Wrench className="w-4.5 h-4.5 sm:w-5 sm:h-5 text-white stroke-[2.5]" />
             </div>
             <div>
-              <span className="font-mono text-lg font-black tracking-tighter text-white uppercase flex items-center gap-1">
-                PITSTOP <span className="text-emerald-400">GRID</span>
+              <span className="font-mono text-base sm:text-lg font-black tracking-tighter text-[#112D4E] dark:text-[#BBE1FA] uppercase flex items-center gap-1">
+                PITSTOP <span className="text-[#3F72AF] dark:text-[#3282B8]">GRID</span>
               </span>
-              <span className="block text-[10px] font-mono tracking-widest text-slate-400 uppercase -mt-1">
+              <span className="hidden sm:block text-[10px] font-mono tracking-widest text-[#3F72AF] dark:text-[#85B5D9] uppercase -mt-1">
                 v2.0 OEM & Fitment Engine
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-300">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-[#112D4E]/90 dark:text-[#BBE1FA]/90">
             <Link
               href="/"
               className={cn(
-                "hover:text-emerald-400 transition-colors py-1 border-b-2",
-                pathname === "/" ? "border-emerald-500 text-white" : "border-transparent"
+                "hover:text-[#3F72AF] dark:hover:text-[#3282B8] transition-colors py-1 border-b-2",
+                pathname === "/" ? "border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] font-bold" : "border-transparent"
               )}
             >
               Home
@@ -114,9 +115,9 @@ export const Navbar: React.FC = () => {
             <Link
               href="/catalog"
               className={cn(
-                "hover:text-emerald-400 transition-colors py-1 border-b-2",
+                "hover:text-[#3F72AF] dark:hover:text-[#3282B8] transition-colors py-1 border-b-2",
                 pathname.startsWith("/catalog") || pathname.startsWith("/parts")
-                  ? "border-emerald-500 text-white"
+                  ? "border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] font-bold"
                   : "border-transparent"
               )}
             >
@@ -125,32 +126,35 @@ export const Navbar: React.FC = () => {
             <Link
               href="/garage"
               className={cn(
-                "hover:text-emerald-400 transition-colors py-1 border-b-2 flex items-center gap-1",
-                pathname.startsWith("/garage") ? "border-emerald-500 text-white" : "border-transparent"
+                "hover:text-[#3F72AF] dark:hover:text-[#3282B8] transition-colors py-1 border-b-2 flex items-center gap-1",
+                pathname.startsWith("/garage") ? "border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] font-bold" : "border-transparent"
               )}
             >
               <span>My Garage</span>
-              <span className="px-1.5 py-0.2 rounded-full bg-slate-800 text-[10px] font-mono text-emerald-400 border border-slate-700">
+              <span className="px-1.5 py-0.2 rounded-full bg-[#F9F7F7] dark:bg-[#1B262C] text-[10px] font-mono text-[#3F72AF] dark:text-[#3282B8] border border-[#DBE2EF] dark:border-[#0F4C75]">
                 {savedVehiclesCount}
               </span>
             </Link>
           </nav>
 
           {/* Right Action Bar */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Theme Switch toggle */}
+            <ThemeToggle />
+
             {/* Active Vehicle Button / Garage Drawer Toggle */}
             <button
               onClick={() => setIsGarageOpen(true)}
-              className="hidden sm:flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-850 border border-slate-800 hover:border-slate-700 text-left transition-all shadow-sm group"
+              className="hidden lg:flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-[#F9F7F7]/80 dark:bg-[#1B262C]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] text-left transition-all shadow-sm group"
             >
-              <div className="w-7 h-7 rounded bg-slate-800 flex items-center justify-center shrink-0 border border-slate-700 group-hover:border-emerald-500/50 transition-colors">
-                <Warehouse className="w-4 h-4 text-emerald-400" />
+              <div className="w-7 h-7 rounded bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 flex items-center justify-center shrink-0 border border-[#3F72AF]/20 dark:border-[#3282B8]/20 group-hover:border-[#3F72AF] dark:group-hover:border-[#3282B8] transition-colors">
+                <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
               </div>
-              <div className="max-w-[170px] truncate">
-                <span className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+              <div className="max-w-[150px] truncate">
+                <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase tracking-wider">
                   Active Vehicle
                 </span>
-                <span className="block text-xs font-semibold text-slate-200 truncate group-hover:text-emerald-300 transition-colors">
+                <span className="block text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] truncate group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors">
                   {currentActiveVehicle ? currentActiveVehicle.nickname || `${currentActiveVehicle.year} ${currentActiveVehicle.model}` : "Select Vehicle..."}
                 </span>
               </div>
@@ -160,14 +164,14 @@ export const Navbar: React.FC = () => {
             <Link
               href="/cart"
               className={cn(
-                "relative flex items-center gap-2 px-3 py-2 rounded-lg border transition-all shadow-md",
+                "relative flex items-center gap-2 px-3 py-2 rounded-xl border transition-all shadow-sm font-mono font-bold text-xs",
                 totalCartCount > 0
-                  ? "bg-gradient-to-r from-emerald-950 to-slate-900 border-emerald-500/60 text-white shadow-emerald-950/40 hover:border-emerald-400"
-                  : "bg-slate-900 border-slate-800 text-slate-300 hover:border-slate-700"
+                  ? "bg-[#3F72AF] dark:bg-[#3282B8] border-[#112D4E]/20 dark:border-[#BBE1FA]/30 text-white dark:text-[#1B262C] shadow-[#3F72AF]/20 hover:opacity-90"
+                  : "bg-[#F9F7F7]/80 dark:bg-[#1B262C]/80 border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
               )}
             >
-              <ShoppingCart className="w-4 h-4 text-emerald-400" />
-              <span className="hidden sm:inline font-mono font-semibold text-xs">Cart</span>
+              <ShoppingCart className="w-4 h-4" />
+              <span className="hidden sm:inline font-mono">Cart</span>
               {totalCartCount > 0 && (
                 <span className="flex items-center justify-center min-w-[20px] h-5 px-1 rounded-full bg-emerald-500 text-slate-950 font-mono font-bold text-xs shadow-sm">
                   {totalCartCount}
@@ -178,31 +182,31 @@ export const Navbar: React.FC = () => {
             {/* Auth: Login Button or User Menu */}
             {currentIsAuthenticated && currentUser ? (
               <div className="hidden sm:flex items-center gap-2">
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#F9F7F7]/80 dark:bg-[#1B262C]/80 border border-[#DBE2EF] dark:border-[#0F4C75]">
                   <div className={cn(
                     "w-7 h-7 rounded-full flex items-center justify-center shrink-0 border",
                     isAdmin
-                      ? "bg-amber-950/80 border-amber-500/50"
-                      : "bg-sky-950/80 border-sky-500/50"
+                      ? "bg-amber-500/20 border-amber-500/50 text-amber-500"
+                      : "bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border-[#3F72AF]/50 dark:border-[#3282B8]/50 text-[#3F72AF] dark:text-[#3282B8]"
                   )}>
                     {isAdmin ? (
-                      <Crown className="w-3.5 h-3.5 text-amber-400" />
+                      <Crown className="w-3.5 h-3.5" />
                     ) : (
-                      <UserCircle className="w-3.5 h-3.5 text-sky-400" />
+                      <UserCircle className="w-3.5 h-3.5" />
                     )}
                   </div>
                   <div className="max-w-[120px]">
-                    <span className="block text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                    <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase tracking-wider">
                       {currentUser.role}
                     </span>
-                    <span className="block text-xs font-semibold text-slate-200 truncate">
+                    <span className="block text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] truncate">
                       {currentUser.name.split(" ")[0]}
                     </span>
                   </div>
                 </div>
                 <button
                   onClick={logout}
-                  className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 hover:border-rose-500/50 transition-all"
+                  className="p-2 rounded-lg bg-[#F9F7F7]/80 dark:bg-[#1B262C]/80 border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/70 dark:text-[#BBE1FA]/70 hover:text-rose-500 hover:border-rose-500/50 transition-all"
                   title="Sign Out"
                 >
                   <LogOut className="w-4 h-4" />
@@ -212,10 +216,10 @@ export const Navbar: React.FC = () => {
               <Link
                 href="/login"
                 className={cn(
-                  "hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-lg border transition-all shadow-md font-mono font-semibold text-xs",
+                  "hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl border transition-all shadow-sm font-mono font-bold text-xs",
                   pathname === "/login"
-                    ? "bg-emerald-500 text-slate-950 border-emerald-400"
-                    : "bg-slate-900 border-slate-800 text-slate-300 hover:border-emerald-500/50 hover:text-emerald-400"
+                    ? "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-[#3F72AF]"
+                    : "bg-[#F9F7F7]/80 dark:bg-[#1B262C]/80 border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
                 )}
               >
                 <LogIn className="w-4 h-4" />
@@ -226,7 +230,8 @@ export const Navbar: React.FC = () => {
             {/* Mobile Menu Toggle */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
+              className="md:hidden p-2 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
+              aria-label="Toggle mobile menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -235,26 +240,26 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Dropdown Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-800 bg-slate-900 px-4 py-4 space-y-3">
+          <div className="md:hidden border-t border-[#DBE2EF] dark:border-[#0F4C75] bg-[#F9F7F7] dark:bg-[#1B262C] px-4 py-4 space-y-3 shadow-xl">
             {/* Mobile Auth Status */}
             {currentIsAuthenticated && currentUser ? (
-              <div className="flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800">
+              <div className="flex items-center justify-between p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75]">
                 <div className="flex items-center gap-2.5">
                   <div className={cn(
                     "w-8 h-8 rounded-full flex items-center justify-center border",
                     isAdmin
-                      ? "bg-amber-950/80 border-amber-500/50"
-                      : "bg-sky-950/80 border-sky-500/50"
+                      ? "bg-amber-500/20 border-amber-500/50 text-amber-500"
+                      : "bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border-[#3F72AF]/50 dark:border-[#3282B8]/50 text-[#3F72AF] dark:text-[#3282B8]"
                   )}>
                     {isAdmin ? (
-                      <Crown className="w-4 h-4 text-amber-400" />
+                      <Crown className="w-4 h-4" />
                     ) : (
-                      <UserCircle className="w-4 h-4 text-sky-400" />
+                      <UserCircle className="w-4 h-4" />
                     )}
                   </div>
                   <div>
-                    <span className="block text-[10px] font-mono text-slate-400 uppercase">{currentUser.role}</span>
-                    <span className="block text-sm font-semibold text-white">{currentUser.name}</span>
+                    <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase">{currentUser.role}</span>
+                    <span className="block text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA]">{currentUser.name}</span>
                   </div>
                 </div>
                 <button
@@ -262,7 +267,7 @@ export const Navbar: React.FC = () => {
                     logout();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-mono font-semibold text-rose-400 hover:bg-rose-950/50 hover:border-rose-500/50 transition-all"
+                  className="px-3 py-1.5 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] text-xs font-mono font-semibold text-rose-500 hover:bg-rose-500/10 transition-all"
                 >
                   Sign Out
                 </button>
@@ -271,7 +276,7 @@ export const Navbar: React.FC = () => {
               <Link
                 href="/login"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 p-3 rounded-lg bg-emerald-500 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider"
+                className="w-full flex items-center justify-center gap-2 p-3 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider shadow-md shadow-[#3F72AF]/20"
               >
                 <LogIn className="w-4 h-4" />
                 Sign In to Your Account
@@ -283,32 +288,32 @@ export const Navbar: React.FC = () => {
                 setIsMobileMenuOpen(false);
                 setIsGarageOpen(true);
               }}
-              className="w-full flex items-center justify-between p-3 rounded-lg bg-slate-950 border border-slate-800 text-left"
+              className="w-full flex items-center justify-between p-3 rounded-xl bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border border-[#DBE2EF] dark:border-[#0F4C75] text-left"
             >
               <div className="flex items-center gap-2.5">
-                <Warehouse className="w-5 h-5 text-emerald-400 shrink-0" />
+                <Warehouse className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8] shrink-0" />
                 <div>
-                  <span className="block text-[10px] font-mono text-slate-400 uppercase">Active Vehicle</span>
-                  <span className="block text-sm font-semibold text-white">
+                  <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase">Active Vehicle</span>
+                  <span className="block text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA]">
                     {currentActiveVehicle ? `${currentActiveVehicle.year} ${currentActiveVehicle.make} ${currentActiveVehicle.model}` : "Select Vehicle..."}
                   </span>
                 </div>
               </div>
-              <span className="text-xs text-emerald-400 font-mono">Change &rarr;</span>
+              <span className="text-xs text-[#3F72AF] dark:text-[#3282B8] font-mono font-bold">Change &rarr;</span>
             </button>
 
             <div className="grid grid-cols-2 gap-2 pt-2">
               <Link
                 href="/catalog"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-sm font-medium text-white"
+                className="flex items-center justify-center p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
               >
                 Parts Catalog
               </Link>
               <Link
                 href="/garage"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center p-2.5 rounded-lg bg-slate-800/80 border border-slate-700 text-sm font-medium text-white"
+                className="flex items-center justify-center p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
               >
                 My Garage ({savedVehiclesCount})
               </Link>

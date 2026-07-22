@@ -49,73 +49,73 @@ export default function HomePage() {
       <VehicleSelectorBar />
 
       {/* 2. Main Hero Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 border-b border-slate-800 py-16 px-4">
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#DBE2EF]/60 via-[#F9F7F7] to-[#F9F7F7] dark:from-[#0F4C75]/80 dark:via-[#1B262C] dark:to-[#1B262C] border-b border-[#3F72AF]/20 dark:border-[#3282B8]/30 py-16 px-4 transition-colors duration-200">
         {/* Background metallic grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#3F72AF15_1px,transparent_1px),linear-gradient(to_bottom,#3F72AF15_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,#3282B815_1px,transparent_1px),linear-gradient(to_bottom,#3282B815_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/50 text-emerald-400 font-mono text-xs font-semibold shadow-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3F72AF]/15 dark:bg-[#3282B8]/20 border border-[#3F72AF]/50 dark:border-[#3282B8]/50 text-[#3F72AF] dark:text-[#3282B8] font-mono text-xs font-bold shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
               <span>OEM MASTER FITMENT MATRIX VERIFIED</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-mono font-black tracking-tight text-white uppercase leading-none">
+            <h1 className="text-4xl sm:text-6xl font-mono font-black tracking-tight text-[#112D4E] dark:text-[#BBE1FA] uppercase leading-none">
               PRECISION AUTOMOTIVE <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-sky-400 to-emerald-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3F72AF] via-[#112D4E] to-[#3F72AF] dark:from-[#3282B8] dark:via-[#BBE1FA] dark:to-[#85B5D9]">
                 PARTS & FITMENT
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 font-normal max-w-2xl leading-relaxed">
+            <p className="text-base sm:text-lg text-[#112D4E]/80 dark:text-[#BBE1FA]/80 font-normal max-w-2xl leading-relaxed">
               Industrial-grade marketplace tailored for high-performance motorbikes and track cars. 
-              Instantly cross-reference over <strong className="text-white font-semibold">10,000+ OEM & Aftermarket SKUs</strong> against our multi-tier vehicle compatibility engine before you order.
+              Instantly cross-reference over <strong className="text-[#112D4E] dark:text-white font-bold">10,000+ OEM & Aftermarket SKUs</strong> against our multi-tier vehicle compatibility engine before you order.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
                 href="/catalog"
-                className="px-6 py-3.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider flex items-center gap-2 transition-all shadow-lg shadow-emerald-500/25 active:scale-95"
+                className="px-6 py-3.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center gap-2 transition-all shadow-md shadow-[#3F72AF]/25 active:scale-95 min-h-[44px]"
               >
                 <span>Browse Full Catalog</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </Link>
               <Link
                 href="/garage"
-                className="px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-200 border border-slate-800 hover:border-slate-700 font-mono font-semibold text-sm uppercase tracking-wider transition-all"
+                className="px-6 py-3.5 rounded-xl bg-[#DBE2EF] dark:bg-[#0F4C75] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] border border-[#3F72AF]/30 dark:border-[#3282B8]/40 font-mono font-bold text-sm uppercase tracking-wider transition-all min-h-[44px] flex items-center justify-center"
               >
                 Manage Saved Garage ({activeVehicle ? "Active: " + activeVehicle.model : "0"})
               </Link>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 max-w-xl">
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75] max-w-xl">
               <div>
-                <span className="block text-2xl font-mono font-bold text-white">100%</span>
-                <span className="text-xs text-slate-400 font-mono uppercase">Exact Bolt-On Fit</span>
+                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">100%</span>
+                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">Exact Bolt-On Fit</span>
               </div>
               <div>
-                <span className="block text-2xl font-mono font-bold text-emerald-400">2 HRS</span>
-                <span className="text-xs text-slate-400 font-mono uppercase">Warehouse Hub Pickup</span>
+                <span className="block text-2xl font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">2 HRS</span>
+                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">Warehouse Hub Pickup</span>
               </div>
               <div>
-                <span className="block text-2xl font-mono font-bold text-sky-400">OCR + QR</span>
-                <span className="text-xs text-slate-400 font-mono uppercase">Instant Slip Approval</span>
+                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">OCR + QR</span>
+                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">Instant Slip Approval</span>
               </div>
             </div>
           </div>
 
           {/* Right Showcase Card */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-2xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-6 shadow-2xl overflow-hidden group">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-all" />
-              <div className="flex items-center justify-between border-b border-slate-800/80 pb-4 mb-4">
-                <span className="font-mono text-xs uppercase tracking-widest text-emerald-400 font-bold flex items-center gap-1.5">
+            <div className="relative rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-xl overflow-hidden group">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#3F72AF]/15 dark:bg-[#3282B8]/15 rounded-full blur-3xl group-hover:opacity-100 transition-all" />
+              <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-4 mb-4">
+                <span className="font-mono text-xs uppercase tracking-widest text-[#3F72AF] dark:text-[#3282B8] font-bold flex items-center gap-1.5">
                   <Activity className="w-4 h-4" /> Featured Track Spec Drop
                 </span>
-                <span className="font-mono text-xs text-slate-500">SKU: SPN-FL5-AERO-HD</span>
+                <span className="font-mono text-xs text-[#112D4E]/60 dark:text-[#85B5D9]">SKU: SPN-FL5-AERO-HD</span>
               </div>
 
-              <div className="aspect-[16/10] rounded-xl overflow-hidden border border-slate-800 relative mb-4">
+              <div className="aspect-[16/10] rounded-xl overflow-hidden border border-[#DBE2EF] dark:border-[#0F4C75] relative mb-4 bg-black/10">
                 <img
                   src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80"
                   alt="Spoon Sports Carbon Hood"
@@ -126,21 +126,21 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <h3 className="font-semibold text-lg text-white mb-1">
+              <h3 className="font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA] mb-1">
                 Spoon Sports Dry Carbon Vented Hood
               </h3>
-              <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+              <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] mb-4 leading-relaxed font-medium">
                 Autoclave cured pre-preg 3K twill carbon with NACA intake duct feeding K20C1 intake. Saves -6.4kg over factory hood.
               </p>
 
-              <div className="flex items-center justify-between pt-3 border-t border-slate-800/80">
+              <div className="flex items-center justify-between pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
                 <div>
-                  <span className="block text-[10px] font-mono text-slate-500 uppercase">Direct Price</span>
-                  <span className="font-mono text-xl font-bold text-emerald-400">{formatTHB(84500)}</span>
+                  <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase">Direct Price</span>
+                  <span className="font-mono text-xl font-bold text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(84500)}</span>
                 </div>
                 <Link
                   href={`/parts/${MOCK_PARTS_CATALOG[2].oemPartNumber}`}
-                  className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-750 text-white font-mono font-semibold text-xs transition-colors flex items-center gap-1.5 border border-slate-700"
+                  className="px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs transition-colors flex items-center gap-1.5 shadow-sm"
                 >
                   <span>Inspect Exploded Diagram</span>
                   <ChevronRight className="w-3.5 h-3.5" />
@@ -155,16 +155,16 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 py-16 w-full">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <span className="font-mono text-xs uppercase text-emerald-400 font-bold tracking-widest block mb-1">
+            <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-widest block mb-1">
               • Catalog Navigation
             </span>
-            <h2 className="text-2xl sm:text-3xl font-mono font-black text-white uppercase tracking-tight">
+            <h2 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
               Explore By Technical Category
             </h2>
           </div>
           <Link
             href="/catalog"
-            className="text-xs font-mono text-slate-400 hover:text-emerald-400 flex items-center gap-1 transition-colors font-medium"
+            className="text-xs font-mono text-[#3F72AF] dark:text-[#3282B8] hover:underline flex items-center gap-1 font-bold"
           >
             View All Categories &rarr;
           </Link>
@@ -177,26 +177,26 @@ export default function HomePage() {
               <Link
                 key={cat.name}
                 href={`/catalog?category=${cat.slug}`}
-                className="group p-5 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 hover:bg-slate-850 transition-all shadow-md flex flex-col justify-between"
+                className="group p-5 rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF] dark:hover:border-[#3282B8] transition-all shadow-sm flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-11 h-11 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center group-hover:border-emerald-500/50 group-hover:bg-slate-800 transition-colors">
-                      <IconComponent className="w-5 h-5 text-emerald-400" />
+                    <div className="w-11 h-11 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#3F72AF]/30 dark:border-[#3282B8]/30 flex items-center justify-center group-hover:scale-105 transition-transform">
+                      <IconComponent className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
                     </div>
-                    <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-800">
+                    <span className="font-mono text-xs font-semibold px-2 py-0.5 rounded bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75]">
                       {cat.count}
                     </span>
                   </div>
-                  <h3 className="font-mono font-bold text-base text-white group-hover:text-emerald-300 transition-colors">
+                  <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors">
                     {cat.name}
                   </h3>
-                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">
+                  <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] mt-1.5 leading-relaxed font-medium">
                     {cat.desc}
                   </p>
                 </div>
 
-                <div className="mt-5 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono text-slate-500 group-hover:text-emerald-400 transition-colors">
+                <div className="mt-5 pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between text-xs font-mono text-[#112D4E]/60 dark:text-[#85B5D9] group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors font-semibold">
                   <span>Filter by active fitment</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -205,30 +205,30 @@ export default function HomePage() {
           })}
 
           {/* 6th box for Garage Quick Action */}
-          <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900 border border-emerald-500/40 flex flex-col justify-between">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-[#DBE2EF] via-[#DBE2EF]/80 to-[#F9F7F7] dark:from-[#0F4C75] dark:via-[#0F4C75]/80 dark:to-[#1B262C] border border-[#3F72AF] dark:border-[#3282B8] flex flex-col justify-between shadow-md">
             <div>
               <div className="flex items-center justify-between mb-4">
-                <div className="w-11 h-11 rounded-lg bg-emerald-900/60 border border-emerald-500 flex items-center justify-center">
-                  <Warehouse className="w-5 h-5 text-emerald-300" />
+                <div className="w-11 h-11 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] flex items-center justify-center shadow-sm">
+                  <Warehouse className="w-5 h-5 text-white dark:text-[#1B262C]" />
                 </div>
-                <span className="font-mono text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500 text-slate-950 uppercase tracking-wide">
+                <span className="font-mono text-[10px] font-bold px-2.5 py-1 rounded bg-[#112D4E] dark:bg-[#BBE1FA] text-white dark:text-[#1B262C] uppercase tracking-wide">
                   Active Filter
                 </span>
               </div>
-              <h3 className="font-mono font-bold text-base text-white">
+              <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA]">
                 {currentActiveVehicle ? currentActiveVehicle.nickname || currentActiveVehicle.model : "No Active Vehicle"}
               </h3>
-              <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
+              <p className="text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 mt-1.5 leading-relaxed font-medium">
                 {currentActiveVehicle 
                   ? `Currently filtering catalog for ${currentActiveVehicle.year} ${currentActiveVehicle.make} ${currentActiveVehicle.model} (${currentActiveVehicle.trim}).`
                   : "Save your vehicle make, model, and engine trim to automatically verify part compatibility across the store."}
               </p>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-emerald-500/30 flex items-center justify-between">
+            <div className="mt-5 pt-3 border-t border-[#3F72AF]/30 dark:border-[#3282B8]/30 flex items-center justify-between">
               <Link
                 href="/garage"
-                className="text-xs font-mono font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1"
+                className="text-xs font-mono font-bold text-[#3F72AF] dark:text-[#3282B8] hover:underline flex items-center gap-1"
               >
                 Manage My Garage & VINs &rarr;
               </Link>
@@ -238,16 +238,16 @@ export default function HomePage() {
       </section>
 
       {/* 4. Fitment-Verified Recommendations Grid */}
-      <section className="max-w-7xl mx-auto px-4 py-16 w-full border-t border-slate-850">
+      <section className="max-w-7xl mx-auto px-4 py-16 w-full border-t border-[#DBE2EF] dark:border-[#0F4C75]">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
-            <span className="font-mono text-xs uppercase text-emerald-400 font-bold tracking-widest block mb-1">
+            <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-widest block mb-1">
               • Personalized Fitment Audit
             </span>
-            <h2 className="text-2xl sm:text-3xl font-mono font-black text-white uppercase tracking-tight flex items-center gap-2">
+            <h2 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight flex items-center gap-2 flex-wrap">
               <span>Verified Parts & Performance Drops</span>
               {currentActiveVehicle && (
-                <span className="text-sm font-normal text-slate-400 bg-slate-900 px-3 py-1 rounded-full border border-slate-800">
+                <span className="text-sm font-normal text-[#112D4E] dark:text-[#BBE1FA] bg-[#DBE2EF] dark:bg-[#0F4C75] px-3 py-1 rounded-full border border-[#3F72AF]/30 dark:border-[#3282B8]/30">
                   For {currentActiveVehicle.year} {currentActiveVehicle.model}
                 </span>
               )}
@@ -255,7 +255,7 @@ export default function HomePage() {
           </div>
           <Link
             href="/catalog"
-            className="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 text-xs font-mono font-semibold transition-colors shrink-0"
+            className="px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] text-xs font-mono font-bold transition-colors shrink-0 shadow-sm"
           >
             View All 10,000+ Parts &rarr;
           </Link>
@@ -267,10 +267,10 @@ export default function HomePage() {
             return (
               <div
                 key={part.id}
-                className="group flex flex-col justify-between rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 overflow-hidden shadow-lg transition-all hover:shadow-xl hover:-translate-y-0.5"
+                className="group flex flex-col justify-between rounded-2xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF] dark:hover:border-[#3282B8] overflow-hidden shadow-md transition-all hover:shadow-xl hover:-translate-y-0.5"
               >
                 {/* Top Image & Fitment Badge */}
-                <div className="relative aspect-[16/10] bg-slate-950 overflow-hidden border-b border-slate-800/80">
+                <div className="relative aspect-[16/10] bg-[#F9F7F7] dark:bg-[#1B262C] overflow-hidden border-b border-[#DBE2EF] dark:border-[#0F4C75]">
                   <img
                     src={part.images[0]?.imageUrl}
                     alt={part.title}
@@ -280,13 +280,13 @@ export default function HomePage() {
                     <FitmentBadge status={fitStatus} size="sm" />
                   </div>
                   <div className="absolute top-2.5 right-2.5 z-10">
-                    <span className="px-2 py-0.5 rounded bg-slate-950/90 backdrop-blur-md text-[10px] font-mono font-bold text-slate-300 border border-slate-800">
+                    <span className="px-2 py-0.5 rounded bg-[#F9F7F7]/90 dark:bg-[#1B262C]/90 backdrop-blur-md text-[10px] font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75]">
                       {part.brand}
                     </span>
                   </div>
                   {part.images.some((i) => i.isExplodedDiagram) && (
                     <div className="absolute bottom-2.5 right-2.5 z-10">
-                      <span className="px-2 py-0.5 rounded bg-sky-950/90 text-sky-300 border border-sky-500/50 text-[10px] font-mono flex items-center gap-1 shadow-sm">
+                      <span className="px-2 py-0.5 rounded bg-[#3F72AF] text-white text-[10px] font-mono flex items-center gap-1 shadow-sm font-bold">
                         📐 Exploded Diagram
                       </span>
                     </div>
@@ -296,27 +296,27 @@ export default function HomePage() {
                 {/* Content */}
                 <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 mb-1">
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] mb-1 font-semibold">
                       <span>OEM: {part.oemPartNumber}</span>
-                      <span className="text-emerald-400">{part.warehouseBin}</span>
+                      <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold">{part.warehouseBin}</span>
                     </div>
                     <Link
                       href={`/parts/${part.oemPartNumber}`}
-                      className="font-semibold text-sm text-slate-200 group-hover:text-emerald-300 transition-colors line-clamp-2 leading-snug"
+                      className="font-bold text-sm text-[#112D4E] dark:text-[#BBE1FA] group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors line-clamp-2 leading-snug"
                     >
                       {part.title}
                     </Link>
                   </div>
 
                   {/* Price & Action */}
-                  <div className="pt-3 border-t border-slate-800 flex items-center justify-between">
+                  <div className="pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between">
                     <div>
-                      <span className="block text-[10px] font-mono text-slate-500 uppercase">Price (Inc VAT)</span>
-                      <span className="font-mono font-bold text-base text-white">{formatTHB(part.price)}</span>
+                      <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">Price (Inc VAT)</span>
+                      <span className="font-mono font-bold text-base text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(part.price)}</span>
                     </div>
                     <Link
                       href={`/parts/${part.oemPartNumber}`}
-                      className="px-3 py-1.5 rounded bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-200 font-mono font-semibold text-xs transition-all border border-slate-700 hover:border-emerald-400"
+                      className="px-3 py-1.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs transition-all shadow-sm"
                     >
                       Inspect Spec
                     </Link>
@@ -329,34 +329,34 @@ export default function HomePage() {
       </section>
 
       {/* 5. Industrial Feature Banner */}
-      <section className="bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 border-t border-slate-800 py-16 px-4">
+      <section className="bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border-t border-[#DBE2EF] dark:border-[#0F4C75] py-16 px-4 transition-colors duration-200">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center sm:text-left">
-          <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
-            <div className="w-10 h-10 rounded-lg bg-emerald-950 border border-emerald-500/50 flex items-center justify-center mb-3">
-              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+          <div className="p-6 rounded-2xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] space-y-2 shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center mb-3 mx-auto sm:mx-0">
+              <ShieldCheck className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
-            <h3 className="font-mono font-bold text-base text-white uppercase">Guaranteed Fitment Or Money Back</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">Guaranteed Fitment Or Money Back</h3>
+            <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed font-medium">
               If our compatibility engine indicates `[ ✅ Fits Your Vehicle ]` and the part does not mount cleanly to your factory points, we provide 100% full refund plus return pickup.
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
-            <div className="w-10 h-10 rounded-lg bg-sky-950 border border-sky-500/50 flex items-center justify-center mb-3">
-              <Warehouse className="w-5 h-5 text-sky-400" />
+          <div className="p-6 rounded-2xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] space-y-2 shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center mb-3 mx-auto sm:mx-0">
+              <Warehouse className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
-            <h3 className="font-mono font-bold text-base text-white uppercase">2-Hour Warehouse Hub Pickup</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">2-Hour Warehouse Hub Pickup</h3>
+            <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed font-medium">
               Need parts immediately before a track weekend? Order online, select In-Store Pickup, and collect right from our Bangna or Laksi warehouse bins within 120 minutes.
             </p>
           </div>
 
-          <div className="p-6 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
-            <div className="w-10 h-10 rounded-lg bg-amber-950 border border-amber-500/50 flex items-center justify-center mb-3">
-              <Zap className="w-5 h-5 text-amber-400" />
+          <div className="p-6 rounded-2xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] space-y-2 shadow-sm">
+            <div className="w-10 h-10 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center mb-3 mx-auto sm:mx-0">
+              <Zap className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
-            <h3 className="font-mono font-bold text-base text-white uppercase">AI Slip & PromptPay Verification</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">AI Slip & PromptPay Verification</h3>
+            <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed font-medium">
               Scan our exact-satang dynamic PromptPay QR code and upload your transfer slip. Our automated OCR system verifies transaction timestamps and releases orders to warehouse pickers in seconds.
             </p>
           </div>

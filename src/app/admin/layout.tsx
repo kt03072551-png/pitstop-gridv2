@@ -22,8 +22,8 @@ export default function AdminLayout({
   // Still hydrating — show loading
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="font-mono text-amber-400 text-sm animate-pulse flex items-center gap-2">
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex items-center justify-center">
+        <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
           <Loader2 className="w-4 h-4 animate-spin" />
           Verifying Admin Credentials...
         </div>
@@ -34,24 +34,24 @@ export default function AdminLayout({
   // Not logged in at all
   if (!isAuthenticated || !user) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-slate-800 shadow-2xl overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-amber-500/60 via-rose-500/40 to-amber-500/60" />
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex items-center justify-center px-4 transition-colors duration-200">
+        <div className="max-w-md w-full bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/80 backdrop-blur-xl rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] shadow-2xl overflow-hidden">
+          <div className="h-1.5 w-full bg-gradient-to-r from-amber-500 via-[#3F72AF] to-amber-500" />
           <div className="p-8 text-center space-y-5">
-            <div className="w-16 h-16 rounded-2xl bg-amber-950/80 border border-amber-500/50 flex items-center justify-center mx-auto">
-              <ShieldAlert className="w-8 h-8 text-amber-400" />
+            <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500 flex items-center justify-center mx-auto shadow-sm">
+              <ShieldAlert className="w-8 h-8 text-amber-500" />
             </div>
             <div>
-              <h1 className="text-xl font-mono font-black text-white uppercase tracking-tight">
+              <h1 className="text-xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
                 Authentication Required
               </h1>
-              <p className="text-sm text-slate-400 mt-2">
+              <p className="text-sm text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">
                 You must sign in to access the Seller & Warehouse Operations Portal.
               </p>
             </div>
             <Link
               href="/login"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-400 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider hover:from-amber-400 hover:to-amber-300 transition-all shadow-lg shadow-amber-500/20 active:scale-[0.98]"
+              className="inline-flex items-center justify-center min-h-[46px] gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#112D4E] via-[#3F72AF] to-[#112D4E] dark:from-[#BBE1FA] dark:via-[#3282B8] dark:to-[#BBE1FA] text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider hover:opacity-95 transition-all shadow-md active:scale-[0.98]"
             >
               <LogIn className="w-4 h-4" />
               Sign In to Continue
@@ -65,18 +65,18 @@ export default function AdminLayout({
   // Logged in but NOT an admin or seller — access denied
   if (user.role !== "ADMIN" && user.role !== "SELLER") {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-rose-500/40 shadow-2xl overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-rose-500 via-rose-400 to-rose-500" />
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex items-center justify-center px-4 transition-colors duration-200">
+        <div className="max-w-md w-full bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/80 backdrop-blur-xl rounded-2xl border border-rose-500/60 shadow-2xl overflow-hidden">
+          <div className="h-1.5 w-full bg-gradient-to-r from-rose-500 via-rose-400 to-rose-500" />
           <div className="p-8 text-center space-y-5">
-            <div className="w-16 h-16 rounded-2xl bg-rose-950/80 border border-rose-500/50 flex items-center justify-center mx-auto">
-              <ShieldAlert className="w-8 h-8 text-rose-400" />
+            <div className="w-16 h-16 rounded-2xl bg-rose-500/10 border border-rose-500 flex items-center justify-center mx-auto shadow-sm">
+              <ShieldAlert className="w-8 h-8 text-rose-600 dark:text-rose-400" />
             </div>
             <div>
-              <h1 className="text-xl font-mono font-black text-white uppercase tracking-tight">
+              <h1 className="text-xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
                 Access Denied
               </h1>
-              <p className="text-sm text-slate-400 mt-2">
+              <p className="text-sm text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">
                 This area is restricted to Admin and Seller accounts only.
                 Customer accounts can browse the catalog, manage their garage, and place orders from the storefront.
               </p>
@@ -84,13 +84,13 @@ export default function AdminLayout({
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
                 href="/"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-slate-200 font-mono font-bold text-xs uppercase tracking-wider hover:bg-slate-700 transition-all"
+                className="inline-flex items-center justify-center min-h-[44px] gap-2 px-5 py-2.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold text-xs uppercase tracking-wider hover:opacity-80 transition-all shadow-sm"
               >
                 ← Back to Store
               </Link>
               <Link
                 href="/catalog"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider hover:from-emerald-400 hover:to-emerald-300 transition-all shadow-lg shadow-emerald-500/20"
+                className="inline-flex items-center justify-center min-h-[44px] gap-2 px-5 py-2.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md"
               >
                 Browse Parts Catalog →
               </Link>
