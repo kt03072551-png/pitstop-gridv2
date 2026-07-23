@@ -16,11 +16,13 @@ import {
   Hash
 } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
+import { useTranslation } from "@/lib/i18n/translations";
 import { MOCK_VEHICLE_MAKES, MOCK_VEHICLE_MODELS, MOCK_VEHICLE_TRIMS } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
 export default function GaragePage() {
   const { savedVehicles, activeVehicle, setActiveVehicle, setDefaultVehicle, addVehicle, removeVehicle } = useVehicleStore();
+  const { t } = useTranslation();
 
   const [isAdding, setIsAdding] = useState(false);
   const [make, setMake] = useState("");
@@ -91,8 +93,11 @@ export default function GaragePage() {
                 • Personal Vehicle Master
               </span>
               <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight mt-0.5">
-                Customer Garage & Fitment Profiles
+                {t.garage.title}
               </h1>
+              <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] mt-0.5 font-medium">
+                {t.garage.subtitle}
+              </p>
             </div>
           </div>
 
@@ -101,7 +106,7 @@ export default function GaragePage() {
             className="min-h-[44px] px-6 py-3 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shrink-0"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
-            <span>Add New Vehicle Profile</span>
+            <span>{t.garage.addVehicle}</span>
           </button>
         </div>
 
@@ -258,7 +263,7 @@ export default function GaragePage() {
 
                     {isActive ? (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] text-xs font-mono font-bold shadow-sm">
-                        <CheckCircle2 className="w-3.5 h-3.5" /> Active Filter
+                        <CheckCircle2 className="w-3.5 h-3.5" /> {t.garage.activeBadge}
                       </span>
                     ) : (
                       <button
@@ -268,7 +273,7 @@ export default function GaragePage() {
                         }}
                         className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold text-xs transition-colors border border-[#DBE2EF] dark:border-[#0F4C75]"
                       >
-                        Set Active
+                        {t.garage.activateBtn}
                       </button>
                     )}
                   </div>

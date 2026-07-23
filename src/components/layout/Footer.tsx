@@ -1,8 +1,13 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Wrench, ShieldCheck, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
+import { useTranslation } from "@/lib/i18n/translations";
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="w-full bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border-t border-[#3F72AF]/20 dark:border-[#3282B8]/30 text-[#112D4E]/80 dark:text-[#BBE1FA]/80 text-xs transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
@@ -17,18 +22,18 @@ export const Footer: React.FC = () => {
             </span>
           </div>
           <p className="text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed">
-            High-performance automotive parts marketplace with precise OEM fitment matrix verification for motorbikes and cars.
+            {t.footer.aboutText}
           </p>
           <div className="pt-1 flex items-center gap-2 text-[#3F72AF] dark:text-[#3282B8] font-mono text-[11px] font-bold">
             <ShieldCheck className="w-4 h-4" />
-            <span>100% Genuine OEM Guarantee</span>
+            <span>{t.navbar.guarantee}</span>
           </div>
         </div>
 
         {/* Col 2: Quick Links */}
         <div className="space-y-3">
           <h4 className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider">
-            Parts Categories
+            {t.footer.quickLinks}
           </h4>
           <ul className="space-y-2 font-semibold">
             <li><Link href="/catalog?category=Engine" className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] transition-colors">Engine & Drivetrain</Link></li>
@@ -42,7 +47,7 @@ export const Footer: React.FC = () => {
         {/* Col 3: Warehouse & Pickup Hubs */}
         <div className="space-y-3">
           <h4 className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider">
-            Warehouse Hubs (Ready in 2 Hours)
+            {t.footer.warehouseLocations}
           </h4>
           <div className="space-y-2.5">
             <div className="flex items-start gap-2">
@@ -65,7 +70,7 @@ export const Footer: React.FC = () => {
         {/* Col 4: Contact & Portal */}
         <div className="space-y-3">
           <h4 className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider">
-            Customer Support
+            {t.footer.customerSupport}
           </h4>
           <div className="space-y-2 font-medium">
             <p className="flex items-center gap-2 text-[#112D4E] dark:text-[#BBE1FA]">
@@ -82,7 +87,7 @@ export const Footer: React.FC = () => {
               href="/admin/dashboard"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] text-[#3F72AF] dark:text-[#3282B8] hover:border-[#3F72AF] dark:hover:border-[#3282B8] transition-colors font-mono font-bold"
             >
-              <span>Seller/Admin Portal</span>
+              <span>{t.navbar.sellerPortal}</span>
               <ExternalLink className="w-3 h-3" />
             </Link>
           </div>

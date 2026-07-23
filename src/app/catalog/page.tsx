@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { MOCK_PARTS_CATALOG } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";
+import { useTranslation } from "@/lib/i18n/translations";
 import { FitmentBadge } from "@/components/ui/FitmentBadge";
 import { formatTHB, cn } from "@/lib/utils";
 import { PartGrade } from "@/types";
@@ -28,6 +29,7 @@ function CatalogContent() {
   const initialCategory = searchParams.get("category") || "ALL";
 
   const { activeVehicle, checkFitment, setActiveVehicle } = useVehicleStore();
+  const { t, lang } = useTranslation();
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
   const [fitmentFilter, setFitmentFilter] = useState<"ALL" | "FITS_ONLY" | "UNIVERSAL">("ALL");
@@ -106,7 +108,7 @@ function CatalogContent() {
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-20 px-4 flex items-center justify-center">
         <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
           <span className="w-2 h-2 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-ping" />
-          Loading Catalog & Fitment Engine...
+          Loading Catalog & Fitment Matrix...
         </div>
       </div>
     );
@@ -152,7 +154,7 @@ function CatalogContent() {
                 )}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{fitmentFilter === "FITS_ONLY" ? "Filtering Fits Only ✅" : "Filter: Fits My Vehicle Only"}</span>
+                <span>{fitmentFilter === "FITS_ONLY" ? "Filtering Fits Only ✅" : t.catalog.filterFits}</span>
               </button>
             )}
             <Link
@@ -172,7 +174,7 @@ function CatalogContent() {
           >
             <span className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
-              {isMobileFiltersOpen ? "Hide Filters" : "Show Filters & Search"}
+              {isMobileFiltersOpen ? "Hide Filters" : t.catalog.filtersTitle}
             </span>
             <span>{isMobileFiltersOpen ? "▲" : "▼"}</span>
           </button>
@@ -187,7 +189,7 @@ function CatalogContent() {
           )}>
             <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
               <span className="font-mono text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Catalog Filters
+                <SlidersHorizontal className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.catalog.filtersTitle}
               </span>
               {(selectedCategory !== "ALL" || fitmentFilter !== "ALL" || selectedGrades.length > 0 || searchQuery !== "") && (
                 <button
@@ -211,7 +213,7 @@ function CatalogContent() {
                 <Search className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8] absolute left-3 top-3.5" />
                 <input
                   type="text"
-                  placeholder="e.g. 15400-RTA or Spoon..."
+                  placeholder={t.catalog.searchPlaceholder}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl pl-9 pr-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] placeholder:text-[#112D4E]/40 dark:placeholder:text-[#85B5D9]/50 focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors shadow-sm"
@@ -232,7 +234,7 @@ function CatalogContent() {
                       : "border-transparent text-[#112D4E]/80 dark:text-[#BBE1FA]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C]"
                   )}
                 >
-                  <span>Show All Parts</span>
+                  <span>{t.catalog.filterAll}</span>
                   <span className="font-mono text-[10px] bg-[#F9F7F7] dark:bg-[#1B262C] px-1.5 py-0.5 rounded text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75] font-bold">{MOCK_PARTS_CATALOG.length}</span>
                 </button>
                 <button
@@ -248,7 +250,7 @@ function CatalogContent() {
                   )}
                 >
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" /> Fits Active Vehicle
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" /> {t.catalog.filterFits}
                   </span>
                 </button>
                 <button
@@ -261,7 +263,7 @@ function CatalogContent() {
                   )}
                 >
                   <span className="flex items-center gap-1.5">
-                    <Info className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" /> Universal Fit Only
+                    <Info className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" /> {t.catalog.filterUniversal}
                   </span>
                 </button>
               </div>
@@ -282,7 +284,7 @@ function CatalogContent() {
                         : "text-[#112D4E]/80 dark:text-[#BBE1FA]/80 hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C]"
                     )}
                   >
-                    <span>{cat === "ALL" ? "All Categories" : cat}</span>
+                    <span>{cat === "ALL" ? t.home.viewAllCategories : cat}</span>
                   </button>
                 ))}
               </div>
@@ -423,7 +425,7 @@ function CatalogContent() {
                             {part.title}
                           </Link>
                           <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] line-clamp-2 leading-relaxed font-medium">
-                            {part.description}
+                            {lang === "th" && part.descriptionTh ? part.descriptionTh : part.description}
                           </p>
                         </div>
 
@@ -437,7 +439,7 @@ function CatalogContent() {
                             href={`/parts/${part.oemPartNumber}`}
                             className="min-h-[38px] px-3.5 py-1.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs flex items-center justify-center shadow-sm transition-all"
                           >
-                            Inspect Part
+                            {t.catalog.inspectPart}
                           </Link>
                         </div>
                       </div>

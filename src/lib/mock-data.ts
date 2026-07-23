@@ -126,6 +126,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Row 4",
     isUniversalFit: false,
     description: "Direct replacement OEM high-efficiency oil filter designed specifically for Honda K-Series, L-Series, and R-Series engines. Constructed with dual-stage synthetic blend filtration media to trap microscopic carbon debris and engine wear particles while maintaining optimal high-RPM oil pressure under track loads.",
+    descriptionTh: "ไส้กรองน้ำมันเครื่องประสิทธิภาพสูงแท้ OEM ออกแบบมาเพื่อเครื่องยนต์ Honda ซีรีส์ K, ซีรีส์ L และซีรีส์ R โดยเฉพาะ ผลิตด้วยสื่อกรองใยสังเคราะห์สองชั้นเพื่อดักจับเศษคาร์บอนขนาดเล็กและอนุภาคการสึกหรอของเครื่องยนต์ ในขณะที่ยังคงรักษาแรงดันน้ำมันเครื่องที่รอบสูงให้เหมาะสมที่สุดภายใต้การใช้งานหนักในสนามแข่ง",
     specifications: {
       "Thread Size": "M20 x 1.5 mm",
       "Outer Diameter": "68 mm",
@@ -163,9 +164,9 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
         isPrimary: false,
         isExplodedDiagram: true,
         callouts: [
-          { calloutNumber: "#1", label: "Filter Outer Canister Body (Anodized Steel)", subPartSku: "15400-CAN-BODY", xCoord: 45, yCoord: 35, specs: "Heavy gauge stamped steel with burst rating over 300 PSI." },
-          { calloutNumber: "#2", label: "High-Temp Silicone O-Ring Base Gasket", subPartSku: "91302-RTA-001", xCoord: 52, yCoord: 68, specs: "Pre-greased fluoro-elastomer sealing ring. Torque to 14 Nm." },
-          { calloutNumber: "#3", label: "Internal Spring-Loaded Bypass Valve", subPartSku: "15400-BYPASS-VLV", xCoord: 38, yCoord: 52, specs: "Precision calibrated relief spring preventing oil starvation during cold morning starts." },
+          { calloutNumber: "#1", label: "Filter Outer Canister Body (Anodized Steel)", labelTh: "กระบอกกรองภายนอก (เหล็กเคลือบอโนไดซ์)", subPartSku: "15400-CAN-BODY", xCoord: 45, yCoord: 35, specs: "Heavy gauge stamped steel with burst rating over 300 PSI.", specsTh: "เหล็กปั๊มขึ้นรูปความหนาสูง ทนแรงดันจุดระเบิดได้มากกว่า 300 PSI" },
+          { calloutNumber: "#2", label: "High-Temp Silicone O-Ring Base Gasket", labelTh: "ปะเก็นยางโอริงซิลิโคนทนความร้อนสูง", subPartSku: "91302-RTA-001", xCoord: 52, yCoord: 68, specs: "Pre-greased fluoro-elastomer sealing ring. Torque to 14 Nm.", specsTh: "แหวนซีลฟลูออโรอีลาสโตเมอร์เคลือบจาระบีล่วงหน้า ขันด้วยแรงบิด 14 นิวตันเมตร" },
+          { calloutNumber: "#3", label: "Internal Spring-Loaded Bypass Valve", labelTh: "วาล์วระบายบายพาสแบบสปริงภายใน", subPartSku: "15400-BYPASS-VLV", xCoord: 38, yCoord: 52, specs: "Precision calibrated relief spring preventing oil starvation during cold morning starts.", specsTh: "สปริงระบายที่ปรับเทียบอย่างแม่นยำ ป้องกันภาวะขาดน้ำมันเครื่องระหว่างการสตาร์ทเครื่องยนต์ในตอนเช้าที่อากาศเย็น" },
         ],
       },
     ],
@@ -185,6 +186,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Row 1",
     isUniversalFit: true,
     description: "Motul 300V Power 5W-30 formulation using 100% Synthetic ESTER Core® Technology. Formulated exclusively for high-output turbocharged track builds and endurance racing. Delivers significant reduction in internal friction for up to +7.2 HP gain across the powerband while maintaining shear resistance at extreme oil temperatures over 140°C.",
+    descriptionTh: "สูตร Motul 300V Power 5W-30 โดยใช้เทคโนโลยี Synthetic ESTER Core® 100% คิดค้นขึ้นมาโดยเฉพาะสำหรับรถแข่งเทอร์โบกำลังสูงและการแข่งรถแบบเอนดูแรนซ์ ช่วยลดแรงเสียดทานภายในได้อย่างมีนัยสำคัญเพื่อเพิ่มกำลังม้าได้สูงสุดถึง +7.2 HP ทั่วทั้งช่วงกำลัง ในขณะที่ยังคงทนทานต่อการตัดเฉือนที่อุณหภูมิน้ำมันสุดขั้วสูงกว่า 140°C",
     specifications: {
       "Viscosity Grade": "SAE 5W-30",
       "Base Oil Technology": "100% Synthetic ESTER Core®",
@@ -223,6 +225,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Aisle 8 (High-Value Locker)",
     isUniversalFit: false,
     description: "Authentic Spoon Sports Japan aerospace-grade autoclave dry carbon fiber hood designed specifically for the 11th-Gen Honda Civic Type R (FL5). Features dual NACA intake ducts directly feeding the factory airbox and massive central extraction louvers that lower under-hood engine temperatures by up to -18°C during high-speed hot laps.",
+    descriptionTh: "ฝากระโปรงคาร์บอนไฟเบอร์เกรดอากาศยานแท้จาก Spoon Sports ประเทศญี่ปุ่น ออกแบบเฉพาะสำหรับ Honda Civic Type R (FL5) รุ่นที่ 11 โดดเด่นด้วยท่อดักอากาศ NACA คู่ที่ส่งอากาศเข้าสู่กล่องอากาศโรงงานโดยตรง และช่องระบายอากาศขนาดใหญ่ตรงกลางที่ช่วยลดอุณหภูมิเครื่องยนต์ใต้ฝากระโปรงลงสูงสุดถึง -18°C ระหว่างการขับขี่รอบความเร็วสูง",
     specifications: {
       "Material Composition": "Pre-preg 3K Twill Dry Carbon Fiber (Autoclave Cured)",
       "Finish": "Gloss UV-Resistant Polyurethane Clear Coat",
@@ -248,9 +251,9 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
         isPrimary: false,
         isExplodedDiagram: true,
         callouts: [
-          { calloutNumber: "#1", label: "NACA Air Box Duct Channel", subPartSku: "SPN-DUCT-FL5", xCoord: 30, yCoord: 40, specs: "High velocity cold air ramp funneling cold ambient air straight to K20C1 intake filter." },
-          { calloutNumber: "#2", label: "Central Heat Extraction Louvers", subPartSku: "SPN-LOUV-FL5", xCoord: 50, yCoord: 48, specs: "Aerodynamically shaped low-pressure zone vents drawing hot air off the turbo downpipe." },
-          { calloutNumber: "#3", label: "OEM Latch Reinforcement Carbon Plate", subPartSku: "SPN-LATCH-PLT", xCoord: 50, yCoord: 85, specs: "Triple-reinforced structural carbon core ensuring safety at speeds exceeding 270 km/h." },
+          { calloutNumber: "#1", label: "NACA Air Box Duct Channel", labelTh: "ช่องดักอากาศ NACA Air Box", subPartSku: "SPN-DUCT-FL5", xCoord: 30, yCoord: 40, specs: "High velocity cold air ramp funneling cold ambient air straight to K20C1 intake filter.", specsTh: "ช่องนำอากาศเย็นความเร็วสูงเพื่อส่งอากาศเย็นรอบนอกตรงเข้าสู่กรองอากาศ K20C1" },
+          { calloutNumber: "#2", label: "Central Heat Extraction Louvers", labelTh: "ช่องระบายความร้อนตรงกลาง", subPartSku: "SPN-LOUV-FL5", xCoord: 50, yCoord: 48, specs: "Aerodynamically shaped low-pressure zone vents drawing hot air off the turbo downpipe.", specsTh: "ช่องระบายอากาศโซนแรงดันต่ำที่มีรูปทรงตามหลักอากาศพลศาสตร์ ช่วยดึงลมร้อนออกจากท่อลดเทอร์โบ" },
+          { calloutNumber: "#3", label: "OEM Latch Reinforcement Carbon Plate", labelTh: "แผ่นคาร์บอนเสริมความแข็งแรงสำหรับตัวล็อก OEM", subPartSku: "SPN-LATCH-PLT", xCoord: 50, yCoord: 85, specs: "Triple-reinforced structural carbon core ensuring safety at speeds exceeding 270 km/h.", specsTh: "แกนคาร์บอนโครงสร้างเสริมแรงสามชั้นเพื่อความปลอดภัยที่ความเร็วสูงกว่า 270 กม./ชม." },
         ],
       },
     ],
@@ -270,6 +273,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Row 3",
     isUniversalFit: false,
     description: "The ultimate track brake upgrade for the FL5 and FK8 Civic Type R. Brembo GT series 6-piston forged aluminum monoblock calipers paired with 380mm 2-piece floating slotted directional rotors. Completely eliminates brake fade during intensive 30-minute track sessions while providing razor-sharp pedal modulation.",
+    descriptionTh: "ชุดอัปเกรดเบรกระดับสุดยอดสำหรับ FL5 และ FK8 Civic Type R คาลิปเปอร์อะลูมิเนียมหล่อขึ้นรูป 6 ลูกสูบ Brembo GT ซีรีส์จับคู่กับจานเบรกทิศทางแบบเซาะร่อง 2 ชิ้นขนาด 380 มม. ขจัดปัญหาอาการเบรกเฟดระหว่างการขับขี่ในสนาม 30 นาทีได้อย่างสมบูรณ์ ในขณะที่ยังคงให้สัมผัสแป้นเบรกที่เฉียบคม",
     specifications: {
       "Caliper Construction": "Forged Aluminum Monoblock 6-Piston (Red Anodized with White Logo)",
       "Rotor Dimensions": "380 mm Diameter x 34 mm Thickness (Slotted Type 3 Vane Design)",
@@ -307,6 +311,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Row 5",
     isUniversalFit: false,
     description: "Crafted in Slovenia from proprietary ultra-lightweight titanium alloys, the Akrapovič Evolution Line transforms the FL5 Type R's exhaust tone into an exotic, aggressive symphony. Features triple center exit carbon-fiber tailpipes with integrated active acoustic exhaust valves controlled via OEM drive mode switch.",
+    descriptionTh: "สร้างสรรค์ขึ้นในสโลวีเนียจากโลหะผสมไทเทเนียมน้ำหนักเบาพิเศษสิทธิบัตรเฉพาะ Akrapovič Evolution Line เปลี่ยนเสียงท่อไอเสียของ FL5 Type R ให้เป็นซิมโฟนีที่ดุดันและแปลกใหม่ มาพร้อมปลายท่อคาร์บอนไฟเบอร์ออกกลางสามท่อและวาล์วเสียงท่อไอเสียแบบแอคทีฟที่ควบคุมผ่านสวิตช์โหมดการขับขี่ OEM",
     specifications: {
       "Material": "100% High-Grade Titanium (Exhaust Piping & Muffler Shells)",
       "Tailpipes": "Triple Center Exit Handcrafted Matte Dry Carbon Outer Sleeves",
@@ -343,6 +348,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Row 2",
     isUniversalFit: false,
     description: "Original Yamaha Genuine Parts (YGP) pleated paper cartridge oil filter designed for Yamaha 155cc VVA engines including YZF-R15 V3/V4, MT-15, XSR155, and Aerox 155. Ensures 100% factory flow rates and protects precision VVA variable valve actuators.",
+    descriptionTh: "ไส้กรองน้ำมันเครื่องกระดาษจีบแท้ Yamaha (YGP) ออกแบบมาสำหรับเครื่องยนต์ Yamaha 155cc VVA ได้แก่ YZF-R15 V3/V4, MT-15, XSR155 และ Aerox 155 รับประกันอัตราการไหล 100% จากโรงงานและปกป้องระบบวาล์วแปรผัน VVA ที่แม่นยำ",
     specifications: {
       "Filter Element Type": "Pleated Cellulose Fiber Cartridge",
       "Height": "38 mm",
@@ -380,6 +386,7 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
     warehouseAisle: "Row 4",
     isUniversalFit: false,
     description: "Official Toyota Genuine Parts spin-on oil filter engineered specifically for high-torque 2.8L 1GD-FTV and 2.4L 2GD-FTV common-rail turbo diesel engines found in Toyota Hilux Revo and Fortuner models.",
+    descriptionTh: "ไส้กรองน้ำมันเครื่องแบบสปินออนแท้จาก Toyota ออกแบบมาเป็นพิเศษสำหรับเครื่องยนต์ดีเซลเทอร์โบคอมมอนเรลแรงบิดสูง 2.8L 1GD-FTV และ 2.4L 2GD-FTV ที่พบในรุ่น Toyota Hilux Revo และ Fortuner",
     specifications: {
       "Thread": "3/4-16 UNF",
       "Outer Diameter": "74 mm",

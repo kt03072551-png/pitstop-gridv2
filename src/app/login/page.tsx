@@ -20,12 +20,14 @@ import {
   Zap,
 } from "lucide-react";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useTranslation } from "@/lib/i18n/translations";
 import { cn } from "@/lib/utils";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, isLoading, error, clearError, isAuthenticated, user } =
     useAuthStore();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -174,11 +176,10 @@ export default function LoginPage() {
                 <span>SECURE AUTHENTICATION GATEWAY</span>
               </div>
               <h1 className="text-2xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-                Sign In to Your Account
+                {t.login.title}
               </h1>
               <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] mt-1.5 font-medium">
-                Access fitment verification, order tracking & warehouse
-                operations
+                {t.login.subtitle}
               </p>
             </div>
 
@@ -223,7 +224,7 @@ export default function LoginPage() {
                 {/* Email Field */}
                 <div>
                   <label className="block text-[11px] font-mono uppercase font-bold text-[#112D4E]/80 dark:text-[#85B5D9] mb-1.5 tracking-wider">
-                    Email Address
+                    {t.login.emailLabel}
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#112D4E]/50 dark:text-[#85B5D9]" />
@@ -250,7 +251,7 @@ export default function LoginPage() {
                 {/* Password Field */}
                 <div>
                   <label className="block text-[11px] font-mono uppercase font-bold text-[#112D4E]/80 dark:text-[#85B5D9] mb-1.5 tracking-wider">
-                    Password
+                    {t.login.passwordLabel}
                   </label>
                   <div className="relative">
                     <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#112D4E]/50 dark:text-[#85B5D9]" />
@@ -299,12 +300,12 @@ export default function LoginPage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Authenticating...</span>
+                      <span>{t.login.signingIn}</span>
                     </>
                   ) : (
                     <>
                       <LogIn className="w-4 h-4" />
-                      <span>Sign In Securely</span>
+                      <span>{t.login.signInBtn}</span>
                     </>
                   )}
                 </button>
@@ -318,7 +319,7 @@ export default function LoginPage() {
           <div className="flex items-center gap-2 mb-1">
             <Sparkles className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
             <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#112D4E] dark:text-[#BBE1FA]">
-              Quick Demo Access
+              {t.login.demoSectionTitle}
             </span>
           </div>
           <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] -mt-2 font-medium">
@@ -339,7 +340,7 @@ export default function LoginPage() {
                   <Crown className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
                 </div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#112D4E] dark:text-white bg-[#3F72AF]/10 px-2 py-0.5 rounded border border-[#3F72AF]/30">
-                  Admin
+                  {t.login.adminDemoTitle}
                 </span>
               </div>
               <div>
@@ -347,7 +348,7 @@ export default function LoginPage() {
                   admin@pitstopgrid.co.th
                 </p>
                 <p className="text-[10px] text-[#112D4E]/60 dark:text-[#85B5D9] font-mono mt-0.5">
-                  Warehouse Controller
+                  {t.navbar.roleAdmin}
                 </p>
               </div>
               <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">
@@ -370,7 +371,7 @@ export default function LoginPage() {
                   <UserCircle className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
                 </div>
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#112D4E] dark:text-white bg-[#3F72AF]/10 px-2 py-0.5 rounded border border-[#3F72AF]/30">
-                  Customer
+                  {t.login.customerDemoTitle}
                 </span>
               </div>
               <div>
@@ -378,7 +379,7 @@ export default function LoginPage() {
                   somchai@gmail.com
                 </p>
                 <p className="text-[10px] text-[#112D4E]/60 dark:text-[#85B5D9] font-mono mt-0.5">
-                  Somchai Kiatikun
+                  {t.navbar.roleCustomer}
                 </p>
               </div>
               <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">

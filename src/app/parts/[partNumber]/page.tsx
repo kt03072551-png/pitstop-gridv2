@@ -26,8 +26,10 @@ import { useCartStore } from "@/store/useCartStore";
 import { FitmentBadge } from "@/components/ui/FitmentBadge";
 import { formatTHB, cn } from "@/lib/utils";
 import { ExplodedCallout, PartImage } from "@/types";
+import { useTranslation } from "@/lib/i18n/translations";
 
 export default function ProductDetailPage() {
+  const { t, lang } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const partNumberParam = decodeURIComponent(params?.partNumber as string || "");
@@ -151,7 +153,7 @@ export default function ProductDetailPage() {
               <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-xs font-bold text-[#3F72AF] dark:text-[#3282B8] uppercase tracking-wider flex items-center gap-1.5">
-                    <ZoomIn className="w-4 h-4" /> Technical Gallery & Interactive Schematics
+                    <ZoomIn className="w-4 h-4" /> {t.partDetail.techGalleryTitle}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 font-mono text-xs text-[#112D4E]/70 dark:text-[#85B5D9]">
@@ -160,7 +162,7 @@ export default function ProductDetailPage() {
                     "px-2.5 py-1 rounded-lg font-bold uppercase",
                     selectedImage.isExplodedDiagram ? "bg-[#3F72AF] text-white dark:text-[#1B262C]" : "bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75]"
                   )}>
-                    {selectedImage.isExplodedDiagram ? "Exploded Diagram Blueprint 📐" : "High-Res Photo 📸"}
+                    {selectedImage.isExplodedDiagram ? `${t.partDetail.calloutDiagram} 📐` : "High-Res Photo 📸"}
                   </span>
                 </div>
               </div>
@@ -200,16 +202,18 @@ export default function ProductDetailPage() {
                   <div className="absolute top-4 left-4 z-30 max-w-sm p-4 rounded-xl bg-[#112D4E]/95 dark:bg-[#1B262C]/95 backdrop-blur-md border border-[#3F72AF] shadow-2xl space-y-2 animate-in fade-in zoom-in-95 duration-200 pointer-events-none">
                     <div className="flex items-center justify-between border-b border-[#3F72AF]/40 pb-2">
                       <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] uppercase">
-                        Callout Pin {activeCallout.calloutNumber}
+                        {t.partDetail.calloutPin} {activeCallout.calloutNumber}
                       </span>
                       {activeCallout.subPartSku && (
                         <span className="font-mono text-xs text-[#BBE1FA]">SKU: {activeCallout.subPartSku}</span>
                       )}
                     </div>
-                    <h4 className="font-bold text-sm text-white">{activeCallout.label}</h4>
+                    <h4 className="font-bold text-sm text-white">
+                      {lang === "th" && activeCallout.labelTh ? activeCallout.labelTh : activeCallout.label}
+                    </h4>
                     {activeCallout.specs && (
                       <p className="text-xs font-mono text-[#BBE1FA] leading-relaxed bg-black/40 p-2.5 rounded border border-[#3F72AF]/30">
-                        ⚙️ {activeCallout.specs}
+                        ⚙️ {lang === "th" && activeCallout.specsTh ? activeCallout.specsTh : activeCallout.specs}
                       </p>
                     )}
                   </div>
@@ -246,7 +250,7 @@ export default function ProductDetailPage() {
             {/* Part Specifications Table */}
             <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-md space-y-4">
               <h3 className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider flex items-center gap-2 border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
-                <Sparkles className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Technical Specifications Table
+                <Sparkles className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.partDetail.techSpecsTitle}
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -314,16 +318,20 @@ export default function ProductDetailPage() {
               {isAccordionOpen && (
                 <div className="p-5 border-t border-[#DBE2EF] dark:border-[#0F4C75] bg-[#F9F7F7] dark:bg-[#1B262C] space-y-3">
                   <p className="text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 font-medium">
-                    This part SKU has been verified by factory service documentation to mount directly onto the following models without drilling or modification:
+                    {t.partDetail.fitmentDescription}
                   </p>
                   <ul className="space-y-2 font-mono text-xs text-[#112D4E] dark:text-[#BBE1FA]">
                     {part.compatibilityList.map((item, idx) => (
                       <li key={idx} className="p-3 rounded-xl bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between font-semibold">
-                        <span className="flex items-center gap-2">
-                          <Check className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8] shrink-0" />
-                          <span>{item}</span>
-                        </span>
-                        <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold text-[11px]">Direct Bolt-On</span>
+                        <div className="flex items-center gap-2.5">
+                          <div className="w-8 h-8 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] flex items-center justify-center shadow-sm">
+                            <ShieldCheck className="w-4 h-4" />
+                          </div>
+                          <span className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wide">
+                            {t.partDetail.fitmentAuditTitle}
+                          </span>
+                        </div>
+                        <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold text-[11px]">{t.partDetail.directBoltOn}</span>
                       </li>
                     ))}
                   </ul>
@@ -341,18 +349,21 @@ export default function ProductDetailPage() {
                   {part.brand}
                 </span>
                 <h1 className="text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] leading-snug">{part.title}</h1>
-                <p className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">OEM Reference: <strong className="text-[#112D4E] dark:text-white font-bold">{part.oemPartNumber}</strong></p>
+                <p className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">{t.partDetail.oemRef}: <strong className="text-[#112D4E] dark:text-white font-bold">{part.oemPartNumber}</strong></p>
+                <p className="text-sm text-[#112D4E]/80 dark:text-[#BBE1FA]/80 mt-4 leading-relaxed font-medium">
+                  {lang === "th" && part.descriptionTh ? part.descriptionTh : part.description}
+                </p>
               </div>
 
               {/* Price & Stock */}
               <div className="p-4 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between shadow-sm">
                 <div>
-                  <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">Total Price (Inc 7% VAT)</span>
+                  <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.totalPrice}</span>
                   <span className="font-mono font-black text-3xl text-[#3F72AF] dark:text-[#3282B8] tracking-tight">{formatTHB(part.price)}</span>
                 </div>
                 <div className="text-right">
                   <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#3F72AF] dark:text-[#3282B8] bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/80 px-2.5 py-1 rounded-lg border border-[#3F72AF]/40">
-                    ✅ In Stock ({part.stockQuantity})
+                    ✅ {t.partDetail.inStock} ({part.stockQuantity})
                   </span>
                   <span className="block text-[11px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 font-semibold">{part.warehouseBin} • {part.warehouseAisle}</span>
                 </div>
@@ -360,7 +371,7 @@ export default function ProductDetailPage() {
 
               {/* Fulfillment Selectors */}
               <div className="space-y-3">
-                <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Select Fulfillment Method:</label>
+                <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.partDetail.selectFulfillment}:</label>
                 <div className="space-y-2.5">
                   <label
                     onClick={() => setFulfillmentType("EXPRESS_SHIPPING")}
@@ -381,11 +392,11 @@ export default function ProductDetailPage() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA]">
                         <span className="flex items-center gap-1.5">
-                          <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Express Courier Shipping
+                          <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.partDetail.expressShipping}
                         </span>
                         <span className="font-mono text-[#3F72AF] dark:text-[#3282B8]">+฿250.00</span>
                       </div>
-                      <p className="text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] mt-1 font-medium">Dispatched next morning via Kerry/DHL Express (1-2 Days).</p>
+                      <p className="text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] mt-1 font-medium">{t.partDetail.expressShippingDesc}</p>
                     </div>
                   </label>
 
@@ -408,11 +419,11 @@ export default function ProductDetailPage() {
                     <div className="flex-1">
                       <div className="flex items-center justify-between text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA]">
                         <span className="flex items-center gap-1.5">
-                          <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> In-Store / Warehouse Hub Pickup
+                          <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.partDetail.inStorePickup}
                         </span>
-                        <span className="font-mono text-[#3F72AF] dark:text-[#3282B8] font-bold">FREE (฿0.00)</span>
+                        <span className="font-mono text-[#3F72AF] dark:text-[#3282B8] font-bold">{t.partDetail.free}</span>
                       </div>
-                      <p className="text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] mt-1 font-medium">Ready for collection at Bangna Hub within 120 minutes.</p>
+                      <p className="text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] mt-1 font-medium">{t.partDetail.inStorePickupDesc}</p>
                     </div>
                   </label>
                 </div>
@@ -421,7 +432,7 @@ export default function ProductDetailPage() {
               {/* Quantity & CTA Buttons */}
               <div className="space-y-4 pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Quantity:</label>
+                  <label className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.partDetail.quantity}:</label>
                   <div className="flex items-center gap-2 bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl p-1 shadow-inner">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -442,10 +453,10 @@ export default function ProductDetailPage() {
                 <div className="space-y-2.5">
                   <button
                     onClick={() => handleAddToCart(false)}
-                    className="w-full min-h-[46px] py-3.5 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition-all"
+                    className="w-full flex-1 flex items-center justify-center gap-2 min-h-[48px] px-6 py-3.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider shadow-md shadow-[#3F72AF]/25 transition-all active:scale-[0.98]"
                   >
                     <ShoppingCart className="w-4 h-4" />
-                    <span>Add {quantity} to Cart</span>
+                    <span>{t.partDetail.addToCart}</span>
                   </button>
 
                   <button
@@ -453,13 +464,29 @@ export default function ProductDetailPage() {
                     className="w-full min-h-[46px] py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#112D4E] via-[#3F72AF] to-[#112D4E] dark:from-[#BBE1FA] dark:via-[#3282B8] dark:to-[#BBE1FA] text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg hover:opacity-95 active:scale-[0.98] transition-all"
                   >
                     <Sparkles className="w-4 h-4 stroke-[2.5]" />
-                    <span>Instant Checkout with PromptPay QR</span>
+                    <span>{t.partDetail.instantCheckout}</span>
                   </button>
                 </div>
 
                 {isAddedToast && (
                   <div className="p-3.5 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] text-xs font-mono font-bold text-center shadow-md animate-in fade-in duration-200">
-                    ✅ Part added to cart! Fitment verified against your garage.
+                    {t.partDetail.addedToCart}
+                  </div>
+                )}
+                
+                {fitStatus === "UNSELECTED" && (
+                  <div className="py-8 px-4 text-center">
+                    <AlertTriangle className="w-10 h-10 text-[#3F72AF] dark:text-[#3282B8] mx-auto mb-3" />
+                    <h4 className="font-mono font-bold text-sm text-[#112D4E] dark:text-[#BBE1FA] uppercase mb-1">{t.partDetail.vehicleUnselected}</h4>
+                    <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] max-w-xs mx-auto leading-relaxed">
+                      {t.partDetail.fitmentUnknownDesc}
+                    </p>
+                    <Link
+                      href="/garage"
+                      className="inline-flex mt-4 min-h-[38px] px-4 py-2 rounded-xl bg-[#3F72AF] hover:opacity-90 text-white font-mono font-bold text-xs shadow-md transition-all"
+                    >
+                      {t.partDetail.configureGarage}
+                    </Link>
                   </div>
                 )}
               </div>

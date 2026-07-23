@@ -17,13 +17,16 @@ import {
   Eye
 } from "lucide-react";
 import { formatTHB } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 export default function AdminDashboardPage() {
+  const { t } = useTranslation();
+
   const stats = [
-    { title: "Daily Gross Revenue", value: formatTHB(148500), change: "+18.4% vs yesterday", icon: DollarSign, color: "text-emerald-400 bg-emerald-950/80 border-emerald-500/50" },
-    { title: "Pending Slip Audits", value: "3 Orders", change: "Requires Manual/OCR Review", icon: FileText, color: "text-amber-400 bg-amber-950/80 border-amber-500/50" },
-    { title: "Warehouse Hub Fulfillment", value: "14 Picked", change: "2-Hour Express Bin Ready", icon: Warehouse, color: "text-sky-400 bg-sky-950/80 border-sky-500/50" },
-    { title: "Low Stock Bin Alerts", value: "2 SKUs", change: "Re-order threshold reached", icon: AlertTriangle, color: "text-rose-400 bg-rose-950/80 border-rose-500/50" },
+    { title: t.adminDashboard.statDailyRevenue, value: formatTHB(148500), change: "+18.4% vs yesterday", icon: DollarSign, color: "text-emerald-400 bg-emerald-950/80 border-emerald-500/50" },
+    { title: t.adminDashboard.statPendingAudits, value: "3 Orders", change: "Requires Manual/OCR Review", icon: FileText, color: "text-amber-400 bg-amber-950/80 border-amber-500/50" },
+    { title: t.adminDashboard.statWarehousePicked, value: "14 Picked", change: "2-Hour Express Bin Ready", icon: Warehouse, color: "text-sky-400 bg-sky-950/80 border-sky-500/50" },
+    { title: t.adminDashboard.statLowStock, value: "2 SKUs", change: "Re-order threshold reached", icon: AlertTriangle, color: "text-rose-400 bg-rose-950/80 border-rose-500/50" },
   ];
 
   const recentOrders = [
@@ -44,10 +47,10 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
-                • Seller & Warehouse Operations Portal
+                {t.adminDashboard.portalBadge}
               </span>
               <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight mt-0.5">
-                Executive Command Center
+                {t.adminDashboard.commandCenter}
               </h1>
             </div>
           </div>
@@ -57,7 +60,7 @@ export default function AdminDashboardPage() {
               href="/admin/orders"
               className="min-h-[44px] px-6 py-3 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all"
             >
-              <span>Verify Payment Slips ({recentOrders.filter(o => o.status === "VERIFYING_SLIP").length})</span>
+              <span>{t.adminDashboard.verifySlipsBtn} ({recentOrders.filter(o => o.status === "VERIFYING_SLIP").length})</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
             </Link>
           </div>
@@ -88,14 +91,14 @@ export default function AdminDashboardPage() {
         <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-xl space-y-6">
           <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-4">
             <div className="flex items-center gap-2.5">
-              <span className="font-mono text-xs font-bold uppercase text-[#3F72AF] dark:text-[#3282B8]">Live Queue</span>
-              <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA] uppercase">Recent Orders & Slip Verification Feed</h3>
+              <span className="font-mono text-xs font-bold uppercase text-[#3F72AF] dark:text-[#3282B8]">{t.adminDashboard.liveQueueBadge}</span>
+              <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA] uppercase">{t.adminDashboard.recentOrdersTitle}</h3>
             </div>
             <Link
               href="/admin/orders"
               className="min-h-[36px] flex items-center text-xs font-mono text-[#3F72AF] dark:text-[#3282B8] hover:underline gap-1 font-bold"
             >
-              View Full Audit Table &rarr;
+              {t.adminDashboard.viewFullTable}
             </Link>
           </div>
 
@@ -103,13 +106,13 @@ export default function AdminDashboardPage() {
             <table className="w-full text-left font-mono text-xs">
               <thead className="bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E]/80 dark:text-[#85B5D9] border-b border-[#DBE2EF] dark:border-[#0F4C75] uppercase font-bold">
                 <tr>
-                  <th className="p-3">Order ID</th>
-                  <th className="p-3">Customer</th>
-                  <th className="p-3">Total Amount</th>
-                  <th className="p-3">Fulfillment / Bin</th>
-                  <th className="p-3">Status</th>
-                  <th className="p-3">Time</th>
-                  <th className="p-3 text-right">Action</th>
+                  <th className="p-3">{t.adminDashboard.colOrderId}</th>
+                  <th className="p-3">{t.adminDashboard.colCustomer}</th>
+                  <th className="p-3">{t.adminDashboard.colAmount}</th>
+                  <th className="p-3">{t.adminDashboard.colFulfillment}</th>
+                  <th className="p-3">{t.adminDashboard.colStatus}</th>
+                  <th className="p-3">{t.adminDashboard.colTime}</th>
+                  <th className="p-3 text-right">{t.adminDashboard.colAction}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#DBE2EF]/80 dark:divide-[#0F4C75]/80 text-[#112D4E] dark:text-slate-200 font-medium">
@@ -134,7 +137,7 @@ export default function AdminDashboardPage() {
                         href={`/admin/orders?focus=${o.id}`}
                         className="min-h-[36px] px-3.5 py-1.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold border border-[#DBE2EF] dark:border-[#0F4C75] inline-flex items-center justify-center gap-1.5 text-[11px] shadow-sm"
                       >
-                        <Eye className="w-3.5 h-3.5" /> Inspect Slip
+                        <Eye className="w-3.5 h-3.5" /> {t.adminDashboard.inspectSlipBtn}
                       </Link>
                     </td>
                   </tr>

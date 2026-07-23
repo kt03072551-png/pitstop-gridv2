@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ShieldAlert, Loader2, LogIn } from "lucide-react";
 import Link from "next/link";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useTranslation } from "@/lib/i18n/translations";
 
 export default function AdminLayout({
   children,
@@ -13,6 +14,7 @@ export default function AdminLayout({
 }) {
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ export default function AdminLayout({
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex items-center justify-center">
         <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
           <Loader2 className="w-4 h-4 animate-spin" />
-          Verifying Admin Credentials...
+          {t.adminLayout.verifying}
         </div>
       </div>
     );
@@ -43,10 +45,10 @@ export default function AdminLayout({
             </div>
             <div>
               <h1 className="text-xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-                Authentication Required
+                {t.adminLayout.authRequiredTitle}
               </h1>
               <p className="text-sm text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">
-                You must sign in to access the Seller & Warehouse Operations Portal.
+                {t.adminLayout.authRequiredDesc}
               </p>
             </div>
             <Link
@@ -54,7 +56,7 @@ export default function AdminLayout({
               className="inline-flex items-center justify-center min-h-[46px] gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#112D4E] via-[#3F72AF] to-[#112D4E] dark:from-[#BBE1FA] dark:via-[#3282B8] dark:to-[#BBE1FA] text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider hover:opacity-95 transition-all shadow-md active:scale-[0.98]"
             >
               <LogIn className="w-4 h-4" />
-              Sign In to Continue
+              {t.adminLayout.signInBtn}
             </Link>
           </div>
         </div>
@@ -74,11 +76,10 @@ export default function AdminLayout({
             </div>
             <div>
               <h1 className="text-xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-                Access Denied
+                {t.adminLayout.accessDeniedTitle}
               </h1>
               <p className="text-sm text-[#112D4E]/70 dark:text-[#85B5D9] mt-2 font-medium">
-                This area is restricted to Admin and Seller accounts only.
-                Customer accounts can browse the catalog, manage their garage, and place orders from the storefront.
+                {t.adminLayout.accessDeniedDesc}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -86,13 +87,13 @@ export default function AdminLayout({
                 href="/"
                 className="inline-flex items-center justify-center min-h-[44px] gap-2 px-5 py-2.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] font-mono font-bold text-xs uppercase tracking-wider hover:opacity-80 transition-all shadow-sm"
               >
-                ← Back to Store
+                {t.adminLayout.backToStore}
               </Link>
               <Link
                 href="/catalog"
                 className="inline-flex items-center justify-center min-h-[44px] gap-2 px-5 py-2.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md"
               >
-                Browse Parts Catalog →
+                {t.adminLayout.browseCatalog}
               </Link>
             </div>
           </div>

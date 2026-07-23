@@ -18,8 +18,10 @@ import { useCartStore } from "@/store/useCartStore";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { FitmentBadge } from "@/components/ui/FitmentBadge";
 import { formatTHB, cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 export default function CartPage() {
+  const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
   const { 
     items, 
@@ -65,10 +67,10 @@ export default function CartPage() {
             </div>
             <div>
               <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
-                • Step 1 of 3: Cart Review
+                • {t.cart.step1}
               </span>
               <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-                Shopping Cart & Fitment Audit
+                {t.cart.title}
               </h1>
             </div>
           </div>
@@ -77,19 +79,18 @@ export default function CartPage() {
             href="/catalog"
             className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] hover:text-[#3F72AF] dark:hover:text-[#3282B8] flex items-center gap-1 transition-colors font-semibold"
           >
-            <ArrowLeft className="w-4 h-4" /> Continue Shopping
+            <ArrowLeft className="w-4 h-4" /> {t.cart.continueShopping}
           </Link>
         </div>
 
-        {/* Fitment Re-Validation Alert Banner */}
         {hasIncompatibleItems && (
           <div className="p-4 rounded-2xl bg-rose-500/20 dark:bg-rose-950/90 border border-rose-500 text-rose-800 dark:text-rose-200 flex items-center justify-between gap-4 shadow-md animate-pulse">
             <div className="flex items-center gap-3">
               <AlertTriangle className="w-6 h-6 text-rose-600 dark:text-rose-400 shrink-0" />
               <div>
-                <h3 className="font-mono font-bold text-sm uppercase">Compatibility Warning Detected</h3>
+                <h3 className="font-mono font-bold text-sm uppercase">{t.cart.compatWarningTitle}</h3>
                 <p className="text-xs opacity-90 mt-0.5 font-medium">
-                  One or more items in your cart (`[ ⚠️ Incompatible ]`) do not match your currently active garage vehicle (`{activeVehicle ? `${activeVehicle.year} ${activeVehicle.model}` : "None"}`). Double-check part specs before proceeding.
+                  {t.cart.compatWarningDesc}
                 </p>
               </div>
             </div>
@@ -97,7 +98,7 @@ export default function CartPage() {
               href="/garage"
               className="px-4 py-2 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] font-mono text-xs font-bold border border-[#DBE2EF] dark:border-[#0F4C75] shrink-0 min-h-[40px] flex items-center"
             >
-              Change Vehicle Profile
+              {t.cart.changeVehicleBtn}
             </Link>
           </div>
         )}
@@ -105,15 +106,15 @@ export default function CartPage() {
         {items.length === 0 ? (
           <div className="text-center py-20 border border-dashed border-[#DBE2EF] dark:border-[#0F4C75] rounded-2xl p-8 bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 space-y-4 shadow-sm">
             <ShoppingCart className="w-12 h-12 text-[#3F72AF] dark:text-[#3282B8] mx-auto" />
-            <h3 className="font-mono text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase">Your Shopping Cart is Empty</h3>
+            <h3 className="font-mono text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase">{t.cart.emptyCartTitle}</h3>
             <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] max-w-md mx-auto font-medium">
-              Select your vehicle make, model, and year to cross-reference guaranteed bolt-on parts in our catalog.
+              {t.cart.emptyCartDesc}
             </p>
             <Link
               href="/catalog"
               className="inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider shadow-md transition-all"
             >
-              Explore Parts Catalog
+              {t.cart.browseCatalogBtn}
             </Link>
           </div>
         ) : (
@@ -216,72 +217,89 @@ export default function CartPage() {
 
                 {/* Fulfillment Selection */}
                 <div className="space-y-3">
-                  <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">
-                    Delivery / Pickup Method:
+                  {/* EXPRESS DELIVERY */}
+                  <label
+                    onClick={() => setFulfillmentType("EXPRESS_SHIPPING")}
+                    className={cn(
+                      "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
+                      fulfillmentType === "EXPRESS_SHIPPING"
+                        ? "bg-[#3F72AF]/10 border-[#3F72AF] dark:border-[#3282B8]"
+                        : "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]/50"
+                    )}
+                  >
+                    <div className="pt-0.5 flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white">{t.cart.expressDelivery}</span>
+                        <span className="font-mono font-bold text-xs text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(250)}</span>
+                      </div>
+                      <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
+                        {t.cart.expressDeliveryDesc}
+                      </p>
+                    </div>
                   </label>
-                  <div className="space-y-2">
-                    <label
-                      onClick={() => setFulfillmentType("EXPRESS_SHIPPING")}
-                      className={cn(
-                        "p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all text-xs font-bold shadow-sm",
-                        fulfillmentType === "EXPRESS_SHIPPING"
-                          ? "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#3F72AF] ring-2 ring-[#3F72AF]/40 text-[#112D4E] dark:text-[#BBE1FA]"
-                          : "bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/70 dark:text-[#85B5D9] hover:border-[#3F72AF]"
-                      )}
-                    >
-                      <span className="flex items-center gap-2">
-                        <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Express Courier Shipping
-                      </span>
-                      <span className="font-mono text-[#3F72AF] dark:text-[#3282B8] font-bold">+฿250.00</span>
-                    </label>
 
-                    <label
-                      onClick={() => setFulfillmentType("INSTORE_PICKUP")}
-                      className={cn(
-                        "p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all text-xs font-bold shadow-sm",
-                        fulfillmentType === "INSTORE_PICKUP"
-                          ? "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#3F72AF] ring-2 ring-[#3F72AF]/40 text-[#112D4E] dark:text-[#BBE1FA]"
-                          : "bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/70 dark:text-[#85B5D9] hover:border-[#3F72AF]"
-                      )}
-                    >
-                      <span className="flex items-center gap-2">
-                        <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> In-Store Pickup (Ready 2Hrs)
-                      </span>
-                      <span className="font-mono text-[#3F72AF] dark:text-[#3282B8] font-bold">FREE (฿0.00)</span>
-                    </label>
-                  </div>
+                  {/* STORE PICKUP */}
+                  <label
+                    onClick={() => setFulfillmentType("INSTORE_PICKUP")}
+                    className={cn(
+                      "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
+                      fulfillmentType === "INSTORE_PICKUP"
+                        ? "bg-[#3F72AF]/10 border-[#3F72AF] dark:border-[#3282B8]"
+                        : "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]/50"
+                    )}
+                  >
+                    <div className="pt-0.5 flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white flex items-center gap-1.5">
+                          <Warehouse className="w-4 h-4" /> {t.cart.storePickup}
+                        </span>
+                        <span className="font-mono font-bold text-xs text-emerald-600 dark:text-emerald-400">FREE</span>
+                      </div>
+                      <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
+                        {t.cart.storePickupDesc}
+                      </p>
+                    </div>
+                  </label>
                 </div>
+              </div>
 
-                {/* Totals Breakdown */}
-                <div className="space-y-3 font-mono text-xs pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
-                  <div className="flex justify-between text-[#112D4E] dark:text-[#BBE1FA] font-medium">
-                    <span>Subtotal:</span>
+              {/* Order Summary */}
+              <div className="p-6 rounded-2xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#3F72AF]/10 rounded-full blur-3xl pointer-events-none" />
+                <h3 className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase mb-6 text-sm relative z-10 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
+                  {t.cart.orderSummary}
+                </h3>
+                <div className="space-y-4 font-mono text-sm relative z-10">
+                  <div className="flex justify-between items-center text-[#112D4E] dark:text-slate-300">
+                    <span className="font-medium">{t.cart.subtotal}</span>
                     <span className="font-bold">{formatTHB(getSubtotal())}</span>
                   </div>
-                  <div className="flex justify-between text-[#112D4E] dark:text-[#BBE1FA] font-medium">
-                    <span>Shipping Fee:</span>
-                    <span className="font-bold">{formatTHB(getShippingFee())}</span>
+                  <div className="flex justify-between items-center text-[#112D4E] dark:text-slate-300">
+                    <span className="font-medium">{t.cart.shippingFee}</span>
+                    <span className="font-bold">{getShippingFee() === 0 ? "FREE" : formatTHB(getShippingFee())}</span>
                   </div>
-                  <div className="flex justify-between text-[#112D4E]/60 dark:text-[#85B5D9] text-[11px] font-medium">
-                    <span>Included 7% VAT:</span>
-                    <span>{formatTHB(getSubtotal() * 0.07)}</span>
-                  </div>
-                  <div className="pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center text-sm font-bold text-[#112D4E] dark:text-white">
-                    <span>Total Amount:</span>
-                    <span className="text-2xl text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(getTotal())}</span>
+                  <div className="pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-end">
+                    <span className="font-bold text-[#112D4E] dark:text-white">{t.cart.total}</span>
+                    <div className="text-right">
+                      <span className="block font-black text-2xl text-[#3F72AF] dark:text-[#3282B8] leading-none">
+                        {formatTHB(getTotal())}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Checkout CTA */}
-                <Link
-                  href="/checkout"
-                  className="w-full min-h-[46px] py-4 rounded-xl bg-gradient-to-r from-[#112D4E] via-[#3F72AF] to-[#112D4E] dark:from-[#BBE1FA] dark:via-[#3282B8] dark:to-[#BBE1FA] text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg hover:opacity-95 active:scale-[0.98] transition-all"
-                >
-                  <span>Proceed to Payment & Slip Upload</span>
-                  <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-                </Link>
+                <div className="mt-8 relative z-10">
+                  <Link
+                    href="/checkout"
+                    className="w-full flex items-center justify-center gap-2 min-h-[48px] px-6 py-3.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider shadow-md shadow-[#3F72AF]/25 transition-all active:scale-[0.98]"
+                  >
+                    <ShieldCheck className="w-4 h-4" />
+                    <span>{t.cart.proceedToCheckout}</span>
+                  </Link>
+                </div>
 
-                <div className="flex items-center justify-center gap-2 text-[11px] text-[#112D4E]/60 dark:text-[#85B5D9] font-mono font-medium">
+                <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[#112D4E]/60 dark:text-[#85B5D9] font-mono font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" />
                   <span>Secure SSL PromptPay Gateway & OCR Slip Check</span>
                 </div>

@@ -21,10 +21,12 @@ import { VehicleSelectorBar } from "@/components/layout/VehicleSelectorBar";
 import { FitmentBadge } from "@/components/ui/FitmentBadge";
 import { MOCK_PARTS_CATALOG } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";
+import { useTranslation } from "@/lib/i18n/translations";
 import { formatTHB } from "@/lib/utils";
 
 export default function HomePage() {
   const { activeVehicle, checkFitment } = useVehicleStore();
+  const { t } = useTranslation();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -57,19 +59,18 @@ export default function HomePage() {
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#3F72AF]/15 dark:bg-[#3282B8]/20 border border-[#3F72AF]/50 dark:border-[#3282B8]/50 text-[#3F72AF] dark:text-[#3282B8] font-mono text-xs font-bold shadow-sm">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>OEM MASTER FITMENT MATRIX VERIFIED</span>
+              <span>{t.home.heroBadge}</span>
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-mono font-black tracking-tight text-[#112D4E] dark:text-[#BBE1FA] uppercase leading-none">
-              PRECISION AUTOMOTIVE <br />
+              {t.home.heroTitle1} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3F72AF] via-[#112D4E] to-[#3F72AF] dark:from-[#3282B8] dark:via-[#BBE1FA] dark:to-[#85B5D9]">
-                PARTS & FITMENT
+                {t.home.heroTitle2}
               </span>
             </h1>
 
             <p className="text-base sm:text-lg text-[#112D4E]/80 dark:text-[#BBE1FA]/80 font-normal max-w-2xl leading-relaxed">
-              Industrial-grade marketplace tailored for high-performance motorbikes and track cars. 
-              Instantly cross-reference over <strong className="text-[#112D4E] dark:text-white font-bold">10,000+ OEM & Aftermarket SKUs</strong> against our multi-tier vehicle compatibility engine before you order.
+              {t.home.heroDesc}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 pt-2">
@@ -77,29 +78,29 @@ export default function HomePage() {
                 href="/catalog"
                 className="px-6 py-3.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-sm uppercase tracking-wider flex items-center gap-2 transition-all shadow-md shadow-[#3F72AF]/25 active:scale-95 min-h-[44px]"
               >
-                <span>Browse Full Catalog</span>
+                <span>{t.home.exploreCatalog}</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </Link>
               <Link
                 href="/garage"
                 className="px-6 py-3.5 rounded-xl bg-[#DBE2EF] dark:bg-[#0F4C75] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] border border-[#3F72AF]/30 dark:border-[#3282B8]/40 font-mono font-bold text-sm uppercase tracking-wider transition-all min-h-[44px] flex items-center justify-center"
               >
-                Manage Saved Garage ({activeVehicle ? "Active: " + activeVehicle.model : "0"})
+                {t.navbar.myGarage} ({activeVehicle ? activeVehicle.model : "0"})
               </Link>
             </div>
 
             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75] max-w-xl">
               <div>
-                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">100%</span>
-                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">Exact Bolt-On Fit</span>
+                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t.home.statExactFit}</span>
+                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">{t.home.statExactFitDesc}</span>
               </div>
               <div>
-                <span className="block text-2xl font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">2 HRS</span>
-                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">Warehouse Hub Pickup</span>
+                <span className="block text-2xl font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">{t.home.statHub}</span>
+                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">{t.home.statHubDesc}</span>
               </div>
               <div>
-                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">OCR + QR</span>
-                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">Instant Slip Approval</span>
+                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t.home.statOcr}</span>
+                <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">{t.home.statOcrDesc}</span>
               </div>
             </div>
           </div>
@@ -110,7 +111,7 @@ export default function HomePage() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#3F72AF]/15 dark:bg-[#3282B8]/15 rounded-full blur-3xl group-hover:opacity-100 transition-all" />
               <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-4 mb-4">
                 <span className="font-mono text-xs uppercase tracking-widest text-[#3F72AF] dark:text-[#3282B8] font-bold flex items-center gap-1.5">
-                  <Activity className="w-4 h-4" /> Featured Track Spec Drop
+                  <Activity className="w-4 h-4" /> {t.home.featuredDrop}
                 </span>
                 <span className="font-mono text-xs text-[#112D4E]/60 dark:text-[#85B5D9]">SKU: SPN-FL5-AERO-HD</span>
               </div>
@@ -142,7 +143,7 @@ export default function HomePage() {
                   href={`/parts/${MOCK_PARTS_CATALOG[2].oemPartNumber}`}
                   className="px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs transition-colors flex items-center gap-1.5 shadow-sm"
                 >
-                  <span>Inspect Exploded Diagram</span>
+                  <span>{t.home.inspectDiagram}</span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
@@ -156,17 +157,17 @@ export default function HomePage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-widest block mb-1">
-              • Catalog Navigation
+              • {t.home.categoryNav}
             </span>
             <h2 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-              Explore By Technical Category
+              {t.home.exploreCategory}
             </h2>
           </div>
           <Link
             href="/catalog"
             className="text-xs font-mono text-[#3F72AF] dark:text-[#3282B8] hover:underline flex items-center gap-1 font-bold"
           >
-            View All Categories &rarr;
+            {t.home.viewAllCategories} &rarr;
           </Link>
         </div>
 
@@ -197,7 +198,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="mt-5 pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between text-xs font-mono text-[#112D4E]/60 dark:text-[#85B5D9] group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors font-semibold">
-                  <span>Filter by active fitment</span>
+                  <span>{t.home.viewAllParts}</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>

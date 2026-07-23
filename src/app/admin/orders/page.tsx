@@ -20,6 +20,7 @@ import {
   Clock
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 interface OrderAuditRecord {
   id: string;
@@ -101,6 +102,7 @@ const MOCK_ADMIN_ORDERS: OrderAuditRecord[] = [
 ];
 
 export default function AdminOrdersPage() {
+  const { t } = useTranslation();
   const [orders, setOrders] = useState<OrderAuditRecord[]>(MOCK_ADMIN_ORDERS);
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [selectedOrder, setSelectedOrder] = useState<OrderAuditRecord | null>(null);
@@ -142,10 +144,10 @@ export default function AdminOrdersPage() {
             </div>
             <div>
               <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
-                • Slip Audit & Order Verification Engine
+                {t.adminOrders.portalBadge}
               </span>
               <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight mt-0.5">
-                Orders & Payment Verification
+                {t.adminOrders.pageTitle}
               </h1>
             </div>
           </div>
@@ -154,7 +156,7 @@ export default function AdminOrdersPage() {
             href="/admin/dashboard"
             className="min-h-[44px] px-4 py-2 rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 text-xs font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] hover:bg-[#3F72AF] hover:text-white dark:hover:bg-[#3282B8] dark:hover:text-[#1B262C] flex items-center justify-center gap-2 transition-all shadow-sm"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+            <ArrowLeft className="w-4 h-4" /> {t.adminOrders.backToDashboard}
           </Link>
         </div>
 
@@ -169,10 +171,10 @@ export default function AdminOrdersPage() {
         {/* Status Filter Tabs */}
         <div className="flex flex-wrap items-center gap-2">
           {[
-            { label: "All Orders", value: "ALL", count: orders.length },
-            { label: "Verifying Slip (Action Required)", value: "VERIFYING_SLIP", count: orders.filter(o => o.status === "VERIFYING_SLIP").length },
-            { label: "Approved & Picking", value: "APPROVED", count: orders.filter(o => o.status === "APPROVED").length },
-            { label: "Preparing Parts", value: "PREPARING_PARTS", count: orders.filter(o => o.status === "PREPARING_PARTS").length },
+            { label: t.adminOrders.tabAll, value: "ALL", count: orders.length },
+            { label: t.adminOrders.tabVerifying, value: "VERIFYING_SLIP", count: orders.filter(o => o.status === "VERIFYING_SLIP").length },
+            { label: t.adminOrders.tabApproved, value: "APPROVED", count: orders.filter(o => o.status === "APPROVED").length },
+            { label: t.adminOrders.tabPreparing, value: "PREPARING_PARTS", count: orders.filter(o => o.status === "PREPARING_PARTS").length },
           ].map((tab) => (
             <button
               key={tab.value}
@@ -196,13 +198,13 @@ export default function AdminOrdersPage() {
             <table className="w-full text-left font-mono text-xs">
               <thead className="bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E]/80 dark:text-[#85B5D9] border-b border-[#DBE2EF] dark:border-[#0F4C75] uppercase font-bold">
                 <tr>
-                  <th className="p-4">Order Ref</th>
-                  <th className="p-4">Customer & Items</th>
-                  <th className="p-4">Amount Paid</th>
-                  <th className="p-4">OCR Check</th>
-                  <th className="p-4">Fulfillment / Bin</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4 text-right">Verification Action</th>
+                  <th className="p-4">{t.adminOrders.colOrderRef}</th>
+                  <th className="p-4">{t.adminOrders.colCustomerItems}</th>
+                  <th className="p-4">{t.adminOrders.colAmountPaid}</th>
+                  <th className="p-4">{t.adminOrders.colOcrCheck}</th>
+                  <th className="p-4">{t.adminOrders.colFulfillment}</th>
+                  <th className="p-4">{t.adminOrders.colStatus}</th>
+                  <th className="p-4 text-right">{t.adminOrders.colAction}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#DBE2EF]/80 dark:divide-[#0F4C75]/80 text-[#112D4E] dark:text-slate-200 font-medium">
@@ -217,11 +219,11 @@ export default function AdminOrdersPage() {
                     <td className="p-4">
                       {o.ocrMatched ? (
                         <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-300 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/40 text-[10px] font-bold">
-                          <Check className="w-3 h-3" /> Exact Match
+                          <Check className="w-3 h-3" /> {t.adminOrders.exactMatch}
                         </span>
                       ) : (
                         <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-300 bg-rose-500/10 px-2.5 py-1 rounded-lg border border-rose-500/40 text-[10px] font-bold">
-                          <AlertTriangle className="w-3 h-3" /> Mismatch (-฿500)
+                          <AlertTriangle className="w-3 h-3" /> {t.adminOrders.mismatch}
                         </span>
                       )}
                     </td>
@@ -244,7 +246,7 @@ export default function AdminOrdersPage() {
                         onClick={() => { setSelectedOrder(o); setZoomLevel(1); setRotation(0); }}
                         className="min-h-[40px] px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold uppercase text-[11px] inline-flex items-center gap-1.5 shadow-md"
                       >
-                        <Eye className="w-3.5 h-3.5" /> Inspect & Verify Slip
+                        <Eye className="w-3.5 h-3.5" /> {t.adminOrders.inspectBtn}
                       </button>
                     </td>
                   </tr>
@@ -263,7 +265,7 @@ export default function AdminOrdersPage() {
             <div className="w-full md:w-1/2 bg-[#DBE2EF]/40 dark:bg-[#0F4C75]/40 p-6 flex flex-col justify-between border-b md:border-b-0 md:border-r border-[#DBE2EF] dark:border-[#0F4C75]">
               <div className="flex items-center justify-between pb-3 border-b border-[#DBE2EF] dark:border-[#0F4C75]">
                 <span className="font-mono text-xs uppercase font-bold text-[#3F72AF] dark:text-[#3282B8] flex items-center gap-1.5">
-                  <ZoomIn className="w-4 h-4" /> High-Res Slip Inspector
+                  <ZoomIn className="w-4 h-4" /> {t.adminOrders.modalInspectorTitle}
                 </span>
                 <div className="flex items-center gap-2">
                   <button
@@ -271,14 +273,14 @@ export default function AdminOrdersPage() {
                     className="min-h-[36px] px-2.5 py-1 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-white font-mono text-xs font-bold border border-[#DBE2EF] dark:border-[#0F4C75]"
                     title="Zoom in"
                   >
-                    + Zoom
+                    {t.adminOrders.zoomInBtn}
                   </button>
                   <button
                     onClick={() => setZoomLevel((z) => Math.max(0.75, z - 0.25))}
                     className="min-h-[36px] px-2.5 py-1 rounded-lg bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-white font-mono text-xs font-bold border border-[#DBE2EF] dark:border-[#0F4C75]"
                     title="Zoom out"
                   >
-                    - Zoom
+                    {t.adminOrders.zoomOutBtn}
                   </button>
                   <button
                     onClick={() => setRotation((r) => (r + 90) % 360)}
@@ -310,7 +312,7 @@ export default function AdminOrdersPage() {
               <div>
                 <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3 mb-4">
                   <div>
-                    <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA]">Order #{selectedOrder.id} Audit</h3>
+                    <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA]">{t.adminOrders.modalAuditTitle} #{selectedOrder.id}</h3>
                     <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium">{selectedOrder.customerName} ({selectedOrder.customerPhone})</span>
                   </div>
                   <button onClick={() => setSelectedOrder(null)} className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 text-[#112D4E] dark:text-white hover:opacity-80">
@@ -321,33 +323,33 @@ export default function AdminOrdersPage() {
                 {/* Audit Checklist Items */}
                 <div className="space-y-3 font-mono text-xs">
                   <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1.5">
-                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">Expected Order Amount</span>
+                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">{t.adminOrders.expectedAmountLabel}</span>
                     <span className="font-black text-2xl text-[#3F72AF] dark:text-[#3282B8] block">{formatTHB(selectedOrder.amount)}</span>
                   </div>
 
                   <div className={`p-3.5 rounded-xl border space-y-1 ${
                     selectedOrder.ocrMatched ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/10 border-rose-500/50 text-rose-700 dark:text-rose-300"
                   }`}>
-                    <span className="uppercase text-[10px] font-bold block">Automated OCR & QR Audit Result</span>
+                    <span className="uppercase text-[10px] font-bold block">{t.adminOrders.ocrAuditLabel}</span>
                     <div className="flex items-center justify-between font-bold text-sm">
-                      <span>Slip Read Amount:</span>
+                      <span>{t.adminOrders.slipReadAmountLabel}</span>
                       <span>{formatTHB(selectedOrder.ocrExtractedAmount)}</span>
                     </div>
                     {!selectedOrder.ocrMatched && (
                       <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium pt-1 border-t border-rose-500/30 mt-1">
-                        ⚠️ Mismatch warning: The transfer amount on the slip is ฿500 less than the required invoice amount. Double-check before approval.
+                        {t.adminOrders.mismatchWarning}
                       </p>
                     )}
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1 text-[#112D4E] dark:text-slate-300 font-medium">
-                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">Fulfillment Coordinates</span>
+                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">{t.adminOrders.fulfillmentLabel}</span>
                     <span className="font-bold text-[#112D4E] dark:text-white block">{selectedOrder.fulfillment}</span>
-                    <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold block">Allocated Bin: {selectedOrder.warehouseBin}</span>
+                    <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold block">{t.adminOrders.allocatedBinLabel} {selectedOrder.warehouseBin}</span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1 text-[#112D4E] dark:text-slate-300 font-medium">
-                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">Items Summary</span>
+                    <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">{t.adminOrders.itemsSummaryLabel}</span>
                     <p className="text-xs leading-relaxed text-[#112D4E] dark:text-slate-200">{selectedOrder.itemsSummary}</p>
                   </div>
                 </div>
@@ -360,7 +362,7 @@ export default function AdminOrdersPage() {
                   className="w-full min-h-[48px] py-3.5 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]"
                 >
                   <Check className="w-4 h-4 stroke-[3]" />
-                  <span>Approve Order & Release to {selectedOrder.warehouseBin}</span>
+                  <span>{t.adminOrders.approveReleaseBtn} {selectedOrder.warehouseBin}</span>
                 </button>
 
                 <button
@@ -368,7 +370,7 @@ export default function AdminOrdersPage() {
                   className="w-full min-h-[46px] py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/50 text-rose-600 dark:text-rose-300 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
                 >
                   <XCircle className="w-4 h-4" />
-                  <span>Reject Slip & Request Re-Upload</span>
+                  <span>{t.adminOrders.rejectSlipBtn}</span>
                 </button>
               </div>
             </div>

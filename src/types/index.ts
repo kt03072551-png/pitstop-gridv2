@@ -45,10 +45,12 @@ export interface SavedVehicle {
 export interface ExplodedCallout {
   calloutNumber: string; // e.g. "#2"
   label: string;
+  labelTh?: string;
   subPartSku?: string;
   xCoord: number; // percentage 0-100
   yCoord: number; // percentage 0-100
   specs?: string;
+  specsTh?: string;
 }
 
 export interface PartImage {
@@ -83,6 +85,7 @@ export interface PartItem {
   warehouseAisle: string;
   isUniversalFit: boolean;
   description: string;
+  descriptionTh?: string;
   specifications: Record<string, string>;
   compatibilityList: string[]; // Human readable models e.g. "Honda Civic (FL5, FK8)"
   compatibleTrimIds: string[]; // Exact trim IDs for fast matching

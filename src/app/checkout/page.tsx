@@ -22,8 +22,10 @@ import {
 import { useCartStore } from "@/store/useCartStore";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { formatTHB, cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 export default function CheckoutPage() {
+  const { t } = useTranslation();
   const router = useRouter();
   const { 
     items, 
@@ -125,10 +127,10 @@ export default function CheckoutPage() {
             </div>
             <div>
               <span className="font-mono text-xs uppercase text-[#3F72AF] dark:text-[#3282B8] font-bold tracking-wider">
-                • Step 2 of 3: Secure Payment & Verification
+                • {t.checkout.step2}
               </span>
               <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-                PromptPay QR & Slip Upload Gateway
+                {t.checkout.title}
               </h1>
             </div>
           </div>
@@ -137,7 +139,7 @@ export default function CheckoutPage() {
             href="/cart"
             className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] hover:text-[#3F72AF] dark:hover:text-[#3282B8] flex items-center gap-1 transition-colors font-semibold"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Cart
+            <ArrowLeft className="w-4 h-4" /> {t.checkout.backToCart}
           </Link>
         </div>
 
@@ -237,7 +239,7 @@ export default function CheckoutPage() {
               <div className="relative rounded-2xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] p-6 flex flex-col items-center justify-center space-y-3 shadow-inner">
                 <div className="flex items-center justify-between w-full font-mono text-xs text-[#112D4E]/70 dark:text-[#85B5D9] border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-2">
                   <span className="flex items-center gap-1.5 text-[#3F72AF] dark:text-[#3282B8] font-bold">
-                    <QrCode className="w-4 h-4" /> PromptPay QR
+                    <QrCode className="w-4 h-4" /> {t.checkout.paymentMethodTitle}
                   </span>
                   <span className={cn(
                     "flex items-center gap-1 font-bold",
@@ -277,7 +279,7 @@ export default function CheckoutPage() {
               <div className="space-y-3 pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-mono uppercase font-bold text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-1.5">
-                    <UploadCloud className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Upload Transfer Slip
+                    <UploadCloud className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.checkout.uploadSlipTitle}
                   </label>
                   <span className="text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] font-medium">JPG, PNG, PDF (Max 10MB)</span>
                 </div>
@@ -287,9 +289,9 @@ export default function CheckoutPage() {
                     <input type="file" accept="image/*,.pdf" onChange={handleFileUpload} className="hidden" />
                     <UploadCloud className="w-10 h-10 text-[#3F72AF] dark:text-[#3282B8] group-hover:scale-110 transition-transform mb-2" />
                     <span className="font-mono text-xs font-bold text-[#112D4E] dark:text-white">
-                      Drop Bank Transfer Slip Here
+                      {t.checkout.uploadBtn}
                     </span>
-                    <span className="text-[11px] text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 font-medium">or Click to Browse Mobile / Camera</span>
+                    <span className="text-[11px] text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 font-medium">{t.checkout.uploadSlipDesc}</span>
                   </label>
                 ) : (
                   <div className="space-y-3">
@@ -351,12 +353,12 @@ export default function CheckoutPage() {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Verifying Payment & Releasing Order...</span>
+                      <span>{t.checkout.confirming}</span>
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4 stroke-[2.5]" />
-                      <span>Submit Order & Verify Payment &rarr;</span>
+                      <span>{t.checkout.confirmBtn} &rarr;</span>
                     </>
                   )}
                 </button>
