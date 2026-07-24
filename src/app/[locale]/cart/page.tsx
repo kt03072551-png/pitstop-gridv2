@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { 
   ShoppingCart, 
@@ -135,11 +136,12 @@ export default function CartPage() {
                     {/* Image & Title */}
                     <div className="flex items-start gap-4 flex-1">
                       <div className="w-20 h-20 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] overflow-hidden shrink-0 shadow-inner">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={item.part.images[0]?.imageUrl}
                           alt={item.part.title}
-                          className="w-full h-full object-cover"
+                          fill
+                          sizes="80px"
+                          className="object-cover"
                         />
                       </div>
                       <div className="space-y-1.5 flex-1">

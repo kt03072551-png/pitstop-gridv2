@@ -255,7 +255,11 @@
     "fulfillmentLabel": "Fulfillment Coordinates",
     "allocatedBinLabel": "Allocated Bin:",
     "itemsSummaryLabel": "Items Summary",
-    "approveReleaseBtn": "Approve Order & Release to",
-    "rejectSlipBtn": "Reject Slip & Request Re-Upload"
+    "approveReleaseBtn": "Approve Order & Release to Warehouse",
+    "rejectSlipBtn": "Reject Slip & Request Re-Upload",
+    "beginPackingBtn": "Begin Packing Parts",
+    "markReadyBtn": "Mark Ready for Pickup",
+    "markShippedBtn": "Mark as Shipped",
+    "markCompletedBtn": "Mark as Completed"
   }
 }

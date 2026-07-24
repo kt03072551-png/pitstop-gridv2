@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { 
   ShieldCheck, 
@@ -116,11 +117,12 @@ export default function HomePage() {
               </div>
 
               <div className="aspect-[16/10] rounded-xl overflow-hidden border border-[#DBE2EF] dark:border-[#0F4C75] relative mb-4 bg-black/10">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80"
                   alt="Spoon Sports Carbon Hood"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3">
                   <FitmentBadge status={checkFitment(MOCK_PARTS_CATALOG[2])} />
@@ -272,11 +274,12 @@ export default function HomePage() {
               >
                 {/* Top Image & Fitment Badge */}
                 <div className="relative aspect-[16/10] bg-[#F9F7F7] dark:bg-[#1B262C] overflow-hidden border-b border-[#DBE2EF] dark:border-[#0F4C75]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={part.images[0]?.imageUrl}
                     alt={part.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-2.5 left-2.5 z-10">
                     <FitmentBadge status={fitStatus} size="sm" />

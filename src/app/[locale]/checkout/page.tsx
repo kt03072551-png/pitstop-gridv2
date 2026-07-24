@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useRouter } from "@/i18n/routing";
 import { 
@@ -20,6 +21,7 @@ import {
 } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useVehicleStore } from "@/store/useVehicleStore";
+import { useAuthStore } from "@/store/useAuthStore";
 import { formatTHB, cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
 
@@ -35,6 +37,7 @@ export default function CheckoutPage() {
     clearCart 
   } = useCartStore();
   const { activeVehicle } = useVehicleStore();
+  const { user } = useAuthStore();
 
   const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes countdown
   const [isExpired, setIsExpired] = useState(false);
@@ -87,13 +90,44 @@ export default function CheckoutPage() {
     }, 1800);
   };
 
-  const handleSubmitOrder = () => {
+  const handleSubmitOrder = async () => {
     if (!uploadedFile && ocrState !== "SUCCESS") return;
     setIsSubmitting(true);
-    setTimeout(() => {
-      clearCart();
-      router.push("/orders/ORD-992");
-    }, 1200);
+    
+    try {
+      const payload = {
+        userId: user?.id,
+        fulfillmentType,
+        pickupBranchId: pickupBranch,
+        paymentSlipUrl: uploadedFile ? "https://images.unsplash.com/photo-1615998188172-e190eb87eec8?auto=format&fit=crop&w=600&q=80" : undefined,
+        ocrVerifiedAmount: ocrAmount,
+        items: items.map(item => ({
+          partId: item.part.id,
+          oemPartNumber: item.part.oemPartNumber,
+          quantity: item.quantity,
+          price: item.part.price,
+        })),
+      };
+
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      
+      if (res.ok && data.success) {
+        clearCart();
+        router.push(`/orders/${data.order.orderId}`);
+      } else {
+        console.error("Failed to create order:", data.error);
+        setIsSubmitting(false);
+      }
+    } catch (err) {
+      console.error("Error submitting order:", err);
+      setIsSubmitting(false);
+    }
   };
 
   const [mounted, setMounted] = useState(false);
@@ -251,10 +285,11 @@ export default function CheckoutPage() {
 
                 {/* QR Code Container */}
                 <div className="relative p-4 rounded-xl bg-white shadow-xl border border-[#DBE2EF]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020101021129370016A000000677010111011300668192833415802TH530384054074520.006304ED2A"
+                  <Image
+                    src="/Fvck this project.png"
                     alt="PromptPay QR Code"
+                    width={176}
+                    height={176}
                     className={cn("w-44 h-44 object-contain transition-all", isExpired && "blur-md opacity-30")}
                   />
                   {isExpired && (

@@ -255,7 +255,11 @@
     "fulfillmentLabel": "พิกัดและวิธีรับสินค้า",
     "allocatedBinLabel": "ตำแหน่งชั้นวาง:",
     "itemsSummaryLabel": "สรุปรายการสินค้า",
-    "approveReleaseBtn": "อนุมัติคำสั่งซื้อ & ส่งแจ้งคลังที่",
-    "rejectSlipBtn": "ปฏิเสธสลิป & ให้ลูกค้าอัปโหลดใหม่"
+    "approveReleaseBtn": "อนุมัติคำสั่งซื้อ & ส่งแจ้งโกดัง",
+    "rejectSlipBtn": "ปฏิเสธสลิป & ให้ลูกค้าอัปโหลดใหม่",
+    "beginPackingBtn": "เริ่มแพ็คสินค้า",
+    "markReadyBtn": "ทำเครื่องหมายว่าพร้อมรับ",
+    "markShippedBtn": "ทำเครื่องหมายว่าจัดส่งแล้ว",
+    "markCompletedBtn": "ทำเครื่องหมายว่าเสร็จสิ้น"
   }
 }

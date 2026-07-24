@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { MOCK_PARTS_CATALOG } from "@/lib/mock-data";
+import { prisma } from "@/lib/prisma";
 import { FitmentStatus } from "@/types";
 
 export async function POST(req: NextRequest) {
@@ -14,12 +14,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const part = MOCK_PARTS_CATALOG.find(
-      (p) =>
-        p.id === partNumberOrId ||
-        p.oemPartNumber.toLowerCase() === partNumberOrId.toLowerCase() ||
-        p.sku.toLowerCase() === partNumberOrId.toLowerCase()
-    );
+    const part = await prisma.part.findFirst({
+      where: {
+        OR: [
+          { id: partNumberOrId },
+          { oemPartNumber: { equals: partNumberOrId, mode: 'insensitive' } },
+          { sku: { equals: partNumberOrId, mode: 'insensitive' } }
+        ]
+      },
+      include: {
+        compatibilityMappings: true
+      }
+    });
 
     if (!part) {
       return NextResponse.json(
@@ -27,6 +33,9 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const specs = part.specifications as any || {};
 
     // Check universal fitment first
     if (part.isUniversalFit) {
@@ -53,8 +62,8 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Check exact trimId alignment
-    const isCompatible = part.compatibleTrimIds?.includes(vehicle.trimId);
+    // Check exact trimId alignment via compatibility mappings
+    const isCompatible = part.compatibilityMappings.some(mapping => mapping.vehicleTrimId === vehicle.trimId);
 
     if (isCompatible) {
       return NextResponse.json({
@@ -64,7 +73,7 @@ export async function POST(req: NextRequest) {
         status: "FITS" as FitmentStatus,
         boltOnVerified: true,
         fitmentNotes: `100% Guaranteed Bolt-On for ${vehicle.year || "Selected"} ${vehicle.make || ""} ${vehicle.model || ""} (${vehicle.trim || vehicle.trimId}). Factory OEM mounting points verified.`,
-        requiredHardware: part.specifications["Included Hardware"] ? [part.specifications["Included Hardware"]] : ["Factory OEM Bolts"],
+        requiredHardware: specs["Included Hardware"] ? [specs["Included Hardware"]] : ["Factory OEM Bolts"],
       });
     } else {
       return NextResponse.json({
@@ -78,6 +87,7 @@ export async function POST(req: NextRequest) {
       });
     }
   } catch (error: unknown) {
+    console.error("Fitment Engine Error:", error);
     return NextResponse.json(
       { error: "Fitment Engine Verification Error", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }

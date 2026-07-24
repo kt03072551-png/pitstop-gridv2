@@ -1,15 +1,23 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useRouter } from "@/i18n/routing";
 import { Car, Check, Sparkles, Filter } from "lucide-react";
-import { MOCK_VEHICLE_MAKES, MOCK_VEHICLE_MODELS, MOCK_VEHICLE_TRIMS } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { cn } from "@/lib/utils";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+interface MakeType { id: string; name: string; type: string; }
+interface ModelType { id: string; makeId: string; name: string; generation: string | null; startYear: number; endYear: number | null; }
+interface TrimType { id: string; modelId: string; name: string; engineCode: string | null; horsepower: number | null; fuelType: string | null; }
 
 export const VehicleSelectorBar: React.FC = () => {
   const router = useRouter();
   const { activeVehicle, addVehicle } = useVehicleStore();
+  
+  const { data, isLoading } = useSWR("/api/vehicles", fetcher);
 
   const [selectedMake, setSelectedMake] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
@@ -17,28 +25,40 @@ export const VehicleSelectorBar: React.FC = () => {
   const [selectedTrim, setSelectedTrim] = useState<string>("");
   const [isSavedNotice, setIsSavedNotice] = useState(false);
 
+  const makes: MakeType[] = useMemo(() => data?.makes || [], [data?.makes]);
+  const models: ModelType[] = useMemo(() => data?.models || [], [data?.models]);
+  const trims: TrimType[] = useMemo(() => data?.trims || [], [data?.trims]);
 
   useEffect(() => {
     /* eslint-disable react-hooks/set-state-in-effect */
-    if (activeVehicle) {
-      setSelectedMake(activeVehicle.make.toLowerCase() || "");
-      const modelObj = MOCK_VEHICLE_MODELS.find((m) => m.name === activeVehicle.model);
+    if (activeVehicle && makes.length > 0) {
+      // Find matching make in dynamic data
+      const makeObj = makes.find((m) => m.name.toLowerCase() === activeVehicle.make.toLowerCase());
+      if (makeObj) setSelectedMake(makeObj.id);
+      
+      const modelObj = models.find((m) => m.name === activeVehicle.model);
       if (modelObj) setSelectedModel(modelObj.id);
+      
       if (activeVehicle.year) setSelectedYear(activeVehicle.year);
       if (activeVehicle.trimId) setSelectedTrim(activeVehicle.trimId);
     }
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [activeVehicle]);
+  }, [activeVehicle, makes, models]);
 
-  const availableModels = MOCK_VEHICLE_MODELS.filter((m) => m.makeId === selectedMake);
-  const availableTrims = MOCK_VEHICLE_TRIMS.filter((t) => t.modelId === selectedModel);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const availableModels = models.filter((m: any) => m.makeId === selectedMake);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const availableTrims = trims.filter((t: any) => t.modelId === selectedModel);
 
   const yearsList = [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017];
 
   const handleApplyFilter = () => {
-    const makeObj = MOCK_VEHICLE_MAKES.find((m) => m.id === selectedMake);
-    const modelObj = MOCK_VEHICLE_MODELS.find((m) => m.id === selectedModel);
-    const trimObj = MOCK_VEHICLE_TRIMS.find((t) => t.id === selectedTrim);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const makeObj = makes.find((m: any) => m.id === selectedMake);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const modelObj = models.find((m: any) => m.id === selectedModel);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const trimObj = trims.find((t: any) => t.id === selectedTrim);
 
     if (makeObj && modelObj && trimObj) {
       const newVehicle = {
@@ -56,6 +76,8 @@ export const VehicleSelectorBar: React.FC = () => {
       router.push("/catalog");
     }
   };
+
+  if (isLoading) return null;
 
   return (
     <div className="w-full bg-[#DBE2EF]/70 dark:bg-[#0F4C75]/70 border-y border-[#3F72AF]/20 dark:border-[#3282B8]/30 shadow-md py-4 px-4 transition-colors duration-200">
@@ -97,7 +119,7 @@ export const VehicleSelectorBar: React.FC = () => {
               className="w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors cursor-pointer shadow-sm"
             >
               <option value="">Select Make</option>
-              {MOCK_VEHICLE_MAKES.map((m) => (
+              {makes.map((m: MakeType) => (
                 <option key={m.id} value={m.id}>
                   {m.name} ({m.type})
                 </option>

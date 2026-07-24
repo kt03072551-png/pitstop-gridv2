@@ -35,12 +35,14 @@ export async function GET(req: NextRequest) {
       }
     });
 
-    if (orderNumber && orders.length > 0) {
-      return NextResponse.json({ success: true, order: formatOrderRecord(orders[0]) });
-    } else if (orderNumber && orders.length === 0) {
-      return NextResponse.json({ error: `Order not found: ${orderNumber}` }, { status: 404 });
+    if (orderNumber) {
+      if (orders.length > 0) {
+        return NextResponse.json({ success: true, order: formatOrderRecord(orders[0]) });
+      } else {
+        return NextResponse.json({ success: false, error: "Order not found" }, { status: 404 });
+      }
     }
-
+    
     return NextResponse.json({
       success: true,
       count: orders.length,
@@ -62,6 +64,8 @@ export async function POST(req: NextRequest) {
       items = [],
       fulfillmentType = "INSTORE_PICKUP",
       pickupBranchId = "Bangna Hub (Main)",
+      paymentSlipUrl,
+      ocrVerifiedAmount,
     } = body;
 
     if (!Array.isArray(items) || items.length === 0) {
@@ -78,7 +82,45 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const subtotal = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
+    // Resolve partIds — the cart may hold mock IDs (e.g. "part-1") or
+    // oemPartNumbers instead of actual database UUIDs. Look up the real
+    // Part record for each item so Prisma's FK constraint is satisfied.
+    const resolvedItems: { partId: string; quantity: number; price: number }[] = [];
+    for (const item of items as { partId: string; oemPartNumber?: string; quantity: number; price: number }[]) {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.partId);
+
+      if (isUuid) {
+        // Already a valid UUID — use directly
+        resolvedItems.push({ partId: item.partId, quantity: item.quantity, price: item.price });
+      } else {
+        // Try resolving by oemPartNumber first, then by SKU-style partId
+        const dbPart = await prisma.part.findFirst({
+          where: {
+            OR: [
+              { oemPartNumber: item.oemPartNumber || "" },
+              { sku: item.partId },
+              { oemPartNumber: item.partId },
+            ],
+          },
+          select: { id: true, price: true },
+        });
+
+        if (!dbPart) {
+          return NextResponse.json(
+            { error: `Part not found for id: ${item.partId}` },
+            { status: 400 }
+          );
+        }
+
+        resolvedItems.push({
+          partId: dbPart.id,
+          quantity: item.quantity,
+          price: item.price || Number(dbPart.price),
+        });
+      }
+    }
+
+    const subtotal = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const shippingFee = fulfillmentType === "EXPRESS_SHIPPING" ? 250 : 0;
     const totalAmount = subtotal + shippingFee;
     const vatAmount = Number((subtotal * 0.07).toFixed(2));
@@ -92,16 +134,18 @@ export async function POST(req: NextRequest) {
       data: {
         orderNumber,
         userId,
-        status: "PENDING_PAYMENT",
         totalAmount,
         subtotal,
         shippingFee,
         vatAmount,
         fulfillmentType,
         pickupBranchId: fulfillmentType === "INSTORE_PICKUP" ? pickupBranchId : undefined,
-        promptPayRef: promptPayQrString, // Using promptPayRef to store the QR string temporarily or we can just drop it
+        promptPayRef: promptPayQrString,
+        paymentSlipUrl,
+        ocrVerifiedAmount,
+        status: paymentSlipUrl ? "VERIFYING_SLIP" : "PENDING_PAYMENT",
         items: {
-          create: items.map((item: { partId: string; quantity: number; price: number }) => ({
+          create: resolvedItems.map((item) => ({
             partId: item.partId,
             quantity: item.quantity,
             unitPrice: item.price,
@@ -124,11 +168,12 @@ export async function POST(req: NextRequest) {
         success: true,
         message: `Order ${orderNumber} initialized. Please complete PromptPay transfer of ฿${formattedTotal} within 15 minutes.`,
         order: formatOrderRecord(newOrder),
-        qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(promptPayQrString)}`,
+        qrCodeUrl: `/Fvck this project.png`,
       },
       { status: 201 }
     );
   } catch (error: unknown) {
+    console.error("Order creation error:", error);
     return NextResponse.json(
       { error: "Error creating order", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }

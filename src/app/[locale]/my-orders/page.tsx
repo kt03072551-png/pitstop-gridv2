@@ -35,7 +35,7 @@ export default function MyOrdersPage() {
   const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
-  const { data, error, isLoading } = useSWR(user?.id ? `/api/orders?userId=${user.id}` : null, fetcher, { refreshInterval: 3000 });
+  const { data, isLoading } = useSWR(user?.id ? `/api/orders?userId=${user.id}` : null, fetcher, { refreshInterval: 3000 });
   const orders: MyOrder[] = data?.orders || [];
 
   useEffect(() => {

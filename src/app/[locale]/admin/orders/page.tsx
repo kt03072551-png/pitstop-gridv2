@@ -12,7 +12,9 @@ import {
   Eye, 
   X, 
   Check, 
-  AlertTriangle
+  AlertTriangle,
+  Warehouse,
+  Truck
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
@@ -85,6 +87,22 @@ export default function AdminOrdersPage() {
       mutate();
       setSelectedOrder(null);
       setToastMsg(`Order #${orderId} Payment Slip Rejected. Customer notified via email.`);
+      setTimeout(() => setToastMsg(null), 3500);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleUpdateStatus = async (orderId: string, status: string, message: string) => {
+    try {
+      await fetch('/api/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, status })
+      });
+      mutate();
+      setSelectedOrder(null);
+      setToastMsg(message);
       setTimeout(() => setToastMsg(null), 3500);
     } catch (err) {
       console.error(err);
@@ -321,8 +339,9 @@ export default function AdminOrdersPage() {
                 </div>
               </div>
 
-              {/* Approval Actions */}
-              <div className="grid grid-cols-2 gap-3 mt-auto pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+              {/* Approval & Fulfillment Actions */}
+              {selectedOrder.status === "VERIFYING_SLIP" && (
+                <div className="grid grid-cols-2 gap-3 mt-auto pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
                   <button 
                     onClick={() => handleRejectOrder(selectedOrder.orderId)}
                     className="min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/50 transition-colors flex items-center justify-center gap-2"
@@ -336,6 +355,46 @@ export default function AdminOrdersPage() {
                     <Check className="w-4 h-4" /> {t.adminOrders.approveReleaseBtn}
                   </button>
                 </div>
+              )}
+              {selectedOrder.status === "APPROVED" && (
+                <div className="mt-auto pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+                  <button 
+                    onClick={() => handleUpdateStatus(selectedOrder.orderId, "PREPARING_PARTS", `Order #${selectedOrder.orderId} moved to Preparing Parts.`)}
+                    className="w-full min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white dark:text-[#1B262C] bg-amber-500 hover:bg-amber-600 shadow-lg shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Warehouse className="w-4 h-4" /> {t.adminOrders.beginPackingBtn}
+                  </button>
+                </div>
+              )}
+              {selectedOrder.status === "PREPARING_PARTS" && (
+                <div className="mt-auto pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+                  {selectedOrder.fulfillmentType === "INSTORE_PICKUP" ? (
+                    <button 
+                      onClick={() => handleUpdateStatus(selectedOrder.orderId, "READY_FOR_PICKUP", `Order #${selectedOrder.orderId} is Ready for Pickup.`)}
+                      className="w-full min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white dark:text-[#1B262C] bg-emerald-500 hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" /> {t.adminOrders.markReadyBtn}
+                    </button>
+                  ) : (
+                    <button 
+                      onClick={() => handleUpdateStatus(selectedOrder.orderId, "SHIPPED", `Order #${selectedOrder.orderId} has been Shipped.`)}
+                      className="w-full min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white dark:text-[#1B262C] bg-sky-500 hover:bg-sky-600 shadow-lg shadow-sky-500/20 transition-all flex items-center justify-center gap-2"
+                    >
+                      <Truck className="w-4 h-4" /> {t.adminOrders.markShippedBtn}
+                    </button>
+                  )}
+                </div>
+              )}
+              {(selectedOrder.status === "READY_FOR_PICKUP" || selectedOrder.status === "SHIPPED") && (
+                <div className="mt-auto pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+                  <button 
+                    onClick={() => handleUpdateStatus(selectedOrder.orderId, "COMPLETED", `Order #${selectedOrder.orderId} marked as Completed.`)}
+                    className="w-full min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white dark:text-[#1B262C] bg-[#3F72AF] hover:bg-[#3282B8] shadow-lg shadow-[#3F72AF]/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <CheckCircle2 className="w-4 h-4" /> {t.adminOrders.markCompletedBtn}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

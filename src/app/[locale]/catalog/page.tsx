@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, Suspense } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { 
@@ -378,11 +379,12 @@ function CatalogContent() {
                     >
                       {/* Thumbnail & Badges */}
                       <div className="relative aspect-[16/10] bg-[#F9F7F7] dark:bg-[#1B262C] overflow-hidden border-b border-[#DBE2EF] dark:border-[#0F4C75]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                        <Image
                           src={part.images[0]?.imageUrl}
                           alt={part.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute top-3 left-3 z-10">
                           <FitmentBadge status={fitStatus} size="sm" />

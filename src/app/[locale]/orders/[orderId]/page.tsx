@@ -25,13 +25,25 @@ export default function OrderDetailPage() {
   const { data, error, isLoading } = useSWR(orderIdParam ? `/api/orders?orderId=${orderIdParam}` : null, fetcher, { refreshInterval: 3000 });
   const order = data?.order;
 
-  if (isLoading || !order) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-slate-950 flex items-center justify-center">
         <div className="animate-pulse flex items-center gap-2 font-mono text-emerald-600 dark:text-emerald-400 text-sm font-bold">
           <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-ping" />
           Loading Order Details...
         </div>
+      </div>
+    );
+  }
+
+  if (error || !data?.success || !order) {
+    return (
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-slate-950 flex flex-col items-center justify-center">
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">Order Not Found</h2>
+        <p className="text-slate-500 mt-2">The order you are looking for does not exist.</p>
+        <Link href="/catalog" className="mt-4 inline-block px-4 py-2 bg-emerald-500 hover:bg-emerald-400 transition-colors text-white rounded-xl font-bold">
+          Return to Catalog
+        </Link>
       </div>
     );
   }

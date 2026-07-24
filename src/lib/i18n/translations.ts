@@ -224,6 +224,10 @@ export interface TranslationDictionary {
     itemsSummaryLabel: string;
     approveReleaseBtn: string;
     rejectSlipBtn: string;
+    beginPackingBtn: string;
+    markReadyBtn: string;
+    markShippedBtn: string;
+    markCompletedBtn: string;
   };
   adminAddPart: {
     pageTitle: string;
@@ -518,8 +522,12 @@ export const translations: Record<Language, TranslationDictionary> = {
       fulfillmentLabel: "Fulfillment Coordinates",
       allocatedBinLabel: "Allocated Bin:",
       itemsSummaryLabel: "Items Summary",
-      approveReleaseBtn: "Approve Order & Release to",
+      approveReleaseBtn: "Approve Order & Release to Warehouse",
       rejectSlipBtn: "Reject Slip & Request Re-Upload",
+      beginPackingBtn: "Begin Packing Parts",
+      markReadyBtn: "Mark Ready for Pickup",
+      markShippedBtn: "Mark as Shipped",
+      markCompletedBtn: "Mark as Completed",
     },
   },
   th: {
@@ -780,6 +788,10 @@ export const translations: Record<Language, TranslationDictionary> = {
       itemsSummaryLabel: "สรุปรายการสินค้า",
       approveReleaseBtn: "อนุมัติคำสั่งซื้อ & ส่งแจ้งคลังที่",
       rejectSlipBtn: "ปฏิเสธสลิป & ให้ลูกค้าอัปโหลดใหม่",
+      beginPackingBtn: "เริ่มแพ็คสินค้า",
+      markReadyBtn: "ทำเครื่องหมายว่าพร้อมรับ",
+      markShippedBtn: "ทำเครื่องหมายว่าจัดส่งแล้ว",
+      markCompletedBtn: "ทำเครื่องหมายว่าเสร็จสิ้น",
     },
   },
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useRouter } from "@/i18n/routing";
 import { useParams } from "next/navigation";
@@ -169,11 +170,13 @@ export default function ProductDetailPage() {
 
               {/* Main Viewer Box */}
               <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-center group shadow-inner">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={selectedImage.imageUrl}
                   alt={part.title}
-                  className="w-full h-full object-cover select-none transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                  className="object-cover select-none transition-transform duration-500"
                 />
 
                 {/* Exploded Diagram Interactive Callout Pins */}
@@ -236,8 +239,7 @@ export default function ProductDetailPage() {
                           : "border-[#DBE2EF] dark:border-[#0F4C75] opacity-60 hover:opacity-100"
                       )}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.imageUrl} alt="" className="w-full h-full object-cover" />
+                      <Image src={img.imageUrl} alt="" fill sizes="96px" className="object-cover" />
                       {img.isExplodedDiagram && (
                         <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-[#3F72AF] text-white text-[9px] font-mono font-bold">
                           📐 Diagram
