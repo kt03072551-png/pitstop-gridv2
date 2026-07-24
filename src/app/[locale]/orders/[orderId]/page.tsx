@@ -14,40 +14,27 @@ import {
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
 
-const MOCK_ORDERS = [
-  {
-    id: "ORD-995",
-    amount: 14500,
-    status: "APPROVED",
-    timestamp: "24/07/2026 09:30",
-    fulfillment: "In-Store Pickup (Bangna Hub)",
-    warehouseBin: "Bin B02-1",
-    itemsSummary: "1x Spoon Carbon Hood Vented Flange Kit",
-  },
-  {
-    id: "ORD-992",
-    amount: 4520,
-    status: "VERIFYING_SLIP",
-    timestamp: "23/07/2026 14:15",
-    fulfillment: "Express Courier Shipping",
-    warehouseBin: "Bin A12-4",
-    itemsSummary: "2x Motul 300V Oil",
-  },
-  {
-    id: "ORD-850",
-    amount: 84500,
-    status: "SHIPPED",
-    timestamp: "10/07/2026 11:20",
-    fulfillment: "Express Courier Shipping",
-    warehouseBin: "Bin C08-1",
-    itemsSummary: "1x Brembo GT 6-Piston Big Brake Kit",
-  }
-];
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function OrderDetailPage() {
   const params = useParams();
-  const orderIdParam = (params?.orderId as string) || "ORD-992";
-  const order = MOCK_ORDERS.find((o) => o.id === orderIdParam) || MOCK_ORDERS[1];
+  const orderIdParam = params?.orderId as string;
+  
+  const { data, error, isLoading } = useSWR(orderIdParam ? `/api/orders?orderId=${orderIdParam}` : null, fetcher, { refreshInterval: 3000 });
+  const order = data?.order;
+
+  if (isLoading || !order) {
+    return (
+      <div className="min-h-screen bg-[#F9F7F7] dark:bg-slate-950 flex items-center justify-center">
+        <div className="animate-pulse flex items-center gap-2 font-mono text-emerald-600 dark:text-emerald-400 text-sm font-bold">
+          <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-ping" />
+          Loading Order Details...
+        </div>
+      </div>
+    );
+  }
 
   let currentStepIndex = 1;
   switch (order.status) {
@@ -59,10 +46,10 @@ export default function OrderDetailPage() {
 
   const steps = [
     { label: "Payment Submitted", status: currentStepIndex > 0 ? "completed" : "active", desc: "Slip uploaded & scanned by OCR" },
-    { label: "Slip Verification", status: currentStepIndex > 1 ? "completed" : currentStepIndex === 1 ? "active" : "pending", desc: currentStepIndex > 1 ? `Amount ${formatTHB(order.amount)} verified` : "Awaiting verification" },
-    { label: "Order Approved", status: currentStepIndex > 2 ? "completed" : currentStepIndex === 2 ? "active" : "pending", desc: currentStepIndex >= 2 ? `Released to Warehouse ${order.warehouseBin}` : "Pending approval" },
-    { label: "Preparing Parts", status: currentStepIndex > 3 ? "completed" : currentStepIndex === 3 ? "active" : "pending", desc: order.fulfillment.includes("Pickup") ? "Picker boxing items" : "Packaging for courier" },
-    { label: order.fulfillment.includes("Pickup") ? "Ready for Pickup" : "Shipped", status: currentStepIndex === 4 ? "completed" : "pending", desc: order.fulfillment.includes("Pickup") ? "Available at Bangna Hub within 120 mins" : "Handed over to logistics partner" },
+    { label: "Slip Verification", status: currentStepIndex > 1 ? "completed" : currentStepIndex === 1 ? "active" : "pending", desc: currentStepIndex > 1 ? `Amount ${formatTHB(order.totalAmount)} verified` : "Awaiting verification" },
+    { label: "Order Approved", status: currentStepIndex > 2 ? "completed" : currentStepIndex === 2 ? "active" : "pending", desc: currentStepIndex >= 2 ? `Released to Warehouse ${order.pickupBranch || 'Dispatch'}` : "Pending approval" },
+    { label: "Preparing Parts", status: currentStepIndex > 3 ? "completed" : currentStepIndex === 3 ? "active" : "pending", desc: order.fulfillmentType?.includes("PICKUP") ? "Picker boxing items" : "Packaging for courier" },
+    { label: order.fulfillmentType?.includes("PICKUP") ? "Ready for Pickup" : "Shipped", status: currentStepIndex === 4 ? "completed" : "pending", desc: order.fulfillmentType?.includes("PICKUP") ? "Available at Branch within 120 mins" : "Handed over to logistics partner" },
   ];
 
   return (
@@ -151,9 +138,9 @@ export default function OrderDetailPage() {
               <span className="font-mono text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider flex items-center gap-2">
                 <Warehouse className="w-4 h-4" /> Warehouse Collection Coordinates
               </span>
-              <h4 className="font-bold text-lg text-[#112D4E] dark:text-white">Bangna Logistics Hub (Main Bin)</h4>
+              <h4 className="font-bold text-lg text-[#112D4E] dark:text-white">{order.pickupBranch || 'Dispatch Hub'}</h4>
               <p className="text-xs text-[#112D4E]/70 dark:text-slate-300 leading-relaxed">
-                Km. 8 Bangna-Trad Road, Bangkok. Your items have been allocated from <strong className="text-emerald-600 dark:text-emerald-400 font-mono">{order.warehouseBin}</strong> and are currently entering express picking boxes.
+                Your items have been allocated from <strong className="text-emerald-600 dark:text-emerald-400 font-mono">{order.pickupBranch || 'Dispatch Hub'}</strong> and are currently entering express picking boxes.
               </p>
             </div>
 
@@ -176,15 +163,19 @@ export default function OrderDetailPage() {
               </div>
               <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
                 <span>Total Paid:</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatTHB(order.amount)}</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatTHB(order.totalAmount)}</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
                 <span>Transaction Ref:</span>
-                <span className="font-bold text-[#112D4E] dark:text-slate-200">#0149823901239</span>
+                <span className="font-bold text-[#112D4E] dark:text-slate-200">{order.ocrAuditDetails?.bankReferenceNumber || "Pending"}</span>
               </div>
               <div className="flex justify-between py-1.5 text-[#112D4E]/70 dark:text-slate-300">
                 <span>OCR Validation:</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 100% Exact Match Approved</span>
+                {order.ocrAuditDetails?.extractedAmount === order.totalAmount ? (
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 100% Exact Match Approved</span>
+                ) : (
+                  <span className="font-bold text-amber-500 inline-flex items-center"><Sparkles className="w-3.5 h-3.5 mr-1" /> Pending Validation</span>
+                )}
               </div>
             </div>
           </div>

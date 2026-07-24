@@ -1,88 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
-
-interface OrderItemPayload {
-  partId: string;
-  oemPartNumber: string;
-  title: string;
-  price: number;
-  quantity: number;
-  warehouseBin: string;
-}
-
-interface OrderRecord {
-  orderId: string;
-  customerName: string;
-  customerPhone: string;
-  items: OrderItemPayload[];
-  subtotal: number;
-  vatAmount: number;
-  shippingFee: number;
-  totalAmount: number;
-  status: "PENDING_PAYMENT" | "VERIFYING_SLIP" | "APPROVED" | "PREPARING_PARTS" | "READY_FOR_PICKUP" | "SHIPPED" | "REJECTED";
-  fulfillmentType: "EXPRESS_SHIPPING" | "INSTORE_PICKUP";
-  pickupBranch?: string;
-  promptPayQrString: string;
-  createdAt: string;
-  slipVerified: boolean;
-  ocrAuditDetails?: {
-    extractedAmount?: number;
-    bankReferenceNumber?: string;
-    verifiedTimestamp?: string;
-  };
-}
-
-const inMemoryOrders: OrderRecord[] = [
-  {
-    orderId: "ORD-992",
-    customerName: "Somchai Kiatikun",
-    customerPhone: "081-992-8812",
-    items: [
-      {
-        partId: "part_fl5_hood",
-        oemPartNumber: "15400-SPOON-FL5",
-        title: "Spoon Sports Dry Carbon Vented Hood",
-        price: 84500,
-        quantity: 1,
-        warehouseBin: "Bin C08-1",
-      }
-    ],
-    subtotal: 84500,
-    vatAmount: 5915,
-    shippingFee: 0,
-    totalAmount: 84500,
-    status: "VERIFYING_SLIP",
-    fulfillmentType: "INSTORE_PICKUP",
-    pickupBranch: "Bangna Hub (Main)",
-    promptPayQrString: "00020101021129370016A000000677010111011300668192833415802TH5303840540784500.006304ED2A",
-    createdAt: new Date(Date.now() - 15 * 60000).toISOString(),
-    slipVerified: false,
-  }
-];
+import { prisma } from "@/lib/prisma";
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status");
-    const orderId = searchParams.get("orderId");
+    const orderNumber = searchParams.get("orderId"); // Note: searchParam is 'orderId', but we map it to 'orderNumber'
+    const userId = searchParams.get("userId");
 
-    let results = [...inMemoryOrders];
-
-    if (orderId) {
-      const order = results.find((o) => o.orderId.toLowerCase() === orderId.toLowerCase());
-      if (!order) {
-        return NextResponse.json({ error: `Order not found: ${orderId}` }, { status: 404 });
+    const whereClause: Record<string, string> = {};
+    if (orderNumber) {
+      whereClause.orderNumber = orderNumber;
+    } else {
+      if (status && status !== "ALL") {
+        whereClause.status = status;
       }
-      return NextResponse.json({ success: true, order });
+      if (userId) {
+        whereClause.userId = userId;
+      }
     }
 
-    if (status && status !== "ALL") {
-      results = results.filter((o) => o.status === status);
+    const orders = await prisma.order.findMany({
+      where: whereClause,
+      include: {
+        items: {
+          include: {
+            part: true
+          }
+        },
+        user: true,
+      },
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+
+    if (orderNumber && orders.length > 0) {
+      return NextResponse.json({ success: true, order: formatOrderRecord(orders[0]) });
+    } else if (orderNumber && orders.length === 0) {
+      return NextResponse.json({ error: `Order not found: ${orderNumber}` }, { status: 404 });
     }
 
     return NextResponse.json({
       success: true,
-      count: results.length,
-      orders: results,
+      count: orders.length,
+      orders: orders.map(formatOrderRecord),
     });
   } catch (error: unknown) {
     return NextResponse.json(
@@ -96,11 +58,10 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const {
-      customerName = "Valued Customer",
-      customerPhone = "081-000-0000",
+      userId,
       items = [],
       fulfillmentType = "INSTORE_PICKUP",
-      pickupBranch = "Bangna Hub (Main)",
+      pickupBranchId = "Bangna Hub (Main)",
     } = body;
 
     if (!Array.isArray(items) || items.length === 0) {
@@ -110,41 +71,59 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Missing userId" },
+        { status: 400 }
+      );
+    }
+
     const subtotal = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
     const shippingFee = fulfillmentType === "EXPRESS_SHIPPING" ? 250 : 0;
     const totalAmount = subtotal + shippingFee;
     const vatAmount = Number((subtotal * 0.07).toFixed(2));
 
-    const orderId = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+    const orderNumber = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    // Exact PromptPay EMVCo QR String simulation down to satang
     const formattedTotal = totalAmount.toFixed(2);
     const promptPayQrString = `00020101021129370016A000000677010111011300668192833415802TH53038405407${formattedTotal}6304ED2A`;
 
-    const newOrder: OrderRecord = {
-      orderId,
-      customerName,
-      customerPhone,
-      items,
-      subtotal,
-      vatAmount,
-      shippingFee,
-      totalAmount,
-      status: "PENDING_PAYMENT",
-      fulfillmentType,
-      pickupBranch: fulfillmentType === "INSTORE_PICKUP" ? pickupBranch : undefined,
-      promptPayQrString,
-      createdAt: new Date().toISOString(),
-      slipVerified: false,
-    };
-
-    inMemoryOrders.unshift(newOrder);
+    const newOrder = await prisma.order.create({
+      data: {
+        orderNumber,
+        userId,
+        status: "PENDING_PAYMENT",
+        totalAmount,
+        subtotal,
+        shippingFee,
+        vatAmount,
+        fulfillmentType,
+        pickupBranchId: fulfillmentType === "INSTORE_PICKUP" ? pickupBranchId : undefined,
+        promptPayRef: promptPayQrString, // Using promptPayRef to store the QR string temporarily or we can just drop it
+        items: {
+          create: items.map((item: { partId: string; quantity: number; price: number }) => ({
+            partId: item.partId,
+            quantity: item.quantity,
+            unitPrice: item.price,
+            totalPrice: item.price * item.quantity,
+          }))
+        }
+      },
+      include: {
+        items: {
+          include: {
+            part: true
+          }
+        },
+        user: true
+      }
+    });
 
     return NextResponse.json(
       {
         success: true,
-        message: `Order ${orderId} initialized. Please complete PromptPay transfer of ฿${formattedTotal} within 15 minutes.`,
-        order: newOrder,
+        message: `Order ${orderNumber} initialized. Please complete PromptPay transfer of ฿${formattedTotal} within 15 minutes.`,
+        order: formatOrderRecord(newOrder),
         qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(promptPayQrString)}`,
       },
       { status: 201 }
@@ -160,7 +139,7 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const body = await req.json();
-    const { orderId, status, ocrAuditDetails } = body;
+    const { orderId, status, ocrAuditDetails } = body; // Notice this is orderNumber from the frontend typically
 
     if (!orderId || !status) {
       return NextResponse.json(
@@ -169,22 +148,27 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const index = inMemoryOrders.findIndex((o) => o.orderId.toLowerCase() === orderId.toLowerCase());
-    if (index === -1) {
-      return NextResponse.json({ error: `Order ${orderId} not found` }, { status: 404 });
-    }
-
-    inMemoryOrders[index] = {
-      ...inMemoryOrders[index],
-      status,
-      slipVerified: status === "APPROVED" || status === "PREPARING_PARTS" ? true : inMemoryOrders[index].slipVerified,
-      ocrAuditDetails: ocrAuditDetails || inMemoryOrders[index].ocrAuditDetails,
-    };
+    const updatedOrder = await prisma.order.update({
+      where: { orderNumber: orderId },
+      data: {
+        status,
+        ocrVerifiedAmount: ocrAuditDetails?.extractedAmount ? parseFloat(ocrAuditDetails.extractedAmount) : undefined,
+        promptPayRef: ocrAuditDetails?.bankReferenceNumber ? ocrAuditDetails.bankReferenceNumber : undefined,
+      },
+      include: {
+        items: {
+          include: {
+            part: true
+          }
+        },
+        user: true
+      }
+    });
 
     return NextResponse.json({
       success: true,
-      message: `Order ${orderId} updated to status ${status}. Warehouse bin status synced.`,
-      order: inMemoryOrders[index],
+      message: `Order ${orderId} updated to status ${status}.`,
+      order: formatOrderRecord(updatedOrder),
     });
   } catch (error: unknown) {
     return NextResponse.json(
@@ -192,4 +176,38 @@ export async function PATCH(req: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Helper to format Prisma Order to the UI's expected OrderRecord format
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function formatOrderRecord(prismaOrder: any) {
+  return {
+    orderId: prismaOrder.orderNumber,
+    customerName: prismaOrder.user?.name || "Unknown",
+    customerPhone: prismaOrder.user?.phone || "N/A",
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    items: prismaOrder.items.map((item: any) => ({
+      partId: item.partId,
+      oemPartNumber: item.part?.oemPartNumber || "N/A",
+      title: item.part?.title || "Unknown Part",
+      price: Number(item.unitPrice),
+      quantity: item.quantity,
+      warehouseBin: item.part?.warehouseBin || "Pending",
+    })),
+    subtotal: Number(prismaOrder.subtotal),
+    vatAmount: Number(prismaOrder.vatAmount),
+    shippingFee: Number(prismaOrder.shippingFee),
+    totalAmount: Number(prismaOrder.totalAmount),
+    status: prismaOrder.status,
+    fulfillmentType: prismaOrder.fulfillmentType,
+    pickupBranch: prismaOrder.pickupBranchId,
+    paymentSlipUrl: prismaOrder.paymentSlipUrl,
+    promptPayQrString: prismaOrder.promptPayRef, // use promptPayRef for the QR string
+    createdAt: prismaOrder.createdAt.toISOString(),
+    slipVerified: ["APPROVED", "PREPARING_PARTS", "SHIPPED", "READY_FOR_PICKUP", "COMPLETED"].includes(prismaOrder.status),
+    ocrAuditDetails: {
+      extractedAmount: prismaOrder.ocrVerifiedAmount ? Number(prismaOrder.ocrVerifiedAmount) : undefined,
+      bankReferenceNumber: prismaOrder.promptPayRef,
+    }
+  };
 }

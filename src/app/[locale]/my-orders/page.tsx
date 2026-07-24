@@ -15,47 +15,28 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { formatTHB } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
 
+import useSWR from "swr";
+
 interface MyOrder {
-  id: string;
-  amount: number;
-  status: "VERIFYING_SLIP" | "APPROVED" | "PREPARING_PARTS" | "SHIPPED";
-  timestamp: string;
-  fulfillment: string;
-  itemsSummary: string;
+  orderId: string;
+  totalAmount: number;
+  status: "PENDING_PAYMENT" | "VERIFYING_SLIP" | "APPROVED" | "PREPARING_PARTS" | "SHIPPED" | "READY_FOR_PICKUP" | "COMPLETED" | "REJECTED" | "CANCELLED";
+  createdAt: string;
+  fulfillmentType: string;
+  items: { title: string }[];
+  pickupBranch?: string;
 }
 
-const MOCK_MY_ORDERS: MyOrder[] = [
-  {
-    id: "ORD-995",
-    amount: 14500,
-    status: "APPROVED",
-    timestamp: "24/07/2026 09:30",
-    fulfillment: "In-Store Pickup (Bangna Hub)",
-    itemsSummary: "1x Spoon Carbon Hood Vented Flange Kit",
-  },
-  {
-    id: "ORD-992",
-    amount: 4520,
-    status: "VERIFYING_SLIP",
-    timestamp: "23/07/2026 14:15",
-    fulfillment: "Express Courier Shipping",
-    itemsSummary: "2x Motul 300V Oil",
-  },
-  {
-    id: "ORD-850",
-    amount: 84500,
-    status: "SHIPPED",
-    timestamp: "10/07/2026 11:20",
-    fulfillment: "Express Courier Shipping",
-    itemsSummary: "1x Brembo GT 6-Piston Big Brake Kit",
-  }
-];
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function MyOrdersPage() {
   const { isAuthenticated, user } = useAuthStore();
   const router = useRouter();
   const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
+
+  const { data, error, isLoading } = useSWR(user?.id ? `/api/orders?userId=${user.id}` : null, fetcher, { refreshInterval: 3000 });
+  const orders: MyOrder[] = data?.orders || [];
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -110,21 +91,27 @@ export default function MyOrdersPage() {
 
         {/* Orders List */}
         <div className="space-y-4">
-          {MOCK_MY_ORDERS.map((order) => (
-            <div key={order.id} className="bg-white dark:bg-[#0F4C75]/20 border border-[#DBE2EF] dark:border-[#0F4C75] rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+          {isLoading && <div className="text-center font-mono text-[#3F72AF] dark:text-[#3282B8]">Loading orders...</div>}
+          {orders.length === 0 && !isLoading && (
+            <div className="text-center font-mono text-slate-500 py-10 border border-dashed rounded-xl border-slate-300 dark:border-slate-700">
+              No orders found.
+            </div>
+          )}
+          {orders.map((order) => (
+            <div key={order.orderId} className="bg-white dark:bg-[#0F4C75]/20 border border-[#DBE2EF] dark:border-[#0F4C75] rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-[#DBE2EF] dark:border-[#0F4C75]/50">
                 <div>
                   <div className="flex items-center gap-3 mb-1">
-                    <span className="font-mono text-lg font-bold text-[#112D4E] dark:text-[#BBE1FA]">{order.id}</span>
+                    <span className="font-mono text-lg font-bold text-[#112D4E] dark:text-[#BBE1FA]">{order.orderId}</span>
                     {getStatusBadge(order.status)}
                   </div>
                   <div className="text-xs font-semibold text-[#112D4E]/60 dark:text-[#85B5D9] flex items-center gap-2">
-                    <Clock className="w-3.5 h-3.5" /> {order.timestamp}
+                    <Clock className="w-3.5 h-3.5" /> {new Date(order.createdAt).toLocaleString()}
                   </div>
                 </div>
                 <div className="text-left sm:text-right">
                   <div className="text-sm font-semibold text-[#112D4E]/60 dark:text-[#85B5D9]">Total Amount</div>
-                  <div className="text-lg font-bold text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(order.amount)}</div>
+                  <div className="text-lg font-bold text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(order.totalAmount)}</div>
                 </div>
               </div>
 
@@ -134,24 +121,24 @@ export default function MyOrdersPage() {
                     <div className="text-xs font-semibold text-[#112D4E]/60 dark:text-[#85B5D9] mb-1">Items Summary</div>
                     <div className="text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] flex items-start gap-2">
                       <FileText className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8] shrink-0 mt-0.5" />
-                      {order.itemsSummary}
+                      <span className="line-clamp-2">{order.items.map(i => i.title).join(', ')}</span>
                     </div>
                   </div>
                   <div>
                     <div className="text-xs font-semibold text-[#112D4E]/60 dark:text-[#85B5D9] mb-1">Fulfillment Method</div>
                     <div className="text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-2">
-                      {order.fulfillment.includes("Pickup") ? (
+                      {order.fulfillmentType.includes("PICKUP") ? (
                         <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
                       ) : (
                         <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
                       )}
-                      {order.fulfillment}
+                      {order.fulfillmentType.replace("_", " ")} {order.pickupBranch ? `(${order.pickupBranch})` : ""}
                     </div>
                   </div>
                 </div>
                 <div className="flex items-end sm:justify-end">
                   <Link
-                    href={`/orders/${order.id}`}
+                    href={`/orders/${order.orderId}`}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:bg-[#DBE2EF] dark:hover:bg-[#0F4C75] text-[#3F72AF] dark:text-[#3282B8] font-bold text-sm transition-colors border border-[#DBE2EF] dark:border-[#0F4C75]"
                   >
                     View Details

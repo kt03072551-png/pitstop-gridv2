@@ -17,88 +17,37 @@ import {
 import { formatTHB, cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
 
+import useSWR from "swr";
+
 interface OrderAuditRecord {
-  id: string;
+  orderId: string;
   customerName: string;
   customerPhone: string;
-  amount: number;
-  status: "VERIFYING_SLIP" | "APPROVED" | "REJECTED" | "PREPARING_PARTS" | "SHIPPED";
-  timestamp: string;
-  fulfillment: string;
-  warehouseBin: string;
-  slipImageUrl: string;
-  ocrMatched: boolean;
-  ocrExtractedAmount: number;
-  ocrBankRef: string;
-  itemsSummary: string;
+  items: { title: string }[];
+  subtotal: number;
+  vatAmount: number;
+  shippingFee: number;
+  totalAmount: number;
+  status: string;
+  fulfillmentType: string;
+  paymentSlipUrl?: string;
+  pickupBranch?: string;
+  promptPayQrString?: string;
+  createdAt: string;
+  slipVerified: boolean;
+  ocrAuditDetails?: {
+    extractedAmount?: number;
+    bankReferenceNumber?: string;
+  };
 }
 
-const MOCK_ADMIN_ORDERS: OrderAuditRecord[] = [
-  {
-    id: "ORD-992",
-    customerName: "Somchai Kiatikun",
-    customerPhone: "081-992-8812",
-    amount: 4520,
-    status: "VERIFYING_SLIP",
-    timestamp: "23/07/2026 14:15",
-    fulfillment: "In-Store Pickup (Bangna Hub)",
-    warehouseBin: "Bin A12-4",
-    slipImageUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
-    ocrMatched: true,
-    ocrExtractedAmount: 4520,
-    ocrBankRef: "0149823901239",
-    itemsSummary: "1x Spoon Carbon Hood Vented Flange Kit, 2x Motul 300V Oil",
-  },
-  {
-    id: "ORD-991",
-    customerName: "Pichai Veerachai",
-    customerPhone: "089-112-3344",
-    amount: 84500,
-    status: "VERIFYING_SLIP",
-    timestamp: "23/07/2026 13:50",
-    fulfillment: "Express Courier Shipping",
-    warehouseBin: "Bin C08-1",
-    slipImageUrl: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?auto=format&fit=crop&w=600&q=80",
-    ocrMatched: false,
-    ocrExtractedAmount: 84000,
-    ocrBankRef: "0149823908811",
-    itemsSummary: "1x Spoon Sports Dry Carbon Hood (FL5 Track Spec)",
-  },
-  {
-    id: "ORD-990",
-    customerName: "Anan Thongprasert",
-    customerPhone: "082-441-9900",
-    amount: 12400,
-    status: "APPROVED",
-    timestamp: "23/07/2026 12:30",
-    fulfillment: "In-Store Pickup (Laksi Hub)",
-    warehouseBin: "Bin B04-2",
-    slipImageUrl: "https://images.unsplash.com/photo-1554224154-26032ffc0d07?auto=format&fit=crop&w=600&q=80",
-    ocrMatched: true,
-    ocrExtractedAmount: 12400,
-    ocrBankRef: "0149823901990",
-    itemsSummary: "1x Brembo GT 6-Piston Brake Rotor Set",
-  },
-  {
-    id: "ORD-989",
-    customerName: "Wichai Pongsatorn",
-    customerPhone: "086-778-1212",
-    amount: 650,
-    status: "PREPARING_PARTS",
-    timestamp: "23/07/2026 11:10",
-    fulfillment: "Express Courier Shipping",
-    warehouseBin: "Bin A01-9",
-    slipImageUrl: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80",
-    ocrMatched: true,
-    ocrExtractedAmount: 650,
-    ocrBankRef: "0149823901455",
-    itemsSummary: "1x OEM Honda Oil Filter 15400-RTA-003",
-  },
-];
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function AdminOrdersPage() {
   const { t } = useTranslation();
-  const [orders, setOrders] = useState<OrderAuditRecord[]>(MOCK_ADMIN_ORDERS);
+  const { data, mutate } = useSWR('/api/orders', fetcher, { refreshInterval: 3000 });
+  const orders: OrderAuditRecord[] = data?.orders || [];
+  
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [selectedOrder, setSelectedOrder] = useState<OrderAuditRecord | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
@@ -110,22 +59,36 @@ export default function AdminOrdersPage() {
     return o.status === filterStatus;
   });
 
-  const handleApproveOrder = (orderId: string) => {
-    setOrders((prev) =>
-      prev.map((o) => (o.id === orderId ? { ...o, status: "APPROVED" } : o))
-    );
-    setSelectedOrder(null);
-    setToastMsg(`Order #${orderId} Approved & Released to Warehouse Bin Picking!`);
-    setTimeout(() => setToastMsg(null), 3500);
+  const handleApproveOrder = async (orderId: string) => {
+    try {
+      await fetch('/api/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, status: "APPROVED" })
+      });
+      mutate();
+      setSelectedOrder(null);
+      setToastMsg(`Order #${orderId} Approved & Released to Warehouse Bin Picking!`);
+      setTimeout(() => setToastMsg(null), 3500);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleRejectOrder = (orderId: string) => {
-    setOrders((prev) =>
-      prev.map((o) => (o.id === orderId ? { ...o, status: "REJECTED" } : o))
-    );
-    setSelectedOrder(null);
-    setToastMsg(`Order #${orderId} Payment Slip Rejected. Customer notified via email.`);
-    setTimeout(() => setToastMsg(null), 3500);
+  const handleRejectOrder = async (orderId: string) => {
+    try {
+      await fetch('/api/orders', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, status: "REJECTED" })
+      });
+      mutate();
+      setSelectedOrder(null);
+      setToastMsg(`Order #${orderId} Payment Slip Rejected. Customer notified via email.`);
+      setTimeout(() => setToastMsg(null), 3500);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -204,27 +167,34 @@ export default function AdminOrdersPage() {
               </thead>
               <tbody className="divide-y divide-[#DBE2EF]/80 dark:divide-[#0F4C75]/80 text-[#112D4E] dark:text-slate-200 font-medium">
                 {filteredOrders.map((o) => (
-                  <tr key={o.id} className="hover:bg-[#DBE2EF]/40 dark:hover:bg-[#0F4C75]/40 transition-colors">
-                    <td className="p-4 font-bold text-[#112D4E] dark:text-white">{o.id}</td>
+                  <tr key={o.orderId} className="hover:bg-[#F9F7F7]/50 dark:hover:bg-[#1B262C]/50 transition-colors border-b border-[#DBE2EF] dark:border-[#0F4C75] last:border-0 group">
                     <td className="p-4">
-                      <span className="font-bold text-[#112D4E] dark:text-white block">{o.customerName}</span>
-                      <span className="text-[11px] text-[#112D4E]/70 dark:text-slate-400 line-clamp-1 max-w-xs mt-0.5">{o.itemsSummary}</span>
+                      <span className="font-bold text-[#112D4E] dark:text-[#BBE1FA] text-sm group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors">{o.orderId}</span>
+                      <span className="block text-[10px] text-[#112D4E]/60 dark:text-[#85B5D9] mt-0.5">{new Date(o.createdAt).toLocaleString()}</span>
                     </td>
-                    <td className="p-4 font-black text-[#3F72AF] dark:text-[#3282B8] text-sm">{formatTHB(o.amount)}</td>
+                    <td className="p-4 max-w-xs">
+                      <span className="block text-[#112D4E]/80 dark:text-[#85B5D9] truncate" title={o.items.map(i => i.title).join(', ')}>
+                        {o.items.map(i => i.title).join(', ')}
+                      </span>
+                      <span className="block text-[10px] text-[#3F72AF] dark:text-[#3282B8] font-bold mt-0.5">{o.customerName}</span>
+                    </td>
                     <td className="p-4">
-                      {o.ocrMatched ? (
-                        <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-300 bg-emerald-500/10 px-2.5 py-1 rounded-lg border border-emerald-500/40 text-[10px] font-bold">
-                          <Check className="w-3 h-3" /> {t.adminOrders.exactMatch}
+                      <span className="font-bold text-[#112D4E] dark:text-white">{formatTHB(o.totalAmount)}</span>
+                    </td>
+                    <td className="p-4">
+                      {o.ocrAuditDetails?.extractedAmount === o.totalAmount ? (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">
+                          <CheckCircle2 className="w-3 h-3" /> MATCH
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-rose-600 dark:text-rose-300 bg-rose-500/10 px-2.5 py-1 rounded-lg border border-rose-500/40 text-[10px] font-bold">
-                          <AlertTriangle className="w-3 h-3" /> {t.adminOrders.mismatch}
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-rose-500/10 text-rose-600 dark:text-rose-400 font-bold text-[10px]">
+                          <AlertTriangle className="w-3 h-3" /> VERIFY
                         </span>
                       )}
                     </td>
                     <td className="p-4 text-[#112D4E]/90 dark:text-slate-300">
-                      <span className="block font-semibold">{o.fulfillment}</span>
-                      <span className="text-[11px] text-[#3F72AF] dark:text-[#3282B8] font-bold">{o.warehouseBin}</span>
+                      <span className="block font-semibold">{o.fulfillmentType}</span>
+                      <span className="text-[11px] text-[#3F72AF] dark:text-[#3282B8] font-bold">{o.pickupBranch}</span>
                     </td>
                     <td className="p-4">
                       <span className={`px-2.5 py-1 rounded-lg font-bold uppercase ${
@@ -291,7 +261,7 @@ export default function AdminOrdersPage() {
               <div className="flex-1 overflow-auto flex items-center justify-center p-4 my-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedOrder.slipImageUrl}
+                  src={selectedOrder.paymentSlipUrl || selectedOrder.promptPayQrString || "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80"}
                   alt="Transfer Slip"
                   style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}
                   className="max-h-[360px] object-contain rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] transition-transform duration-200 select-none shadow-xl"
@@ -299,7 +269,7 @@ export default function AdminOrdersPage() {
               </div>
 
               <div className="text-center font-mono text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75] font-semibold">
-                Extracted Slip Timestamp: {selectedOrder.timestamp} • Ref: {selectedOrder.ocrBankRef}
+                Extracted Slip Timestamp: {new Date(selectedOrder.createdAt).toLocaleString()} • Ref: {selectedOrder.ocrAuditDetails?.bankReferenceNumber || "N/A"}
               </div>
             </div>
 
@@ -308,7 +278,7 @@ export default function AdminOrdersPage() {
               <div>
                 <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3 mb-4">
                   <div>
-                    <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA]">{t.adminOrders.modalAuditTitle} #{selectedOrder.id}</h3>
+                    <h3 className="font-mono font-bold text-lg text-[#112D4E] dark:text-[#BBE1FA]">{t.adminOrders.modalAuditTitle} #{selectedOrder.orderId}</h3>
                     <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium">{selectedOrder.customerName} ({selectedOrder.customerPhone})</span>
                   </div>
                   <button onClick={() => setSelectedOrder(null)} className="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 text-[#112D4E] dark:text-white hover:opacity-80">
@@ -320,18 +290,18 @@ export default function AdminOrdersPage() {
                 <div className="space-y-3 font-mono text-xs">
                   <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1.5">
                     <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">{t.adminOrders.expectedAmountLabel}</span>
-                    <span className="font-black text-2xl text-[#3F72AF] dark:text-[#3282B8] block">{formatTHB(selectedOrder.amount)}</span>
+                    <span className="font-black text-2xl text-[#3F72AF] dark:text-[#3282B8] block">{formatTHB(selectedOrder.totalAmount)}</span>
                   </div>
 
                   <div className={`p-3.5 rounded-xl border space-y-1 ${
-                    selectedOrder.ocrMatched ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/10 border-rose-500/50 text-rose-700 dark:text-rose-300"
+                    selectedOrder.ocrAuditDetails?.extractedAmount === selectedOrder.totalAmount ? "bg-emerald-500/10 border-emerald-500/50 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/10 border-rose-500/50 text-rose-700 dark:text-rose-300"
                   }`}>
                     <span className="uppercase text-[10px] font-bold block">{t.adminOrders.ocrAuditLabel}</span>
                     <div className="flex items-center justify-between font-bold text-sm">
                       <span>{t.adminOrders.slipReadAmountLabel}</span>
-                      <span>{formatTHB(selectedOrder.ocrExtractedAmount)}</span>
+                      <span>{formatTHB(selectedOrder.ocrAuditDetails?.extractedAmount || 0)}</span>
                     </div>
-                    {!selectedOrder.ocrMatched && (
+                    {selectedOrder.ocrAuditDetails?.extractedAmount !== selectedOrder.totalAmount && (
                       <p className="text-[11px] text-rose-600 dark:text-rose-400 font-medium pt-1 border-t border-rose-500/30 mt-1">
                         {t.adminOrders.mismatchWarning}
                       </p>
@@ -340,35 +310,32 @@ export default function AdminOrdersPage() {
 
                   <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1 text-[#112D4E] dark:text-slate-300 font-medium">
                     <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">{t.adminOrders.fulfillmentLabel}</span>
-                    <span className="font-bold text-[#112D4E] dark:text-white block">{selectedOrder.fulfillment}</span>
-                    <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold block">{t.adminOrders.allocatedBinLabel} {selectedOrder.warehouseBin}</span>
+                    <span className="font-bold text-[#112D4E] dark:text-white block">{selectedOrder.fulfillmentType}</span>
+                    <span className="text-[#3F72AF] dark:text-[#3282B8] font-bold block">{t.adminOrders.allocatedBinLabel} {selectedOrder.pickupBranch}</span>
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1 text-[#112D4E] dark:text-slate-300 font-medium">
                     <span className="text-[#112D4E]/70 dark:text-[#85B5D9] uppercase text-[10px] block font-bold">{t.adminOrders.itemsSummaryLabel}</span>
-                    <p className="text-xs leading-relaxed text-[#112D4E] dark:text-slate-200">{selectedOrder.itemsSummary}</p>
+                    <p className="text-xs leading-relaxed text-[#112D4E] dark:text-slate-200">{selectedOrder.items.map(i => i.title).join(', ')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Approval Actions */}
-              <div className="space-y-3 pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
-                <button
-                  onClick={() => handleApproveOrder(selectedOrder.id)}
-                  className="w-full min-h-[48px] py-3.5 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all active:scale-[0.98]"
-                >
-                  <Check className="w-4 h-4 stroke-[3]" />
-                  <span>{t.adminOrders.approveReleaseBtn} {selectedOrder.warehouseBin}</span>
-                </button>
-
-                <button
-                  onClick={() => handleRejectOrder(selectedOrder.id)}
-                  className="w-full min-h-[46px] py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/50 text-rose-600 dark:text-rose-300 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2"
-                >
-                  <XCircle className="w-4 h-4" />
-                  <span>{t.adminOrders.rejectSlipBtn}</span>
-                </button>
-              </div>
+              <div className="grid grid-cols-2 gap-3 mt-auto pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+                  <button 
+                    onClick={() => handleRejectOrder(selectedOrder.orderId)}
+                    className="min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/50 transition-colors flex items-center justify-center gap-2"
+                  >
+                    <XCircle className="w-4 h-4" /> {t.adminOrders.rejectSlipBtn}
+                  </button>
+                  <button 
+                    onClick={() => handleApproveOrder(selectedOrder.orderId)}
+                    className="min-h-[48px] rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white dark:text-[#1B262C] bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 shadow-lg shadow-[#3F72AF]/20 dark:shadow-[#3282B8]/20 transition-all flex items-center justify-center gap-2"
+                  >
+                    <Check className="w-4 h-4" /> {t.adminOrders.approveReleaseBtn}
+                  </button>
+                </div>
             </div>
           </div>
         </div>
