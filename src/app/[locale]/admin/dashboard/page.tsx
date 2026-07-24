@@ -4,16 +4,12 @@ import React from "react";
 import { Link } from "@/i18n/routing";
 import { 
   LayoutDashboard, 
-  TrendingUp, 
   FileText, 
   AlertTriangle, 
   Package, 
-  CheckCircle2, 
-  Clock, 
   ArrowRight, 
   Warehouse, 
   DollarSign,
-  Users,
   Eye
 } from "lucide-react";
 import { formatTHB } from "@/lib/utils";

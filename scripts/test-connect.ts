@@ -18,9 +18,9 @@ async function testUrl(name: string, url: string) {
     console.log(`✅ ${name} SUCCESS:`, res.rows[0]);
     await client.end();
     return true;
-  } catch (err: any) {
-    console.log(`❌ ${name} ERROR:`, err.message);
-    try { await client.end(); } catch (e) {}
+  } catch (err: unknown) {
+    console.log(`❌ ${name} ERROR:`, err instanceof Error ? err.message : String(err));
+    try { await client.end(); } catch { /* ignore cleanup errors */ }
     return false;
   }
 }

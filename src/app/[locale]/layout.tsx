@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import "../globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/common/ThemeProvider";
 
 import { getTranslations } from 'next-intl/server';
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { notFound } from "next/navigation";
+import { routing } from '@/i18n/routing';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
@@ -15,12 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   };
 }
 
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
-import { notFound } from "next/navigation";
-import { routing } from '@/i18n/routing';
-
-export default async function RootLayout({
+export default async function LocaleLayout({
   children,
   params,
 }: Readonly<{
@@ -29,28 +26,19 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as any)) {
+  if (!routing.locales.includes(locale as typeof routing.locales[number])) {
     notFound();
   }
 
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className="scroll-smooth" suppressHydrationWarning>
-      <body
-        className="min-h-screen flex flex-col bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] antialiased selection:bg-[#3F72AF] dark:selection:bg-[#3282B8] selection:text-white dark:selection:text-[#1B262C] transition-colors duration-200"
-        suppressHydrationWarning
-      >
-        <NextIntlClientProvider messages={messages}>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-            <Navbar />
-            <main className="flex-1 flex flex-col w-full">
-            {children}
-          </main>
-          <Footer />
-        </ThemeProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <NextIntlClientProvider messages={messages}>
+      <Navbar />
+      <main className="flex-1 flex flex-col w-full">
+        {children}
+      </main>
+      <Footer />
+    </NextIntlClientProvider>
   );
 }

@@ -37,6 +37,7 @@ export default function LoginPage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -54,6 +55,7 @@ export default function LoginPage() {
   // Trigger shake animation on error
   useEffect(() => {
     if (error) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShakeError(true);
       const timer = setTimeout(() => setShakeError(false), 600);
       return () => clearTimeout(timer);

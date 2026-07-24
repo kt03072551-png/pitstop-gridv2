@@ -8,16 +8,11 @@ import {
   XCircle, 
   ZoomIn, 
   RotateCw, 
-  Search, 
-  Filter, 
-  Warehouse, 
   ArrowLeft, 
   Eye, 
   X, 
   Check, 
-  AlertTriangle,
-  ShieldCheck,
-  Clock
+  AlertTriangle
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
@@ -294,6 +289,7 @@ export default function AdminOrdersPage() {
 
               {/* Image Canvas */}
               <div className="flex-1 overflow-auto flex items-center justify-center p-4 my-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={selectedOrder.slipImageUrl}
                   alt="Transfer Slip"

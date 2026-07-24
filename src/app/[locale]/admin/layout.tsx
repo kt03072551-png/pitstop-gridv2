@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "@/i18n/routing";
 import { ShieldAlert, Loader2, LogIn } from "lucide-react";
 import { Link } from "@/i18n/routing";
 import { useAuthStore } from "@/store/useAuthStore";
@@ -12,12 +11,12 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
   const { t } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

@@ -27,9 +27,9 @@ export async function GET(
       success: true,
       part,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Error retrieving part details", details: error.message },
+      { error: "Error retrieving part details", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }
@@ -70,9 +70,9 @@ export async function PATCH(
       message: `Part ${updated.oemPartNumber} successfully updated in warehouse database.`,
       part: updated,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Failed to update part inventory", details: error.message },
+      { error: "Failed to update part inventory", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

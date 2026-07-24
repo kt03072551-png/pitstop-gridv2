@@ -2,24 +2,24 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/routing";
-import { Car, Check, ChevronRight, ShieldCheck, Sparkles, Filter } from "lucide-react";
+import { Car, Check, Sparkles, Filter } from "lucide-react";
 import { MOCK_VEHICLE_MAKES, MOCK_VEHICLE_MODELS, MOCK_VEHICLE_TRIMS } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { cn } from "@/lib/utils";
 
 export const VehicleSelectorBar: React.FC = () => {
   const router = useRouter();
-  const { activeVehicle, setActiveVehicle, addVehicle, setDefaultVehicle } = useVehicleStore();
+  const { activeVehicle, addVehicle } = useVehicleStore();
 
   const [selectedMake, setSelectedMake] = useState<string>("");
   const [selectedModel, setSelectedModel] = useState<string>("");
   const [selectedYear, setSelectedYear] = useState<number>(2023);
   const [selectedTrim, setSelectedTrim] = useState<string>("");
   const [isSavedNotice, setIsSavedNotice] = useState(false);
-  const [mounted, setMounted] = useState(false);
+
 
   useEffect(() => {
-    setMounted(true);
+    /* eslint-disable react-hooks/set-state-in-effect */
     if (activeVehicle) {
       setSelectedMake(activeVehicle.make.toLowerCase() || "");
       const modelObj = MOCK_VEHICLE_MODELS.find((m) => m.name === activeVehicle.model);
@@ -27,6 +27,7 @@ export const VehicleSelectorBar: React.FC = () => {
       if (activeVehicle.year) setSelectedYear(activeVehicle.year);
       if (activeVehicle.trimId) setSelectedTrim(activeVehicle.trimId);
     }
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [activeVehicle]);
 
   const availableModels = MOCK_VEHICLE_MODELS.filter((m) => m.makeId === selectedMake);

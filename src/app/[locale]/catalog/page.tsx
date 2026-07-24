@@ -4,14 +4,11 @@ import React, { useState, useMemo, Suspense } from "react";
 import { Link } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { 
-  Filter, 
   Search, 
   Car, 
   CheckCircle2, 
   AlertTriangle, 
   Info, 
-  ChevronDown, 
-  X, 
   SlidersHorizontal,
   Warehouse,
   Sparkles,
@@ -28,7 +25,7 @@ function CatalogContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get("category") || "ALL";
 
-  const { activeVehicle, checkFitment, setActiveVehicle } = useVehicleStore();
+  const { activeVehicle, checkFitment } = useVehicleStore();
   const { t, lang } = useTranslation();
 
   const [selectedCategory, setSelectedCategory] = useState<string>(initialCategory);
@@ -100,6 +97,7 @@ function CatalogContent() {
   const [mounted, setMounted] = useState(false);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -339,7 +337,7 @@ function CatalogContent() {
                 <label className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] font-semibold">Sort By:</label>
                 <select
                   value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value as any)}
+                  onChange={(e) => setSortBy(e.target.value as "featured" | "price_asc" | "price_desc")}
                   className="min-h-[40px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] cursor-pointer shadow-sm"
                 >
                   <option value="featured">Featured / Stock Status</option>
@@ -380,6 +378,7 @@ function CatalogContent() {
                     >
                       {/* Thumbnail & Badges */}
                       <div className="relative aspect-[16/10] bg-[#F9F7F7] dark:bg-[#1B262C] overflow-hidden border-b border-[#DBE2EF] dark:border-[#0F4C75]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={part.images[0]?.imageUrl}
                           alt={part.title}

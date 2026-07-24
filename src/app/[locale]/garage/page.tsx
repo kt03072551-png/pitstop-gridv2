@@ -8,11 +8,7 @@ import {
   Plus, 
   CheckCircle2, 
   Trash2, 
-  Wrench, 
-  ShieldCheck, 
   Sparkles, 
-  FileText, 
-  AlertCircle,
   Hash,
   Settings,
   Droplets,
@@ -68,6 +64,7 @@ export default function GaragePage() {
   const [mounted, setMounted] = useState(false);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

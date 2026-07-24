@@ -43,6 +43,17 @@ export default function AdminAddPartPage() {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData((prev) => ({ ...prev, image: reader.result as string }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -77,8 +88,8 @@ export default function AdminAddPartPage() {
       setTimeout(() => {
         router.push("/catalog"); // Navigate to catalog to see the new part
       }, 2000);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
       setIsSubmitting(false);
     }
@@ -140,7 +151,15 @@ export default function AdminAddPartPage() {
               </div>
               <div className="space-y-1.5 md:col-span-2">
                 <label className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.adminAddPart.fieldImage}</label>
-                <input type="url" name="image" value={formData.image} onChange={handleChange} placeholder={t.adminAddPart.fieldImagePlaceholder} className="w-full min-h-[44px] px-4 py-2 rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-white dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] focus:ring-2 focus:ring-[#3F72AF] dark:focus:ring-[#3282B8] transition-all" />
+                <div className="flex items-center gap-4">
+                  <input type="file" accept="image/*" onChange={handleFileChange} className="w-full min-h-[44px] px-4 py-2 rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-white dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] focus:ring-2 focus:ring-[#3F72AF] dark:focus:ring-[#3282B8] transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-mono file:font-bold file:bg-[#3F72AF] file:text-white hover:file:bg-[#3F72AF]/90 file:cursor-pointer cursor-pointer" />
+                  {formData.image && (
+                    <div className="w-16 h-16 rounded-lg border border-[#DBE2EF] dark:border-[#0F4C75] overflow-hidden shrink-0 bg-white flex items-center justify-center relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>

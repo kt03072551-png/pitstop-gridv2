@@ -8,16 +8,14 @@ import {
   ShoppingCart,
   Warehouse,
   ShieldCheck,
-  ChevronRight,
   LayoutDashboard,
   Menu,
   X,
-  Search,
-  Sparkles,
   LogIn,
   LogOut,
   UserCircle,
   Crown,
+  Package,
 } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { useCartStore } from "@/store/useCartStore";
@@ -39,6 +37,7 @@ export const Navbar: React.FC = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -55,32 +54,46 @@ export const Navbar: React.FC = () => {
       <header className="sticky top-0 z-40 w-full border-b border-[#3F72AF]/20 dark:border-[#3282B8]/30 bg-[#DBE2EF]/85 dark:bg-[#0F4C75]/80 backdrop-blur-md transition-colors duration-200">
         {/* Top Metallic Info Bar */}
         <div className="bg-[#F9F7F7] dark:bg-[#1B262C] border-b border-[#DBE2EF] dark:border-[#0F4C75] px-4 py-1.5 text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 transition-colors duration-200">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5 text-[#3F72AF] dark:text-[#3282B8] font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-pulse" />
-                {t.navbar.hubsLive}
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+            <div className="flex items-center gap-4 min-w-0 flex-1">
+              <span className="flex items-center gap-1.5 text-[#3F72AF] dark:text-[#3282B8] font-bold truncate min-w-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-pulse shrink-0" />
+                <span className="truncate">{t.navbar.hubsLive}</span>
               </span>
-              <span className="hidden md:inline text-slate-400">|</span>
-              <span className="hidden md:flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
-                {t.navbar.guarantee}
+              <span className="hidden md:inline text-slate-400 shrink-0">|</span>
+              <span className="hidden md:flex items-center gap-1 truncate min-w-0">
+                <ShieldCheck className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+                <span className="truncate">{t.navbar.guarantee}</span>
               </span>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 shrink-0">
               {/* Only show Seller Portal link for admin/seller users */}
               {currentIsAuthenticated && isAdmin && (
                 <Link
                   href="/admin/dashboard"
                   className={cn(
                     "flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold tracking-wide transition-all",
-                    pathname.startsWith("/admin")
+                    pathname.startsWith("/admin") && pathname !== "/admin/parts/new"
                       ? "bg-amber-500/20 border border-amber-500/50 text-amber-300"
                       : "bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700"
                   )}
                 >
                   <LayoutDashboard className="w-3 h-3 text-amber-400" />
                   <span>{t.navbar.sellerPortal}</span>
+                </Link>
+              )}
+              {currentIsAuthenticated && isAdmin && (
+                <Link
+                  href="/admin/parts/new"
+                  className={cn(
+                    "flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold tracking-wide transition-all",
+                    pathname === "/admin/parts/new"
+                      ? "bg-amber-500/20 border border-amber-500/50 text-amber-300"
+                      : "bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700"
+                  )}
+                >
+                  <Package className="w-3 h-3 text-amber-400" />
+                  <span>Add New Part</span>
                 </Link>
               )}
             </div>
@@ -105,7 +118,7 @@ export const Navbar: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-[#112D4E]/90 dark:text-[#BBE1FA]/90">
+          <nav className="hidden md:flex items-center gap-4 lg:gap-6 text-sm font-semibold text-[#112D4E]/90 dark:text-[#BBE1FA]/90">
             <Link
               href="/"
               className={cn(

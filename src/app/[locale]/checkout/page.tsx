@@ -9,12 +9,10 @@ import {
   CheckCircle2, 
   AlertCircle, 
   ArrowLeft, 
-  ArrowRight, 
   ShieldCheck, 
   Clock, 
   Truck, 
   Warehouse, 
-  FileText, 
   Sparkles,
   Loader2,
   RefreshCw,
@@ -32,7 +30,6 @@ export default function CheckoutPage() {
     items, 
     fulfillmentType, 
     pickupBranch, 
-    getSubtotal, 
     getShippingFee, 
     getTotal, 
     clearCart 
@@ -52,6 +49,7 @@ export default function CheckoutPage() {
   // Countdown effect
   useEffect(() => {
     if (timeLeft <= 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsExpired(true);
       return;
     }
@@ -101,6 +99,7 @@ export default function CheckoutPage() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -252,6 +251,7 @@ export default function CheckoutPage() {
 
                 {/* QR Code Container */}
                 <div className="relative p-4 rounded-xl bg-white shadow-xl border border-[#DBE2EF]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020101021129370016A000000677010111011300668192833415802TH530384054074520.006304ED2A"
                     alt="PromptPay QR Code"
@@ -298,6 +298,7 @@ export default function CheckoutPage() {
                   <div className="space-y-3">
                     {/* Real-time preview canvas */}
                     <div className="relative rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#F9F7F7] dark:bg-[#1B262C] p-3 flex items-center gap-4 shadow-sm">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={previewUrl} alt="Slip preview" className="w-16 h-20 object-cover rounded-lg border border-[#DBE2EF] dark:border-[#0F4C75] shrink-0" />
                       
                       <div className="flex-1 space-y-1.5">

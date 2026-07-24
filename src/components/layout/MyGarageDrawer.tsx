@@ -3,6 +3,7 @@
 import React from "react";
 import { Warehouse, CheckCircle2, Plus, Trash2, ShieldCheck, X, Car, Tag } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
+import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 interface MyGarageDrawerProps {
@@ -126,14 +127,14 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
 
         {/* Footer actions */}
         <div className="p-5 border-t border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/80 space-y-3">
-          <a
+          <Link
             href="/garage"
             onClick={onClose}
             className="w-full min-h-[44px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-sm tracking-wide shadow-md transition-all active:scale-[0.98]"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             Manage Full Garage & VIN Lookup
-          </a>
+          </Link>
           <p className="text-center text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9]">
             Fitment compatibility verified by Pitstop OEM Matrix
           </p>

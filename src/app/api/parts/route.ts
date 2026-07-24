@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { MOCK_PARTS_CATALOG } from "@/lib/mock-data";
 import { PartItem, PartGrade } from "@/types";
 
-let inMemoryCatalog = [...MOCK_PARTS_CATALOG];
+const inMemoryCatalog = [...MOCK_PARTS_CATALOG];
 
 export async function GET(req: NextRequest) {
   try {
@@ -44,9 +44,9 @@ export async function GET(req: NextRequest) {
       count: results.length,
       parts: results,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Failed to retrieve parts catalog", details: error.message },
+      { error: "Failed to retrieve parts catalog", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }
@@ -122,9 +122,9 @@ export async function POST(req: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Failed to create part listing", details: error.message },
+      { error: "Failed to create part listing", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

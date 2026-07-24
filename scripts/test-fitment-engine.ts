@@ -18,7 +18,7 @@ if (!spoonHood || !bremboKit || !motulOil || !fl5Trim || !r15Trim) {
   process.exit(1);
 }
 
-function runFitmentAudit(part: any, vehicleTrim: any) {
+function runFitmentAudit(part: { title: string; oemPartNumber: string; isUniversalFit?: boolean; compatibleTrimIds?: string[] }, vehicleTrim: { name: string; id: string }) {
   console.log(`[TEST CASE] Evaluating Part: "${part.title}" (OEM: ${part.oemPartNumber})`);
   console.log(`            Against Vehicle: "${vehicleTrim.name}" (Trim ID: ${vehicleTrim.id})`);
 

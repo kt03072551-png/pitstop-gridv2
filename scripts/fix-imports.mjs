@@ -5,8 +5,11 @@ function walkDir(dir, callback) {
   fs.readdirSync(dir).forEach(f => {
     let dirPath = path.join(dir, f);
     let isDirectory = fs.statSync(dirPath).isDirectory();
-    isDirectory ? 
-      walkDir(dirPath, callback) : callback(path.join(dir, f));
+    if (isDirectory) {
+      walkDir(dirPath, callback);
+    } else {
+      callback(path.join(dir, f));
+    }
   });
 }
 
@@ -21,9 +24,7 @@ walkDir('./src', function(filePath) {
     // Handle next/navigation imports (useRouter, usePathname, redirect)
     // We can't just blindly replace next/navigation because it might import other things (e.g., useSearchParams, notFound)
     // We should be careful. Let's just find and replace the specific imports if we can, or modify the line.
-    
-    let hasChanges = false;
-    
+
     // Quick regex to extract from next/navigation
     const navImportRegex = /import\s+{([^}]+)}\s+from\s+["']next\/navigation["'];?/g;
     content = content.replace(navImportRegex, (match, importsStr) => {

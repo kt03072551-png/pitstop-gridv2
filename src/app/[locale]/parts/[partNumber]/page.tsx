@@ -17,16 +17,12 @@ import {
   ChevronUp, 
   Info, 
   ZoomIn, 
-  Check, 
-  ArrowLeft,
-  Share2,
   Settings,
   Search
 } from "lucide-react";
 import { MOCK_PARTS_CATALOG } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { useCartStore } from "@/store/useCartStore";
-import { FitmentBadge } from "@/components/ui/FitmentBadge";
 import { formatTHB, cn } from "@/lib/utils";
 import { ExplodedCallout, PartImage } from "@/types";
 import { useTranslation } from "@/lib/i18n/translations";
@@ -42,7 +38,7 @@ export default function ProductDetailPage() {
   ) || MOCK_PARTS_CATALOG[0];
 
   const { activeVehicle, checkFitment } = useVehicleStore();
-  const { addItem, fulfillmentType, setFulfillmentType, pickupBranch } = useCartStore();
+  const { addItem, fulfillmentType, setFulfillmentType } = useCartStore();
 
   const [selectedImage, setSelectedImage] = useState<PartImage>(part.images[0] || { id: "0", imageUrl: "", isPrimary: true, isExplodedDiagram: false });
   const [activeCallout, setActiveCallout] = useState<ExplodedCallout | null>(null);
@@ -52,6 +48,7 @@ export default function ProductDetailPage() {
   const [mounted, setMounted] = useState<boolean>(false);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -172,6 +169,7 @@ export default function ProductDetailPage() {
 
               {/* Main Viewer Box */}
               <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-center group shadow-inner">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={selectedImage.imageUrl}
                   alt={part.title}
@@ -238,6 +236,7 @@ export default function ProductDetailPage() {
                           : "border-[#DBE2EF] dark:border-[#0F4C75] opacity-60 hover:opacity-100"
                       )}
                     >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={img.imageUrl} alt="" className="w-full h-full object-cover" />
                       {img.isExplodedDiagram && (
                         <span className="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-[#3F72AF] text-white text-[9px] font-mono font-bold">

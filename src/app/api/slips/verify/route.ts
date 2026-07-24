@@ -52,9 +52,9 @@ export async function POST(req: NextRequest) {
         },
       });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Payment Slip Verification Engine Failure", details: error.message },
+      { error: "Payment Slip Verification Engine Failure", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

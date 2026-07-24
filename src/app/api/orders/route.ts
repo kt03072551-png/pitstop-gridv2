@@ -31,7 +31,7 @@ interface OrderRecord {
   };
 }
 
-let inMemoryOrders: OrderRecord[] = [
+const inMemoryOrders: OrderRecord[] = [
   {
     orderId: "ORD-992",
     customerName: "Somchai Kiatikun",
@@ -84,9 +84,9 @@ export async function GET(req: NextRequest) {
       count: results.length,
       orders: results,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Failed to retrieve orders", details: error.message },
+      { error: "Failed to retrieve orders", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }
@@ -110,7 +110,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const subtotal = items.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
+    const subtotal = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0);
     const shippingFee = fulfillmentType === "EXPRESS_SHIPPING" ? 250 : 0;
     const totalAmount = subtotal + shippingFee;
     const vatAmount = Number((subtotal * 0.07).toFixed(2));
@@ -149,9 +149,9 @@ export async function POST(req: NextRequest) {
       },
       { status: 201 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Error creating order", details: error.message },
+      { error: "Error creating order", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }
@@ -186,9 +186,9 @@ export async function PATCH(req: NextRequest) {
       message: `Order ${orderId} updated to status ${status}. Warehouse bin status synced.`,
       order: inMemoryOrders[index],
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Failed to update order", details: error.message },
+      { error: "Failed to update order", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }

@@ -1,0 +1,138 @@
+[
+  {
+    "oemPartNumber": "FER-488-CCB",
+    "name": "Carbon Ceramic Brake Kit (Front & Rear)",
+    "category": "Braking & Wheels",
+    "price": 850000,
+    "brand": "Brembo / Ferrari OEM",
+    "description": "OEM replacement Carbon Ceramic Brake Kit for Ferrari 488 GTB. Exceptional stopping power with zero brake fade.",
+    "fitments": [
+      {
+        "make": "Ferrari",
+        "makeType": "CAR",
+        "model": "488",
+        "trim": "GTB 3.9 V8 Twin Turbo",
+        "year": 2018
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "POR-992-TITANIUM-EXH",
+    "name": "Akrapovič Slip-On Race Line (Titanium)",
+    "category": "Engine & Exhaust",
+    "price": 315000,
+    "brand": "Akrapovič",
+    "description": "Titanium exhaust system for Porsche 911 GT3 (992). Reduces weight by 10.4 kg and adds +8.8 hp.",
+    "fitments": [
+      {
+        "make": "Porsche",
+        "makeType": "CAR",
+        "model": "911 (992)",
+        "trim": "GT3 4.0L Flat-6",
+        "year": 2022
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "LAM-HUR-ECU",
+    "name": "MoTeC M142 ECU Engine Management",
+    "category": "Engine & Electronics",
+    "price": 285000,
+    "brand": "MoTeC",
+    "description": "Advanced plug-in ECU for Lamborghini Huracán. Essential for twin-turbo builds.",
+    "fitments": [
+      {
+        "make": "Lamborghini",
+        "makeType": "CAR",
+        "model": "Huracán",
+        "trim": "EVO 5.2 V10",
+        "year": 2020
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "BUG-CHIR-TURBO-QUAD",
+    "name": "Quad-Turbocharger Assembly Replacement",
+    "category": "Engine & Turbos",
+    "price": 4200000,
+    "brand": "Bugatti OEM",
+    "description": "Genuine replacement turbocharger assembly for the Bugatti Chiron W16 engine.",
+    "fitments": [
+      {
+        "make": "Bugatti",
+        "makeType": "CAR",
+        "model": "Chiron",
+        "trim": "8.0L W16 Quad-Turbo",
+        "year": 2019
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "DUC-V4R-WING",
+    "name": "Carbon Fiber Aerodynamic Winglets",
+    "category": "Body & Aero",
+    "price": 115000,
+    "brand": "Ducati Performance",
+    "description": "Genuine carbon fiber winglets for Panigale V4 R. Provides 30kg of downforce at 270 km/h.",
+    "fitments": [
+      {
+        "make": "Ducati",
+        "makeType": "MOTORBIKE",
+        "model": "Panigale",
+        "trim": "V4 R",
+        "year": 2023
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "BMW-M1000RR-WHEEL",
+    "name": "M Carbon Wheels (Set)",
+    "category": "Braking & Wheels",
+    "price": 195000,
+    "brand": "BMW Motorrad",
+    "description": "Ultra-lightweight M Carbon wheels. Reduces unsprung mass significantly for faster turn-in.",
+    "fitments": [
+      {
+        "make": "BMW Motorrad",
+        "makeType": "MOTORBIKE",
+        "model": "S 1000 RR",
+        "trim": "M 1000 RR",
+        "year": 2023
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "YAM-R1M-OHLINS",
+    "name": "Öhlins Electronic Racing Suspension (ERS)",
+    "category": "Suspension",
+    "price": 145000,
+    "brand": "Öhlins",
+    "description": "Full electronic racing suspension kit tailored for Yamaha YZF-R1M.",
+    "fitments": [
+      {
+        "make": "Yamaha",
+        "makeType": "MOTORBIKE",
+        "model": "YZF-R1M",
+        "trim": "1000cc CP4",
+        "year": 2022
+      }
+    ]
+  },
+  {
+    "oemPartNumber": "KAW-H2R-SC",
+    "name": "Supercharger Impeller Upgrade Kit",
+    "category": "Engine & Supercharger",
+    "price": 85000,
+    "brand": "Kawasaki Heavy Industries",
+    "description": "Billet aluminum supercharger impeller upgrade for the Ninja H2R. Supports up to 350+ HP.",
+    "fitments": [
+      {
+        "make": "Kawasaki",
+        "makeType": "MOTORBIKE",
+        "model": "Ninja",
+        "trim": "H2R 1000cc Supercharged",
+        "year": 2021
+      }
+    ]
+  }
+]

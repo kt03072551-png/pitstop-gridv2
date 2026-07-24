@@ -16,6 +16,7 @@ export function LanguageToggle({ className }: { className?: string }) {
   const setLanguage = useLanguageStore((state) => state.setLanguage);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

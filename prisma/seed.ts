@@ -3,7 +3,8 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 import bcrypt from "bcryptjs";
 import "dotenv/config";
-
+import fs from "fs";
+import path from "path";
 const connectionString =
   process.env.DATABASE_URL ||
   "postgresql://postgres:postgres@localhost:5432/pitstop_grid";
@@ -272,6 +273,98 @@ async function main() {
   });
 
   console.log("✅ Sample Order seeded:", { orderNumber: sampleOrder.orderNumber, status: sampleOrder.status });
+
+  // 6. Seed Supercars & Superbikes from JSON
+  console.log("🏎️ Seeding Supercars & Superbikes from JSON...");
+  const dataPath = path.join(process.cwd(), "prisma", "data", "supercars_bikes_seed.json");
+  if (fs.existsSync(dataPath)) {
+    const rawData = fs.readFileSync(dataPath, "utf-8");
+    const partsData = JSON.parse(rawData);
+
+    // Ensure a generic 'Performance Upgrades' category exists for the parts
+    const performanceCat = await prisma.partCategory.upsert({
+      where: { slug: "performance-upgrades" },
+      update: {},
+      create: { name: "Performance Upgrades", slug: "performance-upgrades", iconName: "Zap" },
+    });
+
+    for (const item of partsData) {
+      // Create Part
+      const createdPart = await prisma.part.upsert({
+        where: { sku: item.oemPartNumber },
+        update: {},
+        create: {
+          sku: item.oemPartNumber,
+          oemPartNumber: item.oemPartNumber,
+          title: item.name,
+          brand: item.brand,
+          categoryId: performanceCat.id,
+          grade: item.grade === "OEM_GENUINE" ? PartGrade.OEM_GENUINE : PartGrade.PERFORMANCE,
+          price: item.price,
+          costPrice: item.costPrice || item.price * 0.7,
+          stockQuantity: 5,
+          isUniversalFit: false,
+          description: item.description,
+        },
+      });
+
+      // Handle fitments
+      if (item.fitments && Array.isArray(item.fitments)) {
+        for (const fitment of item.fitments) {
+          // Ensure Make
+          const make = await prisma.vehicleMake.upsert({
+            where: { name: fitment.make },
+            update: {},
+            create: { name: fitment.make, type: fitment.makeType === "MOTORBIKE" ? VehicleType.MOTORBIKE : VehicleType.CAR },
+          });
+
+          // Ensure Model
+          const modelIdStr = `model_${make.name.toLowerCase()}_${fitment.model.toLowerCase()}`.replace(/\s+/g, "_");
+          const model = await prisma.vehicleModel.upsert({
+            where: { id: modelIdStr },
+            update: {},
+            create: {
+              id: modelIdStr,
+              name: fitment.model,
+              startYear: fitment.year || 2020,
+              makeId: make.id,
+            },
+          });
+
+          // Ensure Trim
+          const trimIdStr = `trim_${modelIdStr}_${fitment.trim.toLowerCase()}`.replace(/\s+/g, "_");
+          const trim = await prisma.vehicleTrim.upsert({
+            where: { id: trimIdStr },
+            update: {},
+            create: {
+              id: trimIdStr,
+              name: fitment.trim,
+              modelId: model.id,
+            },
+          });
+
+          // Map Part Fitment
+          const mappingId = `map_${createdPart.sku}_${trim.id}`.replace(/\s+/g, "_");
+          await prisma.partFitmentMapping.upsert({
+            where: { id: mappingId },
+            update: {},
+            create: {
+              id: mappingId,
+              partId: createdPart.id,
+              vehicleModelId: model.id,
+              vehicleTrimId: trim.id,
+              yearStart: fitment.year || 2020,
+              yearEnd: (fitment.year || 2020) + 5,
+            },
+          });
+        }
+      }
+    }
+    console.log("✅ Supercars & Superbikes JSON data successfully seeded!");
+  } else {
+    console.warn(`⚠️ Warning: JSON seed file not found at ${dataPath}`);
+  }
+
   console.log("🌱 Seeding completed successfully!");
 }
 

@@ -5,8 +5,6 @@ import { Link } from "@/i18n/routing";
 import { 
   ShoppingCart, 
   Trash2, 
-  ArrowRight, 
-  Truck, 
   Warehouse, 
   AlertTriangle, 
   CheckCircle2, 
@@ -34,9 +32,10 @@ export default function CartPage() {
     getTotal 
   } = useCartStore();
 
-  const { activeVehicle, checkFitment } = useVehicleStore();
+  const { checkFitment } = useVehicleStore();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -136,6 +135,7 @@ export default function CartPage() {
                     {/* Image & Title */}
                     <div className="flex items-start gap-4 flex-1">
                       <div className="w-20 h-20 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] overflow-hidden shrink-0 shadow-inner">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={item.part.images[0]?.imageUrl}
                           alt={item.part.title}

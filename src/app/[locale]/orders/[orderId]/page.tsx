@@ -6,16 +6,11 @@ import { useParams } from "next/navigation";
 import { 
   CheckCircle2, 
   PackageCheck, 
-  Truck, 
   Warehouse, 
   Printer, 
   ArrowLeft, 
   ShieldCheck, 
-  Clock, 
-  FileText, 
-  Sparkles,
-  QrCode,
-  MapPin
+  Sparkles
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
 

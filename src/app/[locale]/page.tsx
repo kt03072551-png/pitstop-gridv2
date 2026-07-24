@@ -3,7 +3,6 @@
 import React from "react";
 import { Link } from "@/i18n/routing";
 import { 
-  Wrench, 
   ShieldCheck, 
   Zap, 
   Flame, 
@@ -31,6 +30,7 @@ export default function HomePage() {
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -43,8 +43,6 @@ export default function HomePage() {
     { name: "Body & Carbon Aero", slug: "Body", icon: Box, count: "1,120 SKUs", desc: "Autoclave dry carbon hoods, wings, and diffuser lips." },
     { name: "Electrical & Tuning", slug: "Electrical", icon: Cpu, count: "740 SKUs", desc: "Standalone ECUs, wiring harnesses, and high-output coils." },
   ];
-
-  const featuredParts = MOCK_PARTS_CATALOG.slice(0, 4);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -118,6 +116,7 @@ export default function HomePage() {
               </div>
 
               <div className="aspect-[16/10] rounded-xl overflow-hidden border border-[#DBE2EF] dark:border-[#0F4C75] relative mb-4 bg-black/10">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=800&q=80"
                   alt="Spoon Sports Carbon Hood"
@@ -173,7 +172,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {categories.map((cat, idx) => {
+          {categories.map((cat) => {
             const IconComponent = cat.icon;
             return (
               <Link
@@ -273,6 +272,7 @@ export default function HomePage() {
               >
                 {/* Top Image & Fitment Badge */}
                 <div className="relative aspect-[16/10] bg-[#F9F7F7] dark:bg-[#1B262C] overflow-hidden border-b border-[#DBE2EF] dark:border-[#0F4C75]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={part.images[0]?.imageUrl}
                     alt={part.title}

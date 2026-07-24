@@ -77,9 +77,9 @@ export async function POST(req: NextRequest) {
         requiredHardware: [],
       });
     }
-  } catch (error: any) {
+  } catch (error: unknown) {
     return NextResponse.json(
-      { error: "Fitment Engine Verification Error", details: error.message },
+      { error: "Fitment Engine Verification Error", details: error instanceof Error ? error.message : "Unknown error" },
       { status: 500 }
     );
   }
