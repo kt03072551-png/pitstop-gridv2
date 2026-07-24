@@ -14,35 +14,74 @@ import {
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
 
+const MOCK_ORDERS = [
+  {
+    id: "ORD-995",
+    amount: 14500,
+    status: "APPROVED",
+    timestamp: "24/07/2026 09:30",
+    fulfillment: "In-Store Pickup (Bangna Hub)",
+    warehouseBin: "Bin B02-1",
+    itemsSummary: "1x Spoon Carbon Hood Vented Flange Kit",
+  },
+  {
+    id: "ORD-992",
+    amount: 4520,
+    status: "VERIFYING_SLIP",
+    timestamp: "23/07/2026 14:15",
+    fulfillment: "Express Courier Shipping",
+    warehouseBin: "Bin A12-4",
+    itemsSummary: "2x Motul 300V Oil",
+  },
+  {
+    id: "ORD-850",
+    amount: 84500,
+    status: "SHIPPED",
+    timestamp: "10/07/2026 11:20",
+    fulfillment: "Express Courier Shipping",
+    warehouseBin: "Bin C08-1",
+    itemsSummary: "1x Brembo GT 6-Piston Big Brake Kit",
+  }
+];
+
 export default function OrderDetailPage() {
   const params = useParams();
   const orderIdParam = (params?.orderId as string) || "ORD-992";
+  const order = MOCK_ORDERS.find((o) => o.id === orderIdParam) || MOCK_ORDERS[1];
+
+  let currentStepIndex = 1;
+  switch (order.status) {
+    case "VERIFYING_SLIP": currentStepIndex = 1; break;
+    case "APPROVED": currentStepIndex = 2; break;
+    case "PREPARING_PARTS": currentStepIndex = 3; break;
+    case "SHIPPED": currentStepIndex = 4; break;
+  }
 
   const steps = [
-    { label: "Payment Submitted", status: "completed", desc: "Slip uploaded & scanned by OCR" },
-    { label: "Slip Verification", status: "completed", desc: "Amount ฿4,520.00 verified" },
-    { label: "Order Approved", status: "active", desc: "Released to Warehouse Bin A12-4" },
-    { label: "Preparing Parts", status: "pending", desc: "Picker #4 boxing items" },
-    { label: "Ready for Pickup", status: "pending", desc: "Available at Bangna Hub within 120 mins" },
+    { label: "Payment Submitted", status: currentStepIndex > 0 ? "completed" : "active", desc: "Slip uploaded & scanned by OCR" },
+    { label: "Slip Verification", status: currentStepIndex > 1 ? "completed" : currentStepIndex === 1 ? "active" : "pending", desc: currentStepIndex > 1 ? `Amount ${formatTHB(order.amount)} verified` : "Awaiting verification" },
+    { label: "Order Approved", status: currentStepIndex > 2 ? "completed" : currentStepIndex === 2 ? "active" : "pending", desc: currentStepIndex >= 2 ? `Released to Warehouse ${order.warehouseBin}` : "Pending approval" },
+    { label: "Preparing Parts", status: currentStepIndex > 3 ? "completed" : currentStepIndex === 3 ? "active" : "pending", desc: order.fulfillment.includes("Pickup") ? "Picker boxing items" : "Packaging for courier" },
+    { label: order.fulfillment.includes("Pickup") ? "Ready for Pickup" : "Shipped", status: currentStepIndex === 4 ? "completed" : "pending", desc: order.fulfillment.includes("Pickup") ? "Available at Bangna Hub within 120 mins" : "Handed over to logistics partner" },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 py-10 px-4">
+    <div className="min-h-screen bg-[#F9F7F7] dark:bg-slate-950 py-10 px-4 transition-colors duration-200">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Success Header Box */}
-        <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/80 via-slate-900 to-slate-900 border border-emerald-500/80 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-emerald-50 via-white to-white dark:from-emerald-950/80 dark:via-slate-900 dark:to-slate-900 border border-emerald-200 dark:border-emerald-500/80 shadow-lg dark:shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 transition-colors duration-200">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-2xl bg-emerald-500 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/25">
-              <PackageCheck className="w-8 h-8 text-slate-950 stroke-[2.5]" />
+              <PackageCheck className="w-8 h-8 text-white dark:text-slate-950 stroke-[2.5]" />
             </div>
             <div>
-              <div className="flex items-center gap-2 font-mono text-xs text-emerald-400 font-bold uppercase tracking-wider">
+              <div className="flex items-center gap-2 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5" /> Order Confirmed & OCR Verified
               </div>
-              <h1 className="text-2xl sm:text-3xl font-mono font-black text-white uppercase tracking-tight mt-0.5">
+              <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-white uppercase tracking-tight mt-0.5">
                 Receipt #{orderIdParam}
               </h1>
-              <p className="text-xs text-slate-300 mt-1">
+              <p className="text-xs text-[#112D4E]/70 dark:text-slate-300 mt-1">
                 A digital tax invoice and warehouse collection pass have been sent to your email.
               </p>
             </div>
@@ -50,7 +89,7 @@ export default function OrderDetailPage() {
 
           <button
             onClick={() => window.print()}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-white font-mono text-xs font-semibold flex items-center gap-2 border border-slate-700 transition-colors shrink-0"
+            className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-[#F9F7F7] dark:hover:bg-slate-750 text-[#112D4E] dark:text-white font-mono text-xs font-semibold flex items-center gap-2 border border-[#DBE2EF] dark:border-slate-700 transition-colors shrink-0 shadow-sm dark:shadow-none"
           >
             <Printer className="w-4 h-4" />
             <span>Print Tax Invoice</span>
@@ -58,8 +97,8 @@ export default function OrderDetailPage() {
         </div>
 
         {/* Status Stepper Card */}
-        <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl space-y-6">
-          <h3 className="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider border-b border-slate-800 pb-3">
+        <div className="rounded-2xl border border-[#DBE2EF] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm dark:shadow-xl space-y-6 transition-colors duration-200">
+          <h3 className="font-mono text-xs font-bold text-[#112D4E]/60 dark:text-slate-400 uppercase tracking-wider border-b border-[#DBE2EF] dark:border-slate-800 pb-3">
             Real-Time Order Fulfillment Status
           </h3>
 
@@ -72,29 +111,29 @@ export default function OrderDetailPage() {
                   <div className="flex items-center gap-2">
                     <div className={cn(
                       "w-8 h-8 rounded-full flex items-center justify-center font-mono font-bold text-xs shrink-0 transition-all shadow-md",
-                      isDone && "bg-emerald-500 text-slate-950 shadow-emerald-500/30",
-                      isActive && "bg-sky-500 text-slate-950 ring-4 ring-sky-500/30 animate-pulse",
-                      !isDone && !isActive && "bg-slate-800 text-slate-500 border border-slate-700"
+                      isDone && "bg-emerald-500 text-white dark:text-slate-950 shadow-emerald-500/30",
+                      isActive && "bg-sky-500 text-white dark:text-slate-950 ring-4 ring-sky-500/30 animate-pulse",
+                      !isDone && !isActive && "bg-[#F9F7F7] dark:bg-slate-800 text-[#112D4E]/40 dark:text-slate-500 border border-[#DBE2EF] dark:border-slate-700"
                     )}>
                       {isDone ? <CheckCircle2 className="w-4 h-4 stroke-[3]" /> : idx + 1}
                     </div>
                     {idx < steps.length - 1 && (
                       <div className={cn(
                         "hidden sm:block h-0.5 flex-1 rounded",
-                        isDone ? "bg-emerald-500" : "bg-slate-800"
+                        isDone ? "bg-emerald-500" : "bg-[#DBE2EF] dark:bg-slate-800"
                       )} />
                     )}
                   </div>
                   <div>
                     <span className={cn(
                       "font-mono text-xs font-bold block leading-tight",
-                      isDone && "text-emerald-400",
-                      isActive && "text-white",
-                      !isDone && !isActive && "text-slate-500"
+                      isDone && "text-emerald-600 dark:text-emerald-400",
+                      isActive && "text-[#112D4E] dark:text-white",
+                      !isDone && !isActive && "text-[#112D4E]/50 dark:text-slate-500"
                     )}>
                       {step.label}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-normal mt-0.5 block leading-snug">
+                    <span className="text-[11px] text-[#112D4E]/60 dark:text-slate-400 font-normal mt-0.5 block leading-snug">
                       {step.desc}
                     </span>
                   </div>
@@ -107,45 +146,45 @@ export default function OrderDetailPage() {
         {/* Order Details & Warehouse Hub Card */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Left: Fulfillment Coordinates */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl space-y-4 flex flex-col justify-between">
+          <div className="rounded-2xl border border-[#DBE2EF] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between transition-colors duration-200">
             <div className="space-y-3">
-              <span className="font-mono text-xs font-bold text-sky-400 uppercase tracking-wider flex items-center gap-2">
+              <span className="font-mono text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider flex items-center gap-2">
                 <Warehouse className="w-4 h-4" /> Warehouse Collection Coordinates
               </span>
-              <h4 className="font-bold text-lg text-white">Bangna Logistics Hub (Main Bin)</h4>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Km. 8 Bangna-Trad Road, Bangkok. Your items have been allocated from <strong className="text-emerald-400 font-mono">Bin A12-4</strong> and are currently entering express picking boxes.
+              <h4 className="font-bold text-lg text-[#112D4E] dark:text-white">Bangna Logistics Hub (Main Bin)</h4>
+              <p className="text-xs text-[#112D4E]/70 dark:text-slate-300 leading-relaxed">
+                Km. 8 Bangna-Trad Road, Bangkok. Your items have been allocated from <strong className="text-emerald-600 dark:text-emerald-400 font-mono">{order.warehouseBin}</strong> and are currently entering express picking boxes.
               </p>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs font-mono">
-              <span className="text-slate-400">Estimated Ready Time:</span>
-              <span className="font-bold text-emerald-400">Within 120 Minutes (Today 16:15)</span>
+            <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-slate-950 border border-[#DBE2EF] dark:border-slate-800 flex items-center justify-between text-xs font-mono transition-colors duration-200">
+              <span className="text-[#112D4E]/70 dark:text-slate-400">Estimated Ready Time:</span>
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">Within 120 Minutes (Today 16:15)</span>
             </div>
           </div>
 
           {/* Right: Payment Slip Verification Audit */}
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl space-y-4">
-            <span className="font-mono text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-2">
+          <div className="rounded-2xl border border-[#DBE2EF] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm dark:shadow-xl space-y-4 transition-colors duration-200">
+            <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2">
               <ShieldCheck className="w-4 h-4" /> Payment Slip OCR Audit Record
             </span>
 
             <div className="space-y-2.5 font-mono text-xs">
-              <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-300">
+              <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
                 <span>Method:</span>
-                <span className="font-bold text-white">PromptPay Bank Transfer</span>
+                <span className="font-bold text-[#112D4E] dark:text-white">PromptPay Bank Transfer</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-300">
+              <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
                 <span>Total Paid:</span>
-                <span className="font-bold text-emerald-400">{formatTHB(4520)}</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatTHB(order.amount)}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-800 text-slate-300">
+              <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
                 <span>Transaction Ref:</span>
-                <span className="font-bold text-slate-200">#0149823901239</span>
+                <span className="font-bold text-[#112D4E] dark:text-slate-200">#0149823901239</span>
               </div>
-              <div className="flex justify-between py-1.5 text-slate-300">
+              <div className="flex justify-between py-1.5 text-[#112D4E]/70 dark:text-slate-300">
                 <span>OCR Validation:</span>
-                <span className="font-bold text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 100% Exact Match Approved</span>
+                <span className="font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 100% Exact Match Approved</span>
               </div>
             </div>
           </div>
@@ -155,16 +194,16 @@ export default function OrderDetailPage() {
         <div className="flex items-center justify-between pt-4">
           <Link
             href="/catalog"
-            className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-mono font-bold text-xs uppercase tracking-wider border border-slate-800 transition-colors flex items-center gap-2"
+            className="px-6 py-3 rounded-xl bg-white dark:bg-slate-900 hover:bg-[#F9F7F7] dark:hover:bg-slate-800 text-[#112D4E] dark:text-slate-200 font-mono font-bold text-xs uppercase tracking-wider border border-[#DBE2EF] dark:border-slate-800 transition-colors flex items-center gap-2 shadow-sm dark:shadow-none"
           >
             <ArrowLeft className="w-4 h-4" /> Continue Catalog Shopping
           </Link>
           
           <Link
-            href="/garage"
-            className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all"
+            href="/my-orders"
+            className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white dark:text-slate-950 font-mono font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all"
           >
-            Return to My Garage
+            Return to My Orders
           </Link>
         </div>
       </div>

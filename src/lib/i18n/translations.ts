@@ -16,6 +16,7 @@ export interface TranslationDictionary {
     roleAdmin: string;
     roleSeller: string;
     roleCustomer: string;
+    myOrders: string;
   };
   footer: {
     aboutText: string;
@@ -277,6 +278,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       roleAdmin: "Executive Admin",
       roleSeller: "Warehouse Seller",
       roleCustomer: "Verified Member",
+      myOrders: "My Orders",
     },
     footer: {
       aboutText: "Pitstop Grid v2 is Thailand's premier digital automotive parts distribution network. Combining real-time inventory tracking across Bangna and Laksi hubs with precise vehicle fitment algorithms.",
@@ -536,6 +538,7 @@ export const translations: Record<Language, TranslationDictionary> = {
       roleAdmin: "ผู้ดูแลระบบสูงสุด",
       roleSeller: "ฝ่ายจัดการคลังสินค้า",
       roleCustomer: "สมาชิกทั่วไป",
+      myOrders: "คำสั่งซื้อของฉัน",
     },
     footer: {
       aboutText: "Pitstop Grid v2 คือแพลตฟอร์มจัดจำหน่ายอะไหล่ยานยนต์ดิจิทัลชั้นนำของไทย ผสานการตรวจสอบสต็อกเรียลไทม์ระหว่างคลังบางนาและหลักสี่ พร้อมระบบคัดกรองความเข้ากันได้ของอะไหล่อย่างแม่นยำ",

@@ -151,6 +151,17 @@ export const Navbar: React.FC = () => {
                 {savedVehiclesCount}
               </span>
             </Link>
+            {currentIsAuthenticated && (
+              <Link
+                href="/my-orders"
+                className={cn(
+                  "hover:text-[#3F72AF] dark:hover:text-[#3282B8] transition-colors py-1 border-b-2 flex items-center gap-1",
+                  pathname.startsWith("/my-orders") ? "border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] font-bold" : "border-transparent"
+                )}
+              >
+                <span>{t.navbar.myOrders}</span>
+              </Link>
+            )}
           </nav>
 
           {/* Right Action Bar */}

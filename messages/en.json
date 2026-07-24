@@ -13,7 +13,8 @@
     "switchLangTitle": "Switch to Thai (TH)",
     "roleAdmin": "Executive Admin",
     "roleSeller": "Warehouse Seller",
-    "roleCustomer": "Verified Member"
+    "roleCustomer": "Verified Member",
+    "myOrders": "My Orders"
   },
   "footer": {
     "aboutText": "Pitstop Grid v2 is Thailand's premier digital automotive parts distribution network. Combining real-time inventory tracking across Bangna and Laksi hubs with precise vehicle fitment algorithms.",
