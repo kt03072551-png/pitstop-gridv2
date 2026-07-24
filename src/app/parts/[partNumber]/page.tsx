@@ -255,42 +255,42 @@ export default function ProductDetailPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
-                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">OEM Part Number</span>
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.specOemPartNumber}</span>
                   <span className="font-mono font-bold text-sm text-[#3F72AF] dark:text-[#3282B8]">{part.oemPartNumber}</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
-                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Internal SKU</span>
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.specInternalSku}</span>
                   <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-[#BBE1FA]">{part.sku}</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
-                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Manufacturer Brand</span>
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.specManufacturerBrand}</span>
                   <span className="font-bold text-sm text-[#112D4E] dark:text-white">{part.brand}</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
-                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Part Grade / Condition</span>
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.specPartGrade}</span>
                   <span className="font-mono font-bold text-xs px-2.5 py-0.5 rounded bg-[#3F72AF]/20 dark:bg-[#3282B8]/30 text-[#3F72AF] dark:text-[#3282B8] border border-[#3F72AF]/50">
                     {part.grade.replace("_", " ")}
                   </span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
-                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Warehouse Bin Location</span>
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.specWarehouseBin}</span>
                   <span className="font-mono font-bold text-sm text-[#3F72AF] dark:text-[#3282B8]">{part.warehouseBin} ({part.warehouseAisle})</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center shadow-sm">
-                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">Universal Fitment</span>
-                  <span className="font-mono font-bold text-xs text-[#112D4E] dark:text-[#BBE1FA]">{part.isUniversalFit ? "Yes (Universal)" : "No (Vehicle Specific)"}</span>
+                  <span className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] uppercase font-semibold">{t.partDetail.specUniversalFitment}</span>
+                  <span className="font-mono font-bold text-xs text-[#112D4E] dark:text-[#BBE1FA]">{part.isUniversalFit ? t.partDetail.specUniversalYes : t.partDetail.specUniversalNo}</span>
                 </div>
               </div>
 
               {/* Dynamic Key-Value Specs */}
               {Object.keys(part.specifications).length > 0 && (
                 <div className="pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75] space-y-2">
-                  <h4 className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] tracking-wide font-bold">Detailed Engineering Specs</h4>
+                  <h4 className="text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] tracking-wide font-bold">{t.partDetail.specDetailedEngineering}</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    {Object.entries(part.specifications).map(([key, val]) => (
+                    {Object.entries(lang === "th" && part.specificationsTh ? part.specificationsTh : part.specifications).map(([key, val]) => (
                       <div key={key} className="p-3 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-center text-xs shadow-sm">
                         <span className="text-[#112D4E]/70 dark:text-[#85B5D9] font-semibold">{key}:</span>
-                        <span className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] text-right">{val}</span>
+                        <span className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] text-right max-w-[60%]">{val}</span>
                       </div>
                     ))}
                   </div>

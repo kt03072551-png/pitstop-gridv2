@@ -55,7 +55,14 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <Link
+              href="/admin/parts/new"
+              className="min-h-[44px] px-6 py-3 rounded-xl bg-white dark:bg-[#0F4C75] border border-[#3F72AF] dark:border-[#3282B8] hover:bg-[#F9F7F7] dark:hover:bg-[#1B262C] text-[#3F72AF] dark:text-[#3282B8] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-sm transition-all"
+            >
+              <Package className="w-4 h-4 stroke-[2.5]" />
+              <span>{t.adminDashboard.addNewPartBtn}</span>
+            </Link>
             <Link
               href="/admin/orders"
               className="min-h-[44px] px-6 py-3 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all"

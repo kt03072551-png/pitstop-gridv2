@@ -71,7 +71,9 @@ export async function POST(req: NextRequest) {
       isUniversalFit = false,
       compatibleTrimIds = [],
       specifications = {},
+      specificationsTh = undefined,
       images = [],
+      image = "",
     } = body;
 
     if (!oemPartNumber || !title || !price || !category) {
@@ -98,10 +100,11 @@ export async function POST(req: NextRequest) {
       isUniversalFit: Boolean(isUniversalFit),
       compatibleTrimIds: Array.isArray(compatibleTrimIds) ? compatibleTrimIds : [],
       specifications,
+      specificationsTh,
       images: images.length > 0 ? images : [
         {
           id: `img_${Date.now()}`,
-          imageUrl: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800&q=80",
+          imageUrl: image || "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?auto=format&fit=crop&w=800&q=80",
           isPrimary: true,
           isExplodedDiagram: false,
         }

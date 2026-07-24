@@ -87,6 +87,7 @@ export interface PartItem {
   description: string;
   descriptionTh?: string;
   specifications: Record<string, string>;
+  specificationsTh?: Record<string, string>;
   compatibilityList: string[]; // Human readable models e.g. "Honda Civic (FL5, FK8)"
   compatibleTrimIds: string[]; // Exact trim IDs for fast matching
   images: PartImage[];

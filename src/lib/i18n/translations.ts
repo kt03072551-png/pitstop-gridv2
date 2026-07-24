@@ -151,6 +151,15 @@ export interface TranslationDictionary {
     addedToCart: string;
     vehicleUnselected: string;
     configureGarage: string;
+    specOemPartNumber: string;
+    specInternalSku: string;
+    specManufacturerBrand: string;
+    specPartGrade: string;
+    specWarehouseBin: string;
+    specUniversalFitment: string;
+    specUniversalYes: string;
+    specUniversalNo: string;
+    specDetailedEngineering: string;
   };
   adminLayout: {
     verifying: string;
@@ -181,6 +190,7 @@ export interface TranslationDictionary {
     colTime: string;
     colAction: string;
     inspectSlipBtn: string;
+    addNewPartBtn: string;
   };
   adminOrders: {
     portalBadge: string;
@@ -213,6 +223,40 @@ export interface TranslationDictionary {
     itemsSummaryLabel: string;
     approveReleaseBtn: string;
     rejectSlipBtn: string;
+  };
+  adminAddPart: {
+    pageTitle: string;
+    backToDashboard: string;
+    sectionBasicInfo: string;
+    sectionPricingStock: string;
+    sectionCategorization: string;
+    sectionDescription: string;
+    fieldTitle: string;
+    fieldBrand: string;
+    fieldOem: string;
+    fieldSku: string;
+    fieldPrice: string;
+    fieldCostPrice: string;
+    fieldStock: string;
+    fieldBin: string;
+    fieldAisle: string;
+    fieldCategory: string;
+    fieldGrade: string;
+    fieldUniversalFit: string;
+    fieldDescEn: string;
+    fieldDescTh: string;
+    fieldImage: string;
+    fieldImagePlaceholder: string;
+    sectionSpecifications: string;
+    addSpecBtn: string;
+    removeSpecBtn: string;
+    specKeyEn: string;
+    specValueEn: string;
+    specKeyTh: string;
+    specValueTh: string;
+    submitBtn: string;
+    successMsg: string;
+    errorMsg: string;
   };
 }
 
@@ -368,6 +412,15 @@ export const translations: Record<Language, TranslationDictionary> = {
       addedToCart: "✅ Part added to cart! Fitment verified against your garage.",
       vehicleUnselected: "Vehicle Unselected",
       configureGarage: "Configure Garage Profile",
+      specOemPartNumber: "OEM Part Number",
+      specInternalSku: "Internal SKU",
+      specManufacturerBrand: "Manufacturer Brand",
+      specPartGrade: "Part Grade / Condition",
+      specWarehouseBin: "Warehouse Bin Location",
+      specUniversalFitment: "Universal Fitment",
+      specUniversalYes: "Yes (Universal)",
+      specUniversalNo: "No (Vehicle Specific)",
+      specDetailedEngineering: "Detailed Engineering Specs",
     },
     adminLayout: {
       verifying: "Verifying Admin Credentials...",
@@ -398,6 +451,41 @@ export const translations: Record<Language, TranslationDictionary> = {
       colTime: "Time",
       colAction: "Action",
       inspectSlipBtn: "Inspect Slip",
+      addNewPartBtn: "Add New Part",
+    },
+    adminAddPart: {
+      pageTitle: "Add New Part to Catalog",
+      backToDashboard: "Back to Dashboard",
+      sectionBasicInfo: "Basic Information",
+      sectionPricingStock: "Pricing & Stock",
+      sectionCategorization: "Categorization & Fitment",
+      sectionDescription: "Product Description",
+      fieldTitle: "Part Title",
+      fieldBrand: "Brand",
+      fieldOem: "OEM Part Number",
+      fieldSku: "Internal SKU",
+      fieldPrice: "Retail Price (THB)",
+      fieldCostPrice: "Cost Price (THB)",
+      fieldStock: "Stock Quantity",
+      fieldBin: "Warehouse Bin",
+      fieldAisle: "Warehouse Aisle",
+      fieldCategory: "Category",
+      fieldGrade: "Grade / Condition",
+      fieldUniversalFit: "Universal Fit (Not vehicle specific)",
+      fieldDescEn: "Description (English)",
+      fieldDescTh: "Description (Thai)",
+      fieldImage: "Product Image URL",
+      fieldImagePlaceholder: "https://example.com/image.jpg",
+      sectionSpecifications: "Detailed Specifications",
+      addSpecBtn: "+ Add Specification",
+      removeSpecBtn: "Remove",
+      specKeyEn: "Key (EN)",
+      specValueEn: "Value (EN)",
+      specKeyTh: "Key (TH)",
+      specValueTh: "Value (TH)",
+      submitBtn: "Save New Part",
+      successMsg: "Part added successfully!",
+      errorMsg: "Failed to add new part.",
     },
     adminOrders: {
       portalBadge: "• Slip Audit & Order Verification Engine",
@@ -583,6 +671,15 @@ export const translations: Record<Language, TranslationDictionary> = {
       addedToCart: "✅ เพิ่มสินค้าลงตะกร้าแล้ว! ตรวจสอบความเข้ากันได้กับรถของคุณเรียบร้อย",
       vehicleUnselected: "ยังไม่ได้เลือกรถยนต์",
       configureGarage: "ตั้งค่าโปรไฟล์โรงรถของคุณ",
+      specOemPartNumber: "รหัสอะไหล่ OEM",
+      specInternalSku: "รหัสสินค้าภายใน",
+      specManufacturerBrand: "แบรนด์ผู้ผลิต",
+      specPartGrade: "เกรด / สภาพสินค้า",
+      specWarehouseBin: "ตำแหน่งจัดเก็บในคลังสินค้า",
+      specUniversalFitment: "ใช้ได้ทั่วไป",
+      specUniversalYes: "ใช่ (ใช้ได้ทั่วไป)",
+      specUniversalNo: "ไม่ (เฉพาะรุ่นรถ)",
+      specDetailedEngineering: "สเปกวิศวกรรมโดยละเอียด",
     },
     adminLayout: {
       verifying: "กำลังตรวจสอบสิทธิ์ผู้ดูแลระบบ...",
@@ -613,6 +710,41 @@ export const translations: Record<Language, TranslationDictionary> = {
       colTime: "เวลา",
       colAction: "ดำเนินการ",
       inspectSlipBtn: "ตรวจสลิป",
+      addNewPartBtn: "เพิ่มอะไหล่ใหม่",
+    },
+    adminAddPart: {
+      pageTitle: "เพิ่มอะไหล่ใหม่เข้าระบบ",
+      backToDashboard: "กลับหน้าแดชบอร์ด",
+      sectionBasicInfo: "ข้อมูลพื้นฐาน",
+      sectionPricingStock: "ราคาและสต็อก",
+      sectionCategorization: "หมวดหมู่และสเปก",
+      sectionDescription: "คำอธิบายสินค้า",
+      fieldTitle: "ชื่อสินค้า",
+      fieldBrand: "แบรนด์",
+      fieldOem: "รหัส OEM",
+      fieldSku: "รหัส SKU",
+      fieldPrice: "ราคาขาย (บาท)",
+      fieldCostPrice: "ต้นทุน (บาท)",
+      fieldStock: "จำนวนสต็อก",
+      fieldBin: "ตำแหน่ง Bin",
+      fieldAisle: "ตำแหน่ง Aisle",
+      fieldCategory: "หมวดหมู่",
+      fieldGrade: "เกรด/สภาพ",
+      fieldUniversalFit: "ใช้ได้ทั่วไป (Universal Fit)",
+      fieldDescEn: "คำอธิบาย (ภาษาอังกฤษ)",
+      fieldDescTh: "คำอธิบาย (ภาษาไทย)",
+      fieldImage: "URL รูปภาพสินค้า",
+      fieldImagePlaceholder: "https://example.com/image.jpg",
+      sectionSpecifications: "รายละเอียดสเปกเชิงลึก",
+      addSpecBtn: "+ เพิ่มสเปก",
+      removeSpecBtn: "ลบ",
+      specKeyEn: "หัวข้อ (EN)",
+      specValueEn: "รายละเอียด (EN)",
+      specKeyTh: "หัวข้อ (TH)",
+      specValueTh: "รายละเอียด (TH)",
+      submitBtn: "บันทึกสินค้าใหม่",
+      successMsg: "เพิ่มสินค้าใหม่เรียบร้อยแล้ว!",
+      errorMsg: "เกิดข้อผิดพลาดในการเพิ่มสินค้า",
     },
     adminOrders: {
       portalBadge: "• ระบบตรวจสอบสลิป & อนุมัติคำสั่งซื้อ",
