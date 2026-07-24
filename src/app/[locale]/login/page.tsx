@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import { useRouter } from "@/i18n/routing";
+import { Link } from "@/i18n/routing";
 import {
   LogIn,
   Mail,

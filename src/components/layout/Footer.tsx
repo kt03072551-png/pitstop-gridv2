@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { Wrench, ShieldCheck, MapPin, Phone, Mail, ExternalLink } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/translations";
 

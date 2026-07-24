@@ -1,17 +1,36 @@
 "use client";
 
 import * as React from "react";
-import { useTranslation } from "@/lib/i18n/translations";
+import { useLocale } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/routing";
 import { Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguageStore, Language } from "@/store/useLanguageStore";
 
 export function LanguageToggle({ className }: { className?: string }) {
-  const { lang, toggleLanguage } = useTranslation();
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
   const [mounted, setMounted] = React.useState(false);
+  const [isPending, startTransition] = React.useTransition();
+  const setLanguage = useLanguageStore((state) => state.setLanguage);
 
   React.useEffect(() => {
     setMounted(true);
   }, []);
+
+  React.useEffect(() => {
+    if (locale) {
+      setLanguage(locale as Language);
+    }
+  }, [locale, setLanguage]);
+
+  const toggleLanguage = () => {
+    const nextLocale = locale === "en" ? "th" : "en";
+    startTransition(() => {
+      router.replace(pathname, { locale: nextLocale });
+    });
+  };
 
   if (!mounted) {
     return (
@@ -19,14 +38,16 @@ export function LanguageToggle({ className }: { className?: string }) {
     );
   }
 
-  const isEn = lang === "en";
+  const isEn = locale === "en";
 
   return (
     <button
       onClick={toggleLanguage}
+      disabled={isPending}
       aria-label="Toggle language between English and Thai"
       className={cn(
         "relative flex items-center justify-between min-h-[44px] px-2.5 py-1.5 rounded-xl border transition-all duration-300 shadow-sm overflow-hidden active:scale-95 group gap-1.5 font-mono text-xs font-bold select-none",
+        isPending && "opacity-70 cursor-not-allowed",
         "bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/60 border-[#3F72AF]/30 dark:border-[#3282B8]/40 hover:border-[#3F72AF] dark:hover:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] shadow-sm",
         className
       )}

@@ -30,7 +30,7 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
         )}
       >
         <CheckCircle2 className={cn("text-emerald-400 shrink-0", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-        <span>✅ Fits Your Vehicle</span>
+        <span>Fits Your Vehicle</span>
         {showNotes && <span className="text-emerald-400/80 font-normal ml-1">| Direct Bolt-On OEM Spec</span>}
       </div>
     );
@@ -48,7 +48,7 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
         )}
       >
         <AlertTriangle className={cn("text-rose-400 shrink-0 animate-pulse", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-        <span>⚠️ Incompatible</span>
+        <span>Incompatible</span>
         {showNotes && <span className="text-rose-400/80 font-normal ml-1">| Check compatibility list</span>}
       </div>
     );
@@ -66,7 +66,7 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
         )}
       >
         <Info className={cn("text-sky-400 shrink-0", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-        <span>ℹ️ Universal Fit</span>
+        <span>Universal Fit</span>
         {showNotes && <span className="text-sky-400/80 font-normal ml-1">| Fits all Cars & Motorbikes</span>}
       </div>
     );
@@ -83,7 +83,7 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
       )}
     >
       <HelpCircle className={cn("text-slate-500 shrink-0", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-      <span>🔍 Select Vehicle to Check Fitment</span>
+      <span>Select Vehicle to Check Fitment</span>
     </div>
   );
 };

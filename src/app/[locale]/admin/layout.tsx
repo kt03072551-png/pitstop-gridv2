@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { ShieldAlert, Loader2, LogIn } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useTranslation } from "@/lib/i18n/translations";
 

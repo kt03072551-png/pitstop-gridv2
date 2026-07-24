@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
 import { 
   QrCode, 
   UploadCloud, 
@@ -17,7 +17,8 @@ import {
   FileText, 
   Sparkles,
   Loader2,
-  RefreshCw
+  RefreshCw,
+  AlertTriangle
 } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useVehicleStore } from "@/store/useVehicleStore";
@@ -321,7 +322,7 @@ export default function CheckoutPage() {
                           <div className="p-2.5 rounded-xl bg-[#3F72AF]/10 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] font-mono text-xs space-y-0.5">
                             <div className="flex items-center gap-1.5 font-bold">
                               <CheckCircle2 className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
-                              <span>OCR Verified: {formatTHB(ocrAmount || totalAmount)} ✅</span>
+                              <span className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> OCR Verified: {formatTHB(ocrAmount || totalAmount)}</span>
                             </div>
                             <div className="text-[10px] text-[#112D4E]/80 dark:text-[#BBE1FA]/80 font-medium">
                               Transfer Timestamp: 23/07/2026 14:15 • Ref #0149823901239
@@ -331,7 +332,7 @@ export default function CheckoutPage() {
 
                         {ocrState === "MISMATCH" && (
                           <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500 text-amber-800 dark:text-amber-200 font-mono text-xs font-bold">
-                            ⚠️ Warning: Uploaded slip shows {formatTHB(ocrAmount || 0)} vs Order Total {formatTHB(totalAmount)}. Admin review required.
+                            <div className="flex items-start"><AlertTriangle className="w-4 h-4 mr-1.5 shrink-0 mt-0.5" /> <span>Warning: Uploaded slip shows {formatTHB(ocrAmount || 0)} vs Order Total {formatTHB(totalAmount)}. Admin review required.</span></div>
                           </div>
                         )}
                       </div>

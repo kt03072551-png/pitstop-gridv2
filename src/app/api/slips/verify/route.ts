@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
           expectedAmount: Number(expectedAmount),
           bankReferenceNumber,
           verifiedTimestamp,
-          message: `✅ Automated OCR Slip Audit verified exact transfer amount of ฿${extractedAmount.toLocaleString("en-TH", { minimumFractionDigits: 2 })}. Order released to warehouse picking bin immediately.`,
+          message: `Automated OCR Slip Audit verified exact transfer amount of ฿${extractedAmount.toLocaleString("en-TH", { minimumFractionDigits: 2 })}. Order released to warehouse picking bin immediately.`,
         },
       });
     } else {
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
           bankReferenceNumber,
           verifiedTimestamp,
           delta: amountDelta,
-          message: `⚠️ OCR detected transfer amount ฿${extractedAmount.toLocaleString("en-TH", { minimumFractionDigits: 2 })} which differs from required total ฿${Number(expectedAmount).toLocaleString("en-TH", { minimumFractionDigits: 2 })}. Order sent to Admin Portal for manual audit.`,
+          message: `OCR detected transfer amount ฿${extractedAmount.toLocaleString("en-TH", { minimumFractionDigits: 2 })} which differs from required total ฿${Number(expectedAmount).toLocaleString("en-TH", { minimumFractionDigits: 2 })}. Order sent to Admin Portal for manual audit.`,
         },
       });
     }

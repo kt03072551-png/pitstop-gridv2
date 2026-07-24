@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useMemo, Suspense } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useSearchParams } from "next/navigation";
 import { 
   Filter, 
@@ -154,7 +154,7 @@ function CatalogContent() {
                 )}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{fitmentFilter === "FITS_ONLY" ? "Filtering Fits Only ✅" : t.catalog.filterFits}</span>
+                <span className="flex items-center">{fitmentFilter === "FITS_ONLY" ? <><span className="mr-1">Filtering Fits Only</span> <CheckCircle2 className="w-3.5 h-3.5 ml-1" /></> : t.catalog.filterFits}</span>
               </button>
             )}
             <Link

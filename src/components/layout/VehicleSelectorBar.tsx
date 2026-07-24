@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/routing";
 import { Car, Check, ChevronRight, ShieldCheck, Sparkles, Filter } from "lucide-react";
 import { MOCK_VEHICLE_MAKES, MOCK_VEHICLE_MODELS, MOCK_VEHICLE_TRIMS } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";

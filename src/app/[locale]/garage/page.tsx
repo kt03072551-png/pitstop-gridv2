@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { 
   Warehouse, 
   Car, 
@@ -13,7 +13,10 @@ import {
   Sparkles, 
   FileText, 
   AlertCircle,
-  Hash
+  Hash,
+  Settings,
+  Droplets,
+  Disc
 } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { useTranslation } from "@/lib/i18n/translations";
@@ -278,9 +281,9 @@ export default function GaragePage() {
                     )}
                   </div>
 
-                  <p className="font-mono text-xs font-semibold text-[#3F72AF] dark:text-[#3282B8] bg-[#F9F7F7]/80 dark:bg-[#1B262C]/80 p-2.5 rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75]">
-                    ⚙️ {v.trim}
-                  </p>
+                  <span className="font-mono text-sm text-[#112D4E] dark:text-[#BBE1FA] bg-[#F9F7F7] dark:bg-[#1B262C] px-2 py-0.5 rounded border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center">
+                    <Settings className="w-3.5 h-3.5 mr-1" /> {v.trim}
+                  </span>
 
                   {v.nickname && (
                     <p className="text-xs text-[#112D4E]/80 dark:text-[#85B5D9] italic flex items-center gap-1.5 font-medium">
@@ -305,14 +308,14 @@ export default function GaragePage() {
                       href={`/catalog?category=Engine`}
                       className="min-h-[40px] p-2.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between transition-colors"
                     >
-                      <span>🛢️ Oil Filters</span>
+                      <span className="flex items-center"><Droplets className="w-3.5 h-3.5 mr-1" /> Oil Filters</span>
                       <span className="text-[#3F72AF] dark:text-[#3282B8]">&rarr;</span>
                     </Link>
                     <Link
                       href={`/catalog?category=Braking`}
                       className="min-h-[40px] p-2.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:opacity-90 text-[#112D4E] dark:text-[#BBE1FA] border border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between transition-colors"
                     >
-                      <span>🛑 Brake Pads</span>
+                      <span className="flex items-center"><Disc className="w-3.5 h-3.5 mr-1" /> Brake Pads</span>
                       <span className="text-[#3F72AF] dark:text-[#3282B8]">&rarr;</span>
                     </Link>
                   </div>

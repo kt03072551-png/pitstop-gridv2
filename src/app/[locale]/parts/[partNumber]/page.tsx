@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { Link } from "@/i18n/routing";
+import { useRouter } from "@/i18n/routing";
+import { useParams } from "next/navigation";
 import { 
   CheckCircle2, 
   AlertTriangle, 
@@ -18,7 +19,9 @@ import {
   ZoomIn, 
   Check, 
   ArrowLeft,
-  Share2
+  Share2,
+  Settings,
+  Search
 } from "lucide-react";
 import { MOCK_PARTS_CATALOG } from "@/lib/mock-data";
 import { useVehicleStore } from "@/store/useVehicleStore";
@@ -105,10 +108,10 @@ export default function ProductDetailPage() {
               fitStatus === "UNIVERSAL" && "bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] border-[#3F72AF]",
               fitStatus === "UNSELECTED" && "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E]/60 dark:text-[#85B5D9]"
             )}>
-              {fitStatus === "FITS" && "✅"}
-              {fitStatus === "INCOMPATIBLE" && "⚠️"}
-              {fitStatus === "UNIVERSAL" && "ℹ️"}
-              {fitStatus === "UNSELECTED" && "🔍"}
+              {fitStatus === "FITS" && <CheckCircle2 className="w-5 h-5 text-emerald-400" />}
+              {fitStatus === "INCOMPATIBLE" && <AlertTriangle className="w-5 h-5 text-rose-200" />}
+              {fitStatus === "UNIVERSAL" && <Info className="w-5 h-5 text-sky-400" />}
+              {fitStatus === "UNSELECTED" && <Search className="w-5 h-5 text-slate-400" />}
             </div>
             <div>
               <h2 className="font-mono font-bold text-base uppercase tracking-tight text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-2">
@@ -213,7 +216,7 @@ export default function ProductDetailPage() {
                     </h4>
                     {activeCallout.specs && (
                       <p className="text-xs font-mono text-[#BBE1FA] leading-relaxed bg-black/40 p-2.5 rounded border border-[#3F72AF]/30">
-                        ⚙️ {lang === "th" && activeCallout.specsTh ? activeCallout.specsTh : activeCallout.specs}
+                        <Settings className="w-3.5 h-3.5 inline mr-1" /> {lang === "th" && activeCallout.specsTh ? activeCallout.specsTh : activeCallout.specs}
                       </p>
                     )}
                   </div>
@@ -363,7 +366,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="text-right">
                   <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#3F72AF] dark:text-[#3282B8] bg-[#DBE2EF]/80 dark:bg-[#0F4C75]/80 px-2.5 py-1 rounded-lg border border-[#3F72AF]/40">
-                    ✅ {t.partDetail.inStock} ({part.stockQuantity})
+                    <CheckCircle2 className="w-3.5 h-3.5 inline mr-1" /> {t.partDetail.inStock} ({part.stockQuantity})
                   </span>
                   <span className="block text-[11px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 font-semibold">{part.warehouseBin} • {part.warehouseAisle}</span>
                 </div>

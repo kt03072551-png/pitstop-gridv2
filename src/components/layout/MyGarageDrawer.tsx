@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Warehouse, CheckCircle2, Plus, Trash2, ShieldCheck, X, Car } from "lucide-react";
+import { Warehouse, CheckCircle2, Plus, Trash2, ShieldCheck, X, Car, Tag } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { cn } from "@/lib/utils";
 
@@ -90,7 +90,7 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
                       </p>
                       {v.nickname && (
                         <p className="text-[11px] text-[#112D4E]/60 dark:text-[#85B5D9] italic mt-1.5 flex items-center gap-1">
-                          🏷️ &quot;{v.nickname}&quot; {v.vin && <span className="text-[#112D4E]/50 dark:text-[#85B5D9]/70">| VIN: {v.vin.slice(0, 9)}...</span>}
+                          <Tag className="w-3.5 h-3.5 mr-1" /> &quot;{v.nickname}&quot; {v.vin && <span className="text-[#112D4E]/50 dark:text-[#85B5D9]/70">| VIN: {v.vin.slice(0, 9)}...</span>}
                         </p>
                       )}
                     </div>

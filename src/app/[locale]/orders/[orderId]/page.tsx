@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useParams } from "next/navigation";
 import { 
   CheckCircle2, 
@@ -150,7 +150,7 @@ export default function OrderDetailPage() {
               </div>
               <div className="flex justify-between py-1.5 text-slate-300">
                 <span>OCR Validation:</span>
-                <span className="font-bold text-emerald-400">✅ 100% Exact Match Approved</span>
+                <span className="font-bold text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 100% Exact Match Approved</span>
               </div>
             </div>
           </div>
