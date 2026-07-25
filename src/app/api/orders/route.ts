@@ -82,6 +82,19 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Verify user exists
+    const userExists = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true }
+    });
+
+    if (!userExists) {
+      return NextResponse.json(
+        { error: "Invalid userId or user no longer exists. Please re-login." },
+        { status: 400 }
+      );
+    }
+
     // Resolve partIds — the cart may hold mock IDs (e.g. "part-1") or
     // oemPartNumbers instead of actual database UUIDs. Look up the real
     // Part record for each item so Prisma's FK constraint is satisfied.
@@ -89,35 +102,34 @@ export async function POST(req: NextRequest) {
     for (const item of items as { partId: string; oemPartNumber?: string; quantity: number; price: number }[]) {
       const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.partId);
 
+      // Try resolving by partId (if it's a UUID), oemPartNumber, or SKU
+      const orConditions: Record<string, string>[] = [
+        { oemPartNumber: item.oemPartNumber || "" },
+        { sku: item.partId },
+        { oemPartNumber: item.partId },
+      ];
+      
       if (isUuid) {
-        // Already a valid UUID — use directly
-        resolvedItems.push({ partId: item.partId, quantity: item.quantity, price: item.price });
-      } else {
-        // Try resolving by oemPartNumber first, then by SKU-style partId
-        const dbPart = await prisma.part.findFirst({
-          where: {
-            OR: [
-              { oemPartNumber: item.oemPartNumber || "" },
-              { sku: item.partId },
-              { oemPartNumber: item.partId },
-            ],
-          },
-          select: { id: true, price: true },
-        });
-
-        if (!dbPart) {
-          return NextResponse.json(
-            { error: `Part not found for id: ${item.partId}` },
-            { status: 400 }
-          );
-        }
-
-        resolvedItems.push({
-          partId: dbPart.id,
-          quantity: item.quantity,
-          price: item.price || Number(dbPart.price),
-        });
+        orConditions.push({ id: item.partId });
       }
+
+      const dbPart = await prisma.part.findFirst({
+        where: { OR: orConditions },
+        select: { id: true, price: true },
+      });
+
+      if (!dbPart) {
+        return NextResponse.json(
+          { error: `Part not found or no longer exists: ${item.partId}` },
+          { status: 400 }
+        );
+      }
+
+      resolvedItems.push({
+        partId: dbPart.id,
+        quantity: item.quantity,
+        price: item.price || Number(dbPart.price),
+      });
     }
 
     const subtotal = resolvedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -168,14 +180,27 @@ export async function POST(req: NextRequest) {
         success: true,
         message: `Order ${orderNumber} initialized. Please complete PromptPay transfer of ฿${formattedTotal} within 15 minutes.`,
         order: formatOrderRecord(newOrder),
-        qrCodeUrl: `/Fvck this project.png`,
+        qrCodeUrl: `/Fvck-this-project.png`,
       },
       { status: 201 }
     );
   } catch (error: unknown) {
     console.error("Order creation error:", error);
+    let errorMessage = "Error creating order";
+    let errorDetails = error instanceof Error ? error.message : "Unknown error";
+    
+    // Check for Prisma connection pooling / timeout errors
+    if (errorDetails.includes("08P01") || errorDetails.includes("Authentication timed out") || errorDetails.includes("Connection pool") || errorDetails.includes("timeout")) {
+      errorMessage = "Database connection timeout. The server is currently experiencing high load.";
+      errorDetails = "Please try placing your order again in a few moments.";
+    }
+
     return NextResponse.json(
-      { error: "Error creating order", details: error instanceof Error ? error.message : "Unknown error" },
+      { 
+        error: errorMessage, 
+        details: errorDetails,
+        stack: error instanceof Error ? error.stack : undefined
+      },
       { status: 500 }
     );
   }

@@ -45,6 +45,7 @@ export default function CheckoutPage() {
   // Slip upload state
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [base64Slip, setBase64Slip] = useState<string | null>(null);
   const [ocrState, setOcrState] = useState<"IDLE" | "SCANNING" | "SUCCESS" | "MISMATCH">("IDLE");
   const [ocrAmount, setOcrAmount] = useState<number | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,13 +67,16 @@ export default function CheckoutPage() {
     return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const processFile = (file: File) => {
     setUploadedFile(file);
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setBase64Slip(reader.result as string);
+    };
+    reader.readAsDataURL(file);
 
     // Trigger simulated preliminary OCR & QR extraction check
     setOcrState("SCANNING");
@@ -90,6 +94,28 @@ export default function CheckoutPage() {
     }, 1800);
   };
 
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    processFile(file);
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf("image") !== -1) {
+        const file = items[i].getAsFile();
+        if (file) {
+          processFile(file);
+          break; // only process the first image
+        }
+      }
+    }
+  };
+
+
+
   const handleSubmitOrder = async () => {
     if (!uploadedFile && ocrState !== "SUCCESS") return;
     setIsSubmitting(true);
@@ -99,7 +125,7 @@ export default function CheckoutPage() {
         userId: user?.id,
         fulfillmentType,
         pickupBranchId: pickupBranch,
-        paymentSlipUrl: uploadedFile ? "https://images.unsplash.com/photo-1615998188172-e190eb87eec8?auto=format&fit=crop&w=600&q=80" : undefined,
+        paymentSlipUrl: base64Slip || undefined,
         ocrVerifiedAmount: ocrAmount,
         items: items.map(item => ({
           partId: item.part.id,
@@ -121,11 +147,13 @@ export default function CheckoutPage() {
         clearCart();
         router.push(`/orders/${data.order.orderId}`);
       } else {
-        console.error("Failed to create order:", data.error);
+        console.error("Failed to create order:", data.error, data.details);
+        alert(data.error || "Failed to create order");
         setIsSubmitting(false);
       }
     } catch (err) {
       console.error("Error submitting order:", err);
+      alert("Network error: Could not connect to the server.");
       setIsSubmitting(false);
     }
   };
@@ -151,7 +179,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-10 px-4 transition-colors duration-200">
+    <div onPaste={handlePaste} className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-10 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Top Header */}
         <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-6">
@@ -286,7 +314,7 @@ export default function CheckoutPage() {
                 {/* QR Code Container */}
                 <div className="relative p-4 rounded-xl bg-white shadow-xl border border-[#DBE2EF]">
                   <Image
-                    src="/Fvck this project.png"
+                    src="/Fvck-this-project.png"
                     alt="PromptPay QR Code"
                     width={176}
                     height={176}
@@ -339,9 +367,9 @@ export default function CheckoutPage() {
                       <div className="flex-1 space-y-1.5">
                         <div className="flex items-center justify-between">
                           <span className="font-mono text-xs font-bold text-[#112D4E] dark:text-white truncate max-w-[150px]">
-                            {uploadedFile?.name || "bank_slip.jpg"}
+                            {uploadedFile?.name || "pasted_slip.png"}
                           </span>
-                          <button onClick={() => { setPreviewUrl(null); setUploadedFile(null); setOcrState("IDLE"); }} className="text-[11px] text-rose-500 font-mono font-bold underline min-h-[36px] flex items-center">
+                          <button onClick={() => { setPreviewUrl(null); setUploadedFile(null); setBase64Slip(null); setOcrState("IDLE"); }} className="text-[11px] text-rose-500 font-mono font-bold underline min-h-[36px] flex items-center">
                             Remove
                           </button>
                         </div>

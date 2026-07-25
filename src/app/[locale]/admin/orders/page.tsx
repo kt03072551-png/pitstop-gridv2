@@ -14,7 +14,8 @@ import {
   Check, 
   AlertTriangle,
   Warehouse,
-  Truck
+  Truck,
+  Copy
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
@@ -54,7 +55,20 @@ export default function AdminOrdersPage() {
   const [selectedOrder, setSelectedOrder] = useState<OrderAuditRecord | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
+  const [copiedRef, setCopiedRef] = useState(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const formatBankRef = (ref: string) => {
+    if (!ref) return "N/A";
+    if (ref.length <= 16) return ref;
+    return `${ref.slice(0, 8)}...${ref.slice(-4)}`;
+  };
+
+  const handleCopyRef = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedRef(true);
+    setTimeout(() => setCopiedRef(false), 2000);
+  };
 
   const filteredOrders = orders.filter((o) => {
     if (filterStatus === "ALL") return true;
@@ -215,7 +229,7 @@ export default function AdminOrdersPage() {
                       <span className="text-[11px] text-[#3F72AF] dark:text-[#3282B8] font-bold">{o.pickupBranch}</span>
                     </td>
                     <td className="p-4">
-                      <span className={`px-2.5 py-1 rounded-lg font-bold uppercase ${
+                      <span className={`px-2.5 py-1 rounded-lg font-bold uppercase whitespace-nowrap inline-block ${
                         o.status === "VERIFYING_SLIP" ? "bg-amber-500/10 text-amber-600 dark:text-amber-300 border border-amber-500 animate-pulse" :
                         o.status === "APPROVED" ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 border border-emerald-500" :
                         o.status === "REJECTED" ? "bg-rose-500/10 text-rose-600 dark:text-rose-300 border border-rose-500" :
@@ -227,7 +241,7 @@ export default function AdminOrdersPage() {
                     <td className="p-4 text-right">
                       <button
                         onClick={() => { setSelectedOrder(o); setZoomLevel(1); setRotation(0); }}
-                        className="min-h-[40px] px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold uppercase text-[11px] inline-flex items-center gap-1.5 shadow-md"
+                        className="min-h-[40px] px-4 py-2 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold uppercase text-[11px] inline-flex items-center gap-1.5 shadow-md whitespace-nowrap"
                       >
                         <Eye className="w-3.5 h-3.5" /> {t.adminOrders.inspectBtn}
                       </button>
@@ -279,15 +293,38 @@ export default function AdminOrdersPage() {
               <div className="flex-1 overflow-auto flex items-center justify-center p-4 my-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedOrder.paymentSlipUrl || selectedOrder.promptPayQrString || "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80"}
+                  src={selectedOrder.paymentSlipUrl || "/Fvck-this-project.png"}
                   alt="Transfer Slip"
                   style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}
                   className="max-h-[360px] object-contain rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] transition-transform duration-200 select-none shadow-xl"
                 />
               </div>
 
-              <div className="text-center font-mono text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75] font-semibold">
-                Extracted Slip Timestamp: {new Date(selectedOrder.createdAt).toLocaleString()} • Ref: {selectedOrder.ocrAuditDetails?.bankReferenceNumber || "N/A"}
+              <div className="flex items-center justify-between font-mono text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9] pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75] font-semibold">
+                <span>
+                  Extracted Slip Timestamp: {new Date(selectedOrder.createdAt).toLocaleString()}
+                </span>
+                <div className="flex items-center gap-1.5 relative group">
+                  <span>Ref:</span>
+                  <span className="font-bold text-[#112D4E] dark:text-[#BBE1FA] cursor-default" title={selectedOrder.ocrAuditDetails?.bankReferenceNumber || "N/A"}>
+                    {formatBankRef(selectedOrder.ocrAuditDetails?.bankReferenceNumber || "")}
+                  </span>
+                  {selectedOrder.ocrAuditDetails?.bankReferenceNumber && (
+                    <button 
+                      onClick={() => handleCopyRef(selectedOrder.ocrAuditDetails?.bankReferenceNumber || "")}
+                      className="p-1 hover:bg-[#DBE2EF] dark:hover:bg-[#0F4C75] rounded transition-colors text-[#3F72AF] dark:text-[#3282B8]"
+                      title="Copy full reference string"
+                    >
+                      {copiedRef ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                  )}
+                  {/* Tooltip for the full string (visible on hover) */}
+                  {selectedOrder.ocrAuditDetails?.bankReferenceNumber && (
+                    <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block w-max max-w-[300px] p-2 bg-[#112D4E] dark:bg-[#1B262C] text-white border border-[#3F72AF] dark:border-[#0F4C75] rounded shadow-lg z-50 text-[10px] break-all leading-snug">
+                      {selectedOrder.ocrAuditDetails?.bankReferenceNumber}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
