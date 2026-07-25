@@ -6,17 +6,15 @@ import { Link } from "@/i18n/routing";
 import { 
   ShoppingCart, 
   Trash2, 
-  Warehouse, 
   AlertTriangle, 
   CheckCircle2, 
-  ShieldCheck, 
-  Sparkles,
+  ShieldCheck,
   ArrowLeft
 } from "lucide-react";
 import { useCartStore } from "@/store/useCartStore";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { FitmentBadge } from "@/components/ui/FitmentBadge";
-import { formatTHB, cn } from "@/lib/utils";
+import { formatTHB } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/translations";
 
 export default function CartPage() {
@@ -26,8 +24,6 @@ export default function CartPage() {
     items, 
     removeItem, 
     updateQuantity, 
-    fulfillmentType, 
-    setFulfillmentType, 
     getSubtotal, 
     getShippingFee, 
     getTotal 
@@ -135,7 +131,7 @@ export default function CartPage() {
                   >
                     {/* Image & Title */}
                     <div className="flex items-start gap-4 flex-1">
-                      <div className="w-20 h-20 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] overflow-hidden shrink-0 shadow-inner">
+                      <div className="relative w-20 h-20 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] overflow-hidden shrink-0 shadow-inner">
                         <Image
                           src={item.part.images[0]?.imageUrl}
                           alt={item.part.title}
@@ -210,62 +206,9 @@ export default function CartPage() {
               })}
             </div>
 
-            {/* Order Audit & Fulfillment Summary (5/12) */}
+
+            {/* Order Summary (5/12) */}
             <div className="lg:col-span-5 sticky top-24 space-y-6">
-              <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-xl space-y-6">
-                <h3 className="font-mono text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider flex items-center gap-2 border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
-                  <Sparkles className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Fulfillment & Audit Summary
-                </h3>
-
-                {/* Fulfillment Selection */}
-                <div className="space-y-3">
-                  {/* EXPRESS DELIVERY */}
-                  <label
-                    onClick={() => setFulfillmentType("EXPRESS_SHIPPING")}
-                    className={cn(
-                      "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
-                      fulfillmentType === "EXPRESS_SHIPPING"
-                        ? "bg-[#3F72AF]/10 border-[#3F72AF] dark:border-[#3282B8]"
-                        : "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]/50"
-                    )}
-                  >
-                    <div className="pt-0.5 flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white">{t.cart.expressDelivery}</span>
-                        <span className="font-mono font-bold text-xs text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(250)}</span>
-                      </div>
-                      <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
-                        {t.cart.expressDeliveryDesc}
-                      </p>
-                    </div>
-                  </label>
-
-                  {/* STORE PICKUP */}
-                  <label
-                    onClick={() => setFulfillmentType("INSTORE_PICKUP")}
-                    className={cn(
-                      "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
-                      fulfillmentType === "INSTORE_PICKUP"
-                        ? "bg-[#3F72AF]/10 border-[#3F72AF] dark:border-[#3282B8]"
-                        : "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]/50"
-                    )}
-                  >
-                    <div className="pt-0.5 flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white flex items-center gap-1.5">
-                          <Warehouse className="w-4 h-4" /> {t.cart.storePickup}
-                        </span>
-                        <span className="font-mono font-bold text-xs text-emerald-600 dark:text-emerald-400">FREE</span>
-                      </div>
-                      <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
-                        {t.cart.storePickupDesc}
-                      </p>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              {/* Order Summary */}
               <div className="p-6 rounded-2xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75] shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#3F72AF]/10 rounded-full blur-3xl pointer-events-none" />
                 <h3 className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase mb-6 text-sm relative z-10 flex items-center gap-2">

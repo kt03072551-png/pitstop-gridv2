@@ -32,9 +32,10 @@ export default function CheckoutPage() {
     items, 
     fulfillmentType, 
     pickupBranch, 
-    getShippingFee, 
-    getTotal, 
-    clearCart 
+
+    getTotal,
+    clearCart,
+    setFulfillmentType
   } = useCartStore();
   const { activeVehicle } = useVehicleStore();
   const { user } = useAuthStore();
@@ -253,30 +254,56 @@ export default function CheckoutPage() {
                 ))}
               </div>
 
-              {/* Fulfillment Info Box */}
-              <div className="pt-3 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between text-xs font-mono text-[#112D4E] dark:text-[#BBE1FA] bg-[#F9F7F7] dark:bg-[#1B262C] p-3.5 rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] shadow-sm">
-                <div className="flex items-center gap-2">
-                  {fulfillmentType === "EXPRESS_SHIPPING" ? (
-                    <>
-                      <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
-                      <div>
-                        <span className="font-bold text-[#112D4E] dark:text-white block">Express Courier Delivery</span>
-                        <span className="text-[#112D4E]/60 dark:text-[#85B5D9] text-[11px] font-medium">Shipping to: Sukhumvit Soi 55, Bangkok</span>
+              {/* Fulfillment Selection */}
+              <div className="pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75] space-y-4">
+                <h3 className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase text-sm flex items-center gap-2">
+                  <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Fulfillment Selection
+                </h3>
+                <div className="space-y-3">
+                  {/* EXPRESS DELIVERY */}
+                  <label
+                    onClick={() => setFulfillmentType("EXPRESS_SHIPPING")}
+                    className={cn(
+                      "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
+                      fulfillmentType === "EXPRESS_SHIPPING"
+                        ? "bg-[#3F72AF]/10 border-[#3F72AF] dark:border-[#3282B8]"
+                        : "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]/50"
+                    )}
+                  >
+                    <div className="pt-0.5 flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white">Express Courier Delivery</span>
+                        <span className="font-mono font-bold text-xs text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(250)}</span>
                       </div>
-                    </>
-                  ) : (
-                    <>
-                      <Warehouse className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
-                      <div>
-                        <span className="font-bold text-[#112D4E] dark:text-white block">In-Store Warehouse Pickup</span>
-                        <span className="text-[#112D4E]/60 dark:text-[#85B5D9] text-[11px] font-medium">{pickupBranch}</span>
+                      <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
+                        Ships today via EMS/Kerry Express. Delivery within 1-2 business days.
+                      </p>
+                    </div>
+                  </label>
+
+                  {/* STORE PICKUP */}
+                  <label
+                    onClick={() => setFulfillmentType("INSTORE_PICKUP")}
+                    className={cn(
+                      "flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all",
+                      fulfillmentType === "INSTORE_PICKUP"
+                        ? "bg-[#3F72AF]/10 border-[#3F72AF] dark:border-[#3282B8]"
+                        : "bg-[#F9F7F7] dark:bg-[#1B262C] border-[#DBE2EF] dark:border-[#0F4C75] hover:border-[#3F72AF]/50"
+                    )}
+                  >
+                    <div className="pt-0.5 flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white flex items-center gap-1.5">
+                          <Warehouse className="w-4 h-4" /> In-Store Warehouse Pickup
+                        </span>
+                        <span className="font-mono font-bold text-xs text-emerald-600 dark:text-emerald-400">FREE</span>
                       </div>
-                    </>
-                  )}
+                      <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
+                        Pick up from Bangna or Laksi Hub within 2 hours.
+                      </p>
+                    </div>
+                  </label>
                 </div>
-                <span className="font-bold text-[#3F72AF] dark:text-[#3282B8]">
-                  {fulfillmentType === "EXPRESS_SHIPPING" ? formatTHB(getShippingFee()) : "FREE (฿0.00)"}
-                </span>
               </div>
             </div>
           </div>
