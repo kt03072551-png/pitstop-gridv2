@@ -180,7 +180,7 @@ export async function POST(req: NextRequest) {
         success: true,
         message: `Order ${orderNumber} initialized. Please complete PromptPay transfer of ฿${formattedTotal} within 15 minutes.`,
         order: formatOrderRecord(newOrder),
-        qrCodeUrl: `/Fvck-this-project.png`,
+        qrCodeUrl: `/qr-placeholder.png`,
       },
       { status: 201 }
     );

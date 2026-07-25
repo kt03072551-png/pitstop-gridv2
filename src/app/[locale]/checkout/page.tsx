@@ -314,7 +314,7 @@ export default function CheckoutPage() {
                 {/* QR Code Container */}
                 <div className="relative p-4 rounded-xl bg-white shadow-xl border border-[#DBE2EF]">
                   <Image
-                    src="/Fvck-this-project.png"
+                    src="/qr-placeholder.png"
                     alt="PromptPay QR Code"
                     width={176}
                     height={176}

@@ -293,7 +293,7 @@ export default function AdminOrdersPage() {
               <div className="flex-1 overflow-auto flex items-center justify-center p-4 my-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={selectedOrder.paymentSlipUrl || "/Fvck-this-project.png"}
+                  src={selectedOrder.paymentSlipUrl || "/qr-placeholder.png"}
                   alt="Transfer Slip"
                   style={{ transform: `scale(${zoomLevel}) rotate(${rotation}deg)` }}
                   className="max-h-[360px] object-contain rounded-xl border border-[#DBE2EF] dark:border-[#0F4C75] transition-transform duration-200 select-none shadow-xl"
