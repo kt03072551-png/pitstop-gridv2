@@ -5,6 +5,7 @@ import { Warehouse, CheckCircle2, Plus, Trash2, ShieldCheck, X, Car, Tag } from 
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { Link } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 interface MyGarageDrawerProps {
   isOpen: boolean;
@@ -13,6 +14,7 @@ interface MyGarageDrawerProps {
 
 export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose }) => {
   const { savedVehicles, activeVehicle, setActiveVehicle, setDefaultVehicle, removeVehicle } = useVehicleStore();
+  const { t } = useTranslation();
 
   if (!isOpen) return null;
 
@@ -27,10 +29,10 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
             </div>
             <div>
               <h2 className="font-mono text-base font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-tight">
-                Smart Vehicle Garage
+                {t.garageDrawer.title}
               </h2>
               <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9]">
-                Switch vehicles to instantly filter 100% compatible parts
+                {t.garageDrawer.description}
               </p>
             </div>
           </div>
@@ -46,19 +48,19 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
         <div className="flex-1 overflow-y-auto p-5 space-y-3">
           <div className="flex items-center justify-between mb-2">
             <span className="text-xs font-mono font-semibold text-[#112D4E]/70 dark:text-[#85B5D9] uppercase tracking-wider">
-              Saved Vehicles ({savedVehicles.length})
+              {t.garageDrawer.savedVehicles} ({savedVehicles.length})
             </span>
             <span className="text-xs text-[#3F72AF] dark:text-[#3282B8] flex items-center gap-1 font-mono font-bold">
-              <ShieldCheck className="w-3.5 h-3.5" /> Fitment Synced
+              <ShieldCheck className="w-3.5 h-3.5" /> {t.garageDrawer.fitmentSynced}
             </span>
           </div>
 
           {savedVehicles.length === 0 ? (
             <div className="text-center py-12 border border-dashed border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl p-6 bg-[#DBE2EF]/30 dark:bg-[#0F4C75]/30">
               <Car className="w-10 h-10 text-[#3F72AF] dark:text-[#3282B8] mx-auto mb-3" />
-              <p className="text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA]">Your Garage is empty</p>
+              <p className="text-sm font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t.garageDrawer.emptyTitle}</p>
               <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] mt-1">
-                Select your vehicle make, model, and year above to start verifying guaranteed fitment.
+                {t.garageDrawer.emptyDesc}
               </p>
             </div>
           ) : (
@@ -99,11 +101,11 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
                     <div className="flex flex-col items-end justify-between gap-3">
                       {isActive ? (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#3F72AF]/20 dark:bg-[#3282B8]/30 border border-[#3F72AF] dark:border-[#3282B8] text-[#3F72AF] dark:text-[#3282B8] text-xs font-mono font-bold shadow-sm">
-                          <CheckCircle2 className="w-3.5 h-3.5" /> Active
+                          <CheckCircle2 className="w-3.5 h-3.5" /> {t.garageDrawer.activeBadge}
                         </span>
                       ) : (
                         <span className="text-xs text-[#112D4E]/60 dark:text-[#85B5D9] font-mono group-hover:text-[#3F72AF] dark:group-hover:text-[#3282B8] transition-colors font-medium">
-                          Click to activate &rarr;
+                          {t.garageDrawer.clickToActivate} &rarr;
                         </span>
                       )}
 
@@ -113,7 +115,7 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
                           removeVehicle(v.id);
                         }}
                         className="p-1.5 rounded bg-[#DBE2EF] dark:bg-[#0F4C75] hover:bg-rose-500 hover:text-white text-[#112D4E]/60 dark:text-[#85B5D9] border border-transparent hover:border-rose-500 transition-all opacity-80 group-hover:opacity-100"
-                        title="Remove from garage"
+                        title={t.garageDrawer.removeTooltip}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -133,10 +135,10 @@ export const MyGarageDrawer: React.FC<MyGarageDrawerProps> = ({ isOpen, onClose 
             className="w-full min-h-[44px] flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] hover:opacity-90 text-white dark:text-[#1B262C] font-mono font-bold text-sm tracking-wide shadow-md transition-all active:scale-[0.98]"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
-            Manage Full Garage & VIN Lookup
+            {t.garageDrawer.manageGarage}
           </Link>
           <p className="text-center text-[11px] text-[#112D4E]/70 dark:text-[#85B5D9]">
-            Fitment compatibility verified by Pitstop OEM Matrix
+            {t.garageDrawer.footerNote}
           </p>
         </div>
       </div>

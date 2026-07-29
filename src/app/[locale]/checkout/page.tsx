@@ -173,7 +173,7 @@ export default function CheckoutPage() {
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-20 px-4 flex items-center justify-center">
         <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
           <span className="w-2 h-2 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-ping" />
-          Initializing Payment Gateway...
+          {t.checkout.loadingPayment}
         </div>
       </div>
     );
@@ -183,7 +183,7 @@ export default function CheckoutPage() {
     <div onPaste={handlePaste} className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-10 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Top Header */}
-        <div className="flex items-center justify-between border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-6">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] flex items-center justify-center shadow-md">
               <QrCode className="w-5 h-5" />
@@ -210,22 +210,22 @@ export default function CheckoutPage() {
           {/* Left Pane (7/12 Span) — Order Summary & Fitment Confirmation */}
           <div className="lg:col-span-7 space-y-6">
             {/* Active Vehicle Compatibility Confirmation Box */}
-            <div className="p-5 rounded-2xl bg-gradient-to-r from-[#3F72AF]/20 via-[#DBE2EF] to-[#DBE2EF] dark:from-[#3282B8]/30 dark:via-[#0F4C75] dark:to-[#0F4C75] border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-between gap-4 shadow-md">
+            <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#3F72AF]/20 via-[#DBE2EF] to-[#DBE2EF] dark:from-[#3282B8]/30 dark:via-[#0F4C75] dark:to-[#0F4C75] border border-[#3F72AF] dark:border-[#3282B8] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
               <div className="flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] flex items-center justify-center shrink-0 shadow-sm">
                   <ShieldCheck className="w-6 h-6" />
                 </div>
                 <div>
                   <span className="font-mono text-[10px] uppercase font-bold text-[#3F72AF] dark:text-[#3282B8] tracking-wider">
-                    Fitment Guarantee Active
+                    {t.checkout.fitmentGuaranteeActive}
                   </span>
-                  <h3 className="font-bold text-base text-[#112D4E] dark:text-white">
+                  <h3 className="font-bold text-sm sm:text-base text-[#112D4E] dark:text-white break-words-safe">
                     {activeVehicle
-                      ? `Verified for ${activeVehicle.year} ${activeVehicle.make} ${activeVehicle.model} (${activeVehicle.trim})`
-                      : "Universal Order — Direct Factory Fulfillment"}
+                      ? t.checkout.verifiedFor.replace("{vehicle}", `${activeVehicle.year} ${activeVehicle.make} ${activeVehicle.model} (${activeVehicle.trim})`)
+                      : t.checkout.universalOrder}
                   </h3>
                   <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] mt-0.5 font-medium">
-                    Order covered by Pitstop Grid 100% Fitment Replacement Policy.
+                    {t.checkout.fitmentPolicy}
                   </p>
                 </div>
               </div>
@@ -234,18 +234,18 @@ export default function CheckoutPage() {
             {/* Itemized Summary */}
             <div className="rounded-2xl border border-[#DBE2EF] dark:border-[#0F4C75] bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 p-6 shadow-md space-y-4">
               <h3 className="font-mono text-xs font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase tracking-wider border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-3">
-                Order Items Audit ({items.length})
+                {t.checkout.orderItemsAudit} ({items.length})
               </h3>
 
               <div className="space-y-3">
                 {items.map((item) => (
-                  <div key={item.part.id} className="flex items-center justify-between py-2 border-b border-[#DBE2EF]/80 dark:border-[#0F4C75]/80 last:border-0 text-sm font-mono">
+                  <div key={item.part.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4 py-2 border-b border-[#DBE2EF]/80 dark:border-[#0F4C75]/80 last:border-0 text-sm font-mono">
                     <div className="flex items-center gap-3">
                       <span className="w-6 h-6 rounded-lg bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] flex items-center justify-center font-bold text-xs shrink-0">
                         {item.quantity}x
                       </span>
                       <div>
-                        <span className="text-[#112D4E] dark:text-white font-bold block">{item.part.title}</span>
+                        <span className="text-[#112D4E] dark:text-white font-bold block line-clamp-2">{item.part.title}</span>
                         <span className="text-xs text-[#112D4E]/60 dark:text-[#85B5D9]">OEM: {item.part.oemPartNumber}</span>
                       </div>
                     </div>
@@ -257,7 +257,7 @@ export default function CheckoutPage() {
               {/* Fulfillment Selection */}
               <div className="pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75] space-y-4">
                 <h3 className="font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase text-sm flex items-center gap-2">
-                  <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> Fulfillment Selection
+                  <Truck className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.checkout.fulfillmentSelection}
                 </h3>
                 <div className="space-y-3">
                   {/* EXPRESS DELIVERY */}
@@ -272,11 +272,11 @@ export default function CheckoutPage() {
                   >
                     <div className="pt-0.5 flex-1">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white">Express Courier Delivery</span>
+                        <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white">{t.checkout.expressDelivery}</span>
                         <span className="font-mono font-bold text-xs text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(250)}</span>
                       </div>
                       <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
-                        Ships today via EMS/Kerry Express. Delivery within 1-2 business days.
+                        {t.checkout.expressDeliveryDesc}
                       </p>
                     </div>
                   </label>
@@ -294,12 +294,12 @@ export default function CheckoutPage() {
                     <div className="pt-0.5 flex-1">
                       <div className="flex items-center justify-between mb-1">
                         <span className="font-mono font-bold text-sm text-[#112D4E] dark:text-white flex items-center gap-1.5">
-                          <Warehouse className="w-4 h-4" /> In-Store Warehouse Pickup
+                          <Warehouse className="w-4 h-4" /> {t.checkout.storePickup}
                         </span>
-                        <span className="font-mono font-bold text-xs text-emerald-600 dark:text-emerald-400">FREE</span>
+                        <span className="font-mono font-bold text-xs text-emerald-600 dark:text-emerald-400">{t.checkout.freeLabel}</span>
                       </div>
                       <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-medium leading-relaxed">
-                        Pick up from Bangna or Laksi Hub within 2 hours.
+                        {t.checkout.storePickupDesc}
                       </p>
                     </div>
                   </label>
@@ -314,13 +314,13 @@ export default function CheckoutPage() {
               {/* Total Header */}
               <div className="text-center border-b border-[#DBE2EF] dark:border-[#0F4C75] pb-4">
                 <span className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold mb-1">
-                  Total Payable Amount (Down-to-Satang)
+                  {t.checkout.totalPayable}
                 </span>
                 <span className="font-mono font-black text-4xl text-[#3F72AF] dark:text-[#3282B8] tracking-tight block">
                   {formatTHB(totalAmount)}
                 </span>
                 <span className="block text-[11px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] mt-1 font-semibold">
-                  Order Ref: <strong className="text-[#112D4E] dark:text-white">#ORD-20260723-00992</strong>
+                  {t.checkout.orderRef} <strong className="text-[#112D4E] dark:text-white">#ORD-20260723-00992</strong>
                 </span>
               </div>
 
@@ -350,19 +350,19 @@ export default function CheckoutPage() {
                   {isExpired && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#112D4E]/90 dark:bg-[#1B262C]/90 backdrop-blur-xs rounded-xl p-3 text-center">
                       <AlertCircle className="w-8 h-8 text-rose-400 mb-2" />
-                      <span className="font-mono text-xs font-bold text-white uppercase block mb-2">QR Code Expired</span>
+                      <span className="font-mono text-xs font-bold text-white uppercase block mb-2">{t.checkout.qrExpired}</span>
                       <button
                         onClick={() => { setTimeLeft(15 * 60); setIsExpired(false); }}
                         className="min-h-[40px] px-4 py-2 rounded-xl bg-[#3F72AF] text-white font-mono font-bold text-xs flex items-center gap-1.5 shadow-md"
                       >
-                        <RefreshCw className="w-3.5 h-3.5" /> Regenerate
+                        <RefreshCw className="w-3.5 h-3.5" /> {t.checkout.regenerateBtn}
                       </button>
                     </div>
                   )}
                 </div>
 
                 <p className="text-[11px] font-mono text-[#112D4E]/70 dark:text-[#85B5D9] text-center font-medium">
-                  Scan with any Thai mobile banking app (`K PLUS`, `SCB EASY`, `Krungthai NEXT`).
+                  {t.checkout.scanDesc}
                 </p>
               </div>
 
@@ -372,7 +372,7 @@ export default function CheckoutPage() {
                   <label className="text-xs font-mono uppercase font-bold text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-1.5">
                     <UploadCloud className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" /> {t.checkout.uploadSlipTitle}
                   </label>
-                  <span className="text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] font-medium">JPG, PNG, PDF (Max 10MB)</span>
+                  <span className="text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] font-medium">{t.checkout.fileFormats}</span>
                 </div>
 
                 {!previewUrl ? (
@@ -397,7 +397,7 @@ export default function CheckoutPage() {
                             {uploadedFile?.name || "pasted_slip.png"}
                           </span>
                           <button onClick={() => { setPreviewUrl(null); setUploadedFile(null); setBase64Slip(null); setOcrState("IDLE"); }} className="text-[11px] text-rose-500 font-mono font-bold underline min-h-[36px] flex items-center">
-                            Remove
+                            {t.checkout.removeBtn}
                           </button>
                         </div>
 
@@ -405,7 +405,7 @@ export default function CheckoutPage() {
                         {ocrState === "SCANNING" && (
                           <div className="flex items-center gap-2 text-xs font-mono text-[#3F72AF] dark:text-[#3282B8] font-bold">
                             <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                            <span>Scanning Slip QR & Extracting Details...</span>
+                            <span>{t.checkout.scanningSlip}</span>
                           </div>
                         )}
 
@@ -413,17 +413,17 @@ export default function CheckoutPage() {
                           <div className="p-2.5 rounded-xl bg-[#3F72AF]/10 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] text-[#112D4E] dark:text-[#BBE1FA] font-mono text-xs space-y-0.5">
                             <div className="flex items-center gap-1.5 font-bold">
                               <CheckCircle2 className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
-                              <span className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> OCR Verified: {formatTHB(ocrAmount || totalAmount)}</span>
+                              <span className="flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> {t.checkout.ocrVerified} {formatTHB(ocrAmount || totalAmount)}</span>
                             </div>
                             <div className="text-[10px] text-[#112D4E]/80 dark:text-[#BBE1FA]/80 font-medium">
-                              Transfer Timestamp: 23/07/2026 14:15 • Ref #0149823901239
+                              {t.checkout.transferTimestamp} 23/07/2026 14:15 • Ref #0149823901239
                             </div>
                           </div>
                         )}
 
                         {ocrState === "MISMATCH" && (
                           <div className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-500 text-amber-800 dark:text-amber-200 font-mono text-xs font-bold">
-                            <div className="flex items-start"><AlertTriangle className="w-4 h-4 mr-1.5 shrink-0 mt-0.5" /> <span>Warning: Uploaded slip shows {formatTHB(ocrAmount || 0)} vs Order Total {formatTHB(totalAmount)}. Admin review required.</span></div>
+                            <div className="flex items-start"><AlertTriangle className="w-4 h-4 mr-1.5 shrink-0 mt-0.5" /> <span>{t.checkout.mismatchWarning.replace("{slipAmount}", formatTHB(ocrAmount || 0)).replace("{orderTotal}", formatTHB(totalAmount))}</span></div>
                           </div>
                         )}
                       </div>

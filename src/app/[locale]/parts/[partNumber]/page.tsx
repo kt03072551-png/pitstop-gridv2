@@ -80,14 +80,14 @@ export default function ProductDetailPage() {
     <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-8 px-4 transition-colors duration-200">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center gap-2 text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9]">
+        <nav className="flex items-center gap-2 text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] overflow-x-auto whitespace-nowrap pb-1 scrollbar-none">
           <Link href="/" className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] font-semibold">Home</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <Link href="/catalog" className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] font-semibold">Catalog</Link>
           <ChevronRight className="w-3.5 h-3.5" />
           <Link href={`/catalog?category=${part.category}`} className="hover:text-[#3F72AF] dark:hover:text-[#3282B8] font-semibold">{part.category}</Link>
           <ChevronRight className="w-3.5 h-3.5" />
-          <span className="text-[#112D4E] dark:text-white font-bold truncate max-w-xs">{part.oemPartNumber}</span>
+          <span className="text-[#112D4E] dark:text-white font-bold truncate max-w-[120px] sm:max-w-xs">{part.oemPartNumber}</span>
         </nav>
 
         {/* 1. Dynamic Vehicle Fitment Status Banner */}
@@ -112,7 +112,7 @@ export default function ProductDetailPage() {
               {fitStatus === "UNSELECTED" && <Search className="w-5 h-5 text-slate-400" />}
             </div>
             <div>
-              <h2 className="font-mono font-bold text-base uppercase tracking-tight text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-2">
+              <h2 className="font-mono font-bold text-sm sm:text-base uppercase tracking-tight text-[#112D4E] dark:text-[#BBE1FA] flex items-center gap-2 flex-wrap">
                 {fitStatus === "FITS" && `Guaranteed Fit for your ${currentActiveVehicle?.year} ${currentActiveVehicle?.model}`}
                 {fitStatus === "INCOMPATIBLE" && `Does NOT fit your ${currentActiveVehicle?.year} ${currentActiveVehicle?.model}`}
                 {fitStatus === "UNIVERSAL" && "Universal Fit Engine — Compatible with All Vehicles"}
@@ -127,7 +127,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 shrink-0">
             {fitStatus === "INCOMPATIBLE" && (
               <Link
                 href={`/catalog?category=${part.category}`}

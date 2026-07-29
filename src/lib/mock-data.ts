@@ -223,6 +223,16 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Included Gaskets": "Pre-lubricated Nitrile O-Ring",
       "Warranty": "1 Year / 20,000 km Honda Manufacturer Warranty",
     },
+    specificationsTh: {
+      "ขนาดเกลียว": "M20 x 1.5 มม.",
+      "เส้นผ่านศูนย์กลางภายนอก": "68 มม.",
+      "ความสูง": "85 มม.",
+      "ประสิทธิภาพการกรอง": "99.2% ที่ 20 ไมครอน",
+      "วาล์วป้องกันการไหลกลับ": "ซิลิโคน (ทนความร้อนสูง)",
+      "แรงดันวาล์วบายพาส": "14.5 PSI (1.0 บาร์)",
+      "ปะเก็นที่รวมมาด้วย": "โอริงไนไตรล์เคลือบสารหล่อลื่น",
+      "การรับประกัน": "รับประกันจากผู้ผลิตฮอนด้า 1 ปี / 20,000 กม.",
+    },
     compatibilityList: [
       "2022-2026 Honda Civic Type R (FL5 2.0T K20C1)",
       "2017-2021 Honda Civic Type R (FK8 2.0T K20C1)",
@@ -282,6 +292,15 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Flash Point": "232°C",
       "Recommended Use": "Track Day / Time Attack / High-Output Street",
     },
+    specificationsTh: {
+      "ความหนืด": "SAE 5W-30",
+      "เทคโนโลยีน้ำมันพื้นฐาน": "Synthetic ESTER Core® 100%",
+      "ปริมาณ": "4 ลิตร (กระป๋องโลหะ)",
+      "ทนความร้อนแรงเฉือนสูง (HTHS)": "3.6 mPa.s @ 150°C",
+      "จุดไหลเท": "-48°C",
+      "จุดวาบไฟ": "232°C",
+      "การใช้งานที่แนะนำ": "ขับขี่ในสนาม / ไทม์แอทแทค / สตรีทความเร็วสูง",
+    },
     compatibilityList: [
       "Universal Fit across all Gasoline Turbocharged and Naturally Aspirated Engines",
       "Ideal for Honda Civic Type R (FL5/FK8), Accord 1.5T, BMW M2/M3, and Yamaha Superbikes",
@@ -319,6 +338,14 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Mounting Points": "Direct bolt-on utilizing factory hinges & OEM latch mechanism",
       "Rain Guard": "Includes removable inner water drainage channel tray",
       "Origin": "Made in Tokyo, Japan (Serial Numbered Authenticity Plate Included)",
+    },
+    specificationsTh: {
+      "วัสดุ": "Pre-preg 3K Twill Dry Carbon Fiber (อบด้วยออโตเคลฟ)",
+      "การเคลือบผิว": "เคลือบเงาโพลียูรีเทนใสทนรังสี UV",
+      "น้ำหนัก": "6.8 กก. (ฝากระโปรงอลูมิเนียม OEM: 13.2 กก. — เบากว่า -6.4 กก.)",
+      "จุดยึด": "ติดตั้งตรงรุ่นโดยใช้บานพับและกลไกล็อก OEM จากโรงงาน",
+      "กันสาด": "รวมถาดระบายน้ำด้านในแบบถอดได้",
+      "แหล่งกำเนิด": "ผลิตในโตเกียว, ญี่ปุ่น (พร้อมแผ่นป้ายระบุหมายเลขซีเรียลแท้)",
     },
     compatibilityList: [
       "2022-2026 Honda Civic Type R (FL5 2.0T K20C1) Only",
@@ -368,6 +395,14 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Included Pads": "Brembo High-Performance HP1000 Track/Street Hybrid Compound",
       "Minimum Wheel Clearance": "Requires 19-inch wheels with minimum +35 offset or spacer",
     },
+    specificationsTh: {
+      "โครงสร้างคาลิปเปอร์": "อะลูมิเนียมหล่อขึ้นรูปโมโนบล็อก 6 ลูกสูบ (ชุบอโนไดซ์สีแดงพร้อมโลโก้สีขาว)",
+      "ขนาดจานเบรก": "เส้นผ่านศูนย์กลาง 380 มม. x หนา 34 มม. (แบบเซาะร่อง Type 3 Vane Design)",
+      "ฮับจานเบรก": "บิลเล็ตอะลูมิเนียม Floating Bell (ชุบอโนไดซ์สีทอง)",
+      "สายเบรกที่ให้มา": "สายถักสแตนเลส PTFE เทฟลอนจาก Goodridge",
+      "ผ้าเบรกที่ให้มา": "คอมพาวด์ไฮบริดสนาม/ถนน Brembo High-Performance HP1000",
+      "ระยะห่างล้อขั้นต่ำ": "ต้องการล้อขนาด 19 นิ้วที่มีออฟเซ็ตขั้นต่ำ +35 หรือใช้สเปเซอร์",
+    },
     compatibilityList: [
       "2022-2026 Honda Civic Type R (FL5)",
       "2017-2021 Honda Civic Type R (FK8)",
@@ -406,6 +441,14 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Valve Control": "Plug & Play electronic actuator integrated with factory +R / Sport modes",
       "Homologation": "ECE / CARB compliant when run with OEM catalytic converter",
     },
+    specificationsTh: {
+      "วัสดุ": "ไทเทเนียมเกรดสูง 100% (ท่อไอเสียและปลอกหม้อพัก)",
+      "ปลายท่อ": "ปลอกนอกคาร์บอนแห้งผิวด้านทำมือ ออกตรงกลางสามท่อ",
+      "การลดน้ำหนัก": "-8.2 กก. เมื่อเทียบกับระบบสแตนเลสจากโรงงาน",
+      "การเพิ่มกำลัง": "+11.4 แรงม้า ที่ 5,600 รอบต่อนาที / +14.2 นิวตันเมตร แรงบิด ที่ 3,200 รอบต่อนาที",
+      "การควบคุมวาล์ว": "แอกชูเอเตอร์อิเล็กทรอนิกส์แบบเสียบและใช้งานได้เลย ทำงานร่วมกับโหมด +R / Sport จากโรงงาน",
+      "การรับรอง": "เป็นไปตามมาตรฐาน ECE / CARB เมื่อใช้งานร่วมกับเครื่องฟอกไอเสีย OEM",
+    },
     compatibilityList: [
       "2022-2026 Honda Civic Type R (FL5 2.0T K20C1) Direct Bolt-On",
     ],
@@ -441,6 +484,13 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Outer Diameter": "38 mm",
       "Includes O-Ring": "Yes (Yamaha Part # 93210-54805)",
       "Recommended Interval": "Every 3,000 km or 6 months",
+    },
+    specificationsTh: {
+      "ประเภทไส้กรอง": "ตลับกรองเซลลูโลสจีบ",
+      "ความสูง": "38 มม.",
+      "เส้นผ่านศูนย์กลางภายนอก": "38 มม.",
+      "รวมโอริง": "มี (ชิ้นส่วน Yamaha # 93210-54805)",
+      "ระยะเวลาที่แนะนำ": "ทุก 3,000 กม. หรือ 6 เดือน",
     },
     compatibilityList: [
       "2019-2026 Yamaha YZF-R15 V3 & V4 (155cc VVA)",
@@ -479,6 +529,13 @@ export const MOCK_PARTS_CATALOG: PartItem[] = [
       "Filtration Media": "Dual-density resin impregnated synthetic paper",
       "Anti-Drainback": "Silicone formulation for rapid cold diesel starts",
       "Warranty": "Toyota Factory Genuine Guarantee",
+    },
+    specificationsTh: {
+      "เกลียว": "3/4-16 UNF",
+      "เส้นผ่านศูนย์กลางภายนอก": "74 มม.",
+      "สื่อกรอง": "กระดาษสังเคราะห์ชุบเรซินความหนาแน่นสองชั้น",
+      "ป้องกันการไหลกลับ": "สูตรซิลิโคนเพื่อการสตาร์ทเครื่องยนต์ดีเซลขณะเครื่องเย็นอย่างรวดเร็ว",
+      "การรับประกัน": "รับประกันแท้จากโรงงานโตโยต้า",
     },
     compatibilityList: [
       "2015-2026 Toyota Hilux Revo (2.8L 1GD / 2.4L 2GD)",

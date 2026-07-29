@@ -13,12 +13,14 @@ import {
   Sparkles
 } from "lucide-react";
 import { formatTHB, cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function OrderDetailPage() {
+  const { t } = useTranslation();
   const params = useParams();
   const orderIdParam = params?.orderId as string;
   
@@ -30,7 +32,7 @@ export default function OrderDetailPage() {
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-slate-950 flex items-center justify-center">
         <div className="animate-pulse flex items-center gap-2 font-mono text-emerald-600 dark:text-emerald-400 text-sm font-bold">
           <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-ping" />
-          Loading Order Details...
+          {t.orderReceipt.loading}
         </div>
       </div>
     );
@@ -39,10 +41,10 @@ export default function OrderDetailPage() {
   if (error || !data?.success || !order) {
     return (
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-slate-950 flex flex-col items-center justify-center">
-        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">Order Not Found</h2>
-        <p className="text-slate-500 mt-2">The order you are looking for does not exist.</p>
+        <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">{t.orderReceipt.notFoundTitle}</h2>
+        <p className="text-slate-500 mt-2">{t.orderReceipt.notFoundDesc}</p>
         <Link href="/catalog" className="mt-4 inline-block px-4 py-2 bg-emerald-500 hover:bg-emerald-400 transition-colors text-white rounded-xl font-bold">
-          Return to Catalog
+          {t.orderReceipt.returnToCatalog}
         </Link>
       </div>
     );
@@ -57,11 +59,11 @@ export default function OrderDetailPage() {
   }
 
   const steps = [
-    { label: "Payment Submitted", status: currentStepIndex > 0 ? "completed" : "active", desc: "Slip uploaded & scanned by OCR" },
-    { label: "Slip Verification", status: currentStepIndex > 1 ? "completed" : currentStepIndex === 1 ? "active" : "pending", desc: currentStepIndex > 1 ? `Amount ${formatTHB(order.totalAmount)} verified` : "Awaiting verification" },
-    { label: "Order Approved", status: currentStepIndex > 2 ? "completed" : currentStepIndex === 2 ? "active" : "pending", desc: currentStepIndex >= 2 ? `Released to Warehouse ${order.pickupBranch || 'Dispatch'}` : "Pending approval" },
-    { label: "Preparing Parts", status: currentStepIndex > 3 ? "completed" : currentStepIndex === 3 ? "active" : "pending", desc: order.fulfillmentType?.includes("PICKUP") ? "Picker boxing items" : "Packaging for courier" },
-    { label: order.fulfillmentType?.includes("PICKUP") ? "Ready for Pickup" : "Shipped", status: currentStepIndex === 4 ? "completed" : "pending", desc: order.fulfillmentType?.includes("PICKUP") ? "Available at Branch within 120 mins" : "Handed over to logistics partner" },
+    { label: t.orderReceipt.step1Label, status: currentStepIndex > 0 ? "completed" : "active", desc: t.orderReceipt.step1Desc },
+    { label: t.orderReceipt.step2Label, status: currentStepIndex > 1 ? "completed" : currentStepIndex === 1 ? "active" : "pending", desc: currentStepIndex > 1 ? t.orderReceipt.step2DescVerified.replace("{amount}", formatTHB(order.totalAmount)) : t.orderReceipt.step2DescAwaiting },
+    { label: t.orderReceipt.step3Label, status: currentStepIndex > 2 ? "completed" : currentStepIndex === 2 ? "active" : "pending", desc: currentStepIndex >= 2 ? t.orderReceipt.step3DescReleased.replace("{branch}", order.pickupBranch || t.orderReceipt.warehouseDispatch) : t.orderReceipt.step3DescPending },
+    { label: t.orderReceipt.step4Label, status: currentStepIndex > 3 ? "completed" : currentStepIndex === 3 ? "active" : "pending", desc: order.fulfillmentType?.includes("PICKUP") ? t.orderReceipt.step4DescPickup : t.orderReceipt.step4DescShipping },
+    { label: order.fulfillmentType?.includes("PICKUP") ? t.orderReceipt.step5LabelPickup : t.orderReceipt.step5LabelShipped, status: currentStepIndex === 4 ? "completed" : "pending", desc: order.fulfillmentType?.includes("PICKUP") ? t.orderReceipt.step5DescPickup : t.orderReceipt.step5DescShipped },
   ];
 
   return (
@@ -75,13 +77,13 @@ export default function OrderDetailPage() {
             </div>
             <div>
               <div className="flex items-center gap-2 font-mono text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" /> Order Confirmed & OCR Verified
+                <Sparkles className="w-3.5 h-3.5" /> {t.orderReceipt.successBadge}
               </div>
               <h1 className="text-2xl sm:text-3xl font-mono font-black text-[#112D4E] dark:text-white uppercase tracking-tight mt-0.5">
-                Receipt #{orderIdParam}
+                {t.orderReceipt.receiptTitle.replace("{orderId}", orderIdParam)}
               </h1>
               <p className="text-xs text-[#112D4E]/70 dark:text-slate-300 mt-1">
-                A digital tax invoice and warehouse collection pass have been sent to your email.
+                {t.orderReceipt.receiptDesc}
               </p>
             </div>
           </div>
@@ -91,14 +93,14 @@ export default function OrderDetailPage() {
             className="px-4 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-[#F9F7F7] dark:hover:bg-slate-750 text-[#112D4E] dark:text-white font-mono text-xs font-semibold flex items-center gap-2 border border-[#DBE2EF] dark:border-slate-700 transition-colors shrink-0 shadow-sm dark:shadow-none"
           >
             <Printer className="w-4 h-4" />
-            <span>Print Tax Invoice</span>
+            <span>{t.orderReceipt.printBtn}</span>
           </button>
         </div>
 
         {/* Status Stepper Card */}
         <div className="rounded-2xl border border-[#DBE2EF] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm dark:shadow-xl space-y-6 transition-colors duration-200">
           <h3 className="font-mono text-xs font-bold text-[#112D4E]/60 dark:text-slate-400 uppercase tracking-wider border-b border-[#DBE2EF] dark:border-slate-800 pb-3">
-            Real-Time Order Fulfillment Status
+            {t.orderReceipt.statusTitle}
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 relative">
@@ -148,45 +150,52 @@ export default function OrderDetailPage() {
           <div className="rounded-2xl border border-[#DBE2EF] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm dark:shadow-xl space-y-4 flex flex-col justify-between transition-colors duration-200">
             <div className="space-y-3">
               <span className="font-mono text-xs font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider flex items-center gap-2">
-                <Warehouse className="w-4 h-4" /> Warehouse Collection Coordinates
+                <Warehouse className="w-4 h-4" /> {t.orderReceipt.warehouseTitle}
               </span>
-              <h4 className="font-bold text-lg text-[#112D4E] dark:text-white">{order.pickupBranch || 'Dispatch Hub'}</h4>
-              <p className="text-xs text-[#112D4E]/70 dark:text-slate-300 leading-relaxed">
-                Your items have been allocated from <strong className="text-emerald-600 dark:text-emerald-400 font-mono">{order.pickupBranch || 'Dispatch Hub'}</strong> and are currently entering express picking boxes.
-              </p>
+              <h4 className="font-bold text-lg text-[#112D4E] dark:text-white">{order.pickupBranch || t.orderReceipt.warehouseDispatch}</h4>
+              <p 
+                className="text-xs text-[#112D4E]/70 dark:text-slate-300 leading-relaxed" 
+                dangerouslySetInnerHTML={{ __html: t.orderReceipt.warehouseDesc.replace("{branch}", order.pickupBranch || t.orderReceipt.warehouseDispatch) }} 
+              />
             </div>
 
             <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-slate-950 border border-[#DBE2EF] dark:border-slate-800 flex items-center justify-between text-xs font-mono transition-colors duration-200">
-              <span className="text-[#112D4E]/70 dark:text-slate-400">Estimated Ready Time:</span>
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">Within 120 Minutes (Today 16:15)</span>
+              <span className="text-[#112D4E]/70 dark:text-slate-400">{t.orderReceipt.readyTimeLabel}</span>
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">{t.orderReceipt.readyTimeValue}</span>
             </div>
           </div>
 
           {/* Right: Payment Slip Verification Audit */}
           <div className="rounded-2xl border border-[#DBE2EF] dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm dark:shadow-xl space-y-4 transition-colors duration-200">
             <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4" /> Payment Slip OCR Audit Record
+              <ShieldCheck className="w-4 h-4" /> {t.orderReceipt.auditTitle}
             </span>
 
             <div className="space-y-2.5 font-mono text-xs">
               <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
-                <span>Method:</span>
-                <span className="font-bold text-[#112D4E] dark:text-white">PromptPay Bank Transfer</span>
+                <span>{t.orderReceipt.auditMethod}</span>
+                <span className="font-bold text-[#112D4E] dark:text-white">{t.orderReceipt.auditMethodValue}</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
-                <span>Total Paid:</span>
+                <span>{t.orderReceipt.auditTotal}</span>
                 <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatTHB(order.totalAmount)}</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-[#DBE2EF] dark:border-slate-800 text-[#112D4E]/70 dark:text-slate-300">
-                <span>Transaction Ref:</span>
-                <span className="font-bold text-[#112D4E] dark:text-slate-200">{order.ocrAuditDetails?.bankReferenceNumber || "Pending"}</span>
+                <span>{t.orderReceipt.auditRef}</span>
+                <span className="font-bold text-[#112D4E] dark:text-slate-200">
+                  {order.ocrAuditDetails?.bankReferenceNumber 
+                    ? order.ocrAuditDetails.bankReferenceNumber.length > 20 
+                      ? `${order.ocrAuditDetails.bankReferenceNumber.substring(0, 8)}...${order.ocrAuditDetails.bankReferenceNumber.substring(order.ocrAuditDetails.bankReferenceNumber.length - 4)}` 
+                      : order.ocrAuditDetails.bankReferenceNumber 
+                    : "Pending"}
+                </span>
               </div>
               <div className="flex justify-between py-1.5 text-[#112D4E]/70 dark:text-slate-300">
-                <span>OCR Validation:</span>
+                <span>{t.orderReceipt.auditValidation}</span>
                 {order.ocrAuditDetails?.extractedAmount === order.totalAmount ? (
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> 100% Exact Match Approved</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400 inline-flex items-center"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> {t.orderReceipt.auditMatch}</span>
                 ) : (
-                  <span className="font-bold text-amber-500 inline-flex items-center"><Sparkles className="w-3.5 h-3.5 mr-1" /> Pending Validation</span>
+                  <span className="font-bold text-amber-500 inline-flex items-center"><Sparkles className="w-3.5 h-3.5 mr-1" /> {t.orderReceipt.auditPending}</span>
                 )}
               </div>
             </div>
@@ -199,14 +208,14 @@ export default function OrderDetailPage() {
             href="/catalog"
             className="px-6 py-3 rounded-xl bg-white dark:bg-slate-900 hover:bg-[#F9F7F7] dark:hover:bg-slate-800 text-[#112D4E] dark:text-slate-200 font-mono font-bold text-xs uppercase tracking-wider border border-[#DBE2EF] dark:border-slate-800 transition-colors flex items-center gap-2 shadow-sm dark:shadow-none"
           >
-            <ArrowLeft className="w-4 h-4" /> Continue Catalog Shopping
+            <ArrowLeft className="w-4 h-4" /> {t.orderReceipt.continueShopping}
           </Link>
           
           <Link
             href="/my-orders"
             className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white dark:text-slate-950 font-mono font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-500/20 transition-all"
           >
-            Return to My Orders
+            {t.orderReceipt.returnToOrders}
           </Link>
         </div>
       </div>

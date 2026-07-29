@@ -332,21 +332,40 @@ export const Navbar: React.FC = () => {
               <span className="text-xs text-[#3F72AF] dark:text-[#3282B8] font-mono font-bold">Change &rarr;</span>
             </button>
 
-            <div className="grid grid-cols-2 gap-2 pt-2">
+            <div className="flex flex-col gap-2 pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
+              <Link
+                href="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center justify-between p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
+              >
+                {t.navbar.home}
+              </Link>
               <Link
                 href="/catalog"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
+                className="flex items-center justify-between p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
               >
-                Parts Catalog
+                {t.navbar.partsCatalog}
               </Link>
               <Link
                 href="/garage"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center justify-center p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
+                className="flex items-center justify-between p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
               >
-                My Garage ({savedVehiclesCount})
+                <span>{t.navbar.myGarage}</span>
+                <span className="px-1.5 py-0.5 rounded-full bg-[#F9F7F7] dark:bg-[#1B262C] text-[10px] font-mono text-[#3F72AF] dark:text-[#3282B8] border border-[#DBE2EF] dark:border-[#0F4C75]">
+                  {savedVehiclesCount}
+                </span>
               </Link>
+              {currentIsAuthenticated && (
+                <Link
+                  href="/my-orders"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center justify-between p-3 rounded-xl bg-[#DBE2EF]/50 dark:bg-[#0F4C75]/50 border border-[#DBE2EF] dark:border-[#0F4C75] text-sm font-semibold text-[#112D4E] dark:text-[#BBE1FA] hover:border-[#3F72AF] dark:hover:border-[#3282B8]"
+                >
+                  {t.navbar.myOrders}
+                </Link>
+              )}
             </div>
           </div>
         )}

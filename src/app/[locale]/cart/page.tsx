@@ -41,7 +41,7 @@ export default function CartPage() {
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] py-20 px-4 flex items-center justify-center">
         <div className="font-mono text-[#3F72AF] dark:text-[#3282B8] text-sm animate-pulse flex items-center gap-2 font-bold">
           <span className="w-2 h-2 rounded-full bg-[#3F72AF] dark:bg-[#3282B8] animate-ping" />
-          Loading Cart...
+          {t.cart.loadingCart}
         </div>
       </div>
     );
@@ -118,8 +118,8 @@ export default function CartPage() {
             {/* Cart Items List (7/12) */}
             <div className="lg:col-span-7 space-y-4">
               <div className="flex items-center justify-between font-mono text-xs text-slate-400 uppercase tracking-wider px-2">
-                <span>Items Ordered ({items.length})</span>
-                <span>Active Fitment Re-Check</span>
+                <span>{t.cart.itemsOrdered} ({items.length})</span>
+                <span>{t.cart.activeFitmentCheck}</span>
               </div>
 
               {items.map((item) => {
@@ -169,7 +169,7 @@ export default function CartPage() {
                           {formatTHB(item.part.price * item.quantity)}
                         </span>
                         <span className="text-[11px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] font-medium">
-                          {formatTHB(item.part.price)} each
+                          {formatTHB(item.part.price)} {t.cart.eachLabel}
                         </span>
                       </div>
 
@@ -222,7 +222,7 @@ export default function CartPage() {
                   </div>
                   <div className="flex justify-between items-center text-[#112D4E] dark:text-slate-300">
                     <span className="font-medium">{t.cart.shippingFee}</span>
-                    <span className="font-bold">{getShippingFee() === 0 ? "FREE" : formatTHB(getShippingFee())}</span>
+                    <span className="font-bold">{getShippingFee() === 0 ? t.cart.freeLabel : formatTHB(getShippingFee())}</span>
                   </div>
                   <div className="pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex justify-between items-end">
                     <span className="font-bold text-[#112D4E] dark:text-white">{t.cart.total}</span>
@@ -246,7 +246,7 @@ export default function CartPage() {
 
                 <div className="mt-4 flex items-center justify-center gap-2 text-[11px] text-[#112D4E]/60 dark:text-[#85B5D9] font-mono font-medium">
                   <ShieldCheck className="w-3.5 h-3.5 text-[#3F72AF] dark:text-[#3282B8]" />
-                  <span>Secure SSL PromptPay Gateway & OCR Slip Check</span>
+                  <span>{t.cart.secureGateway}</span>
                 </div>
               </div>
             </div>

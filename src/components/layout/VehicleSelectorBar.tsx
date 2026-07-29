@@ -5,6 +5,7 @@ import { useRouter } from "@/i18n/routing";
 import { Car, Check, Sparkles, Filter } from "lucide-react";
 import { useVehicleStore } from "@/store/useVehicleStore";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -16,6 +17,7 @@ interface TrimType { id: string; modelId: string; name: string; engineCode: stri
 export const VehicleSelectorBar: React.FC = () => {
   const router = useRouter();
   const { activeVehicle, addVehicle } = useVehicleStore();
+  const { t } = useTranslation();
   
   const { data, isLoading } = useSWR("/api/vehicles", fetcher);
 
@@ -48,7 +50,7 @@ export const VehicleSelectorBar: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const availableModels = models.filter((m: any) => m.makeId === selectedMake);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const availableTrims = trims.filter((t: any) => t.modelId === selectedModel);
+  const availableTrims = trims.filter((tr: any) => tr.modelId === selectedModel);
 
   const yearsList = [2026, 2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017];
 
@@ -58,7 +60,7 @@ export const VehicleSelectorBar: React.FC = () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const modelObj = models.find((m: any) => m.id === selectedModel);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const trimObj = trims.find((t: any) => t.id === selectedTrim);
+    const trimObj = trims.find((tr: any) => tr.id === selectedTrim);
 
     if (makeObj && modelObj && trimObj) {
       const newVehicle = {
@@ -90,24 +92,24 @@ export const VehicleSelectorBar: React.FC = () => {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs font-bold uppercase tracking-wider text-[#3F72AF] dark:text-[#3282B8] flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" /> Smart Fitment Selector
+                <Sparkles className="w-3.5 h-3.5" /> {t.vehicleSelector.title}
               </span>
               <span className="text-[10px] bg-[#F9F7F7] dark:bg-[#1B262C] text-[#112D4E] dark:text-[#BBE1FA] px-1.5 py-0.5 rounded font-mono border border-[#DBE2EF] dark:border-[#0F4C75]">
-                OEM Verified
+                {t.vehicleSelector.oemVerified}
               </span>
             </div>
-            <p className="text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 mt-0.5 font-medium">
-              Filter 10,000+ parts guaranteed to bolt-on to your exact vehicle
+            <p className="text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80 mt-0.5 font-medium hidden sm:block">
+              {t.vehicleSelector.description}
             </p>
           </div>
         </div>
 
         {/* 4-Step Dropdown Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 w-full lg:w-auto flex-1 max-w-4xl">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5 w-full lg:w-auto flex-1 max-w-4xl">
           {/* Step 1: Make */}
           <div className="relative">
             <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
-              1. Make
+              {t.vehicleSelector.stepMake}
             </label>
             <select
               value={selectedMake}
@@ -118,7 +120,7 @@ export const VehicleSelectorBar: React.FC = () => {
               }}
               className="w-full min-h-[44px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-2 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] transition-colors cursor-pointer shadow-sm"
             >
-              <option value="">Select Make</option>
+              <option value="">{t.vehicleSelector.selectMake}</option>
               {makes.map((m: MakeType) => (
                 <option key={m.id} value={m.id}>
                   {m.name} ({m.type})
@@ -130,7 +132,7 @@ export const VehicleSelectorBar: React.FC = () => {
           {/* Step 2: Model */}
           <div className="relative">
             <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
-              2. Model
+              {t.vehicleSelector.stepModel}
             </label>
             <select
               value={selectedModel}
@@ -144,7 +146,7 @@ export const VehicleSelectorBar: React.FC = () => {
                 !selectedMake && "opacity-50 cursor-not-allowed"
               )}
             >
-              <option value="">Select Model</option>
+              <option value="">{t.vehicleSelector.selectModel}</option>
               {availableModels.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.name}
@@ -156,7 +158,7 @@ export const VehicleSelectorBar: React.FC = () => {
           {/* Step 3: Year */}
           <div className="relative">
             <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
-              3. Year
+              {t.vehicleSelector.stepYear}
             </label>
             <select
               value={selectedYear}
@@ -178,7 +180,7 @@ export const VehicleSelectorBar: React.FC = () => {
           {/* Step 4: Engine / Trim */}
           <div className="relative">
             <label className="block text-[10px] font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] mb-1 font-semibold">
-              4. Engine / Trim
+              {t.vehicleSelector.stepTrim}
             </label>
             <select
               value={selectedTrim}
@@ -189,10 +191,10 @@ export const VehicleSelectorBar: React.FC = () => {
                 !selectedModel && "opacity-50 cursor-not-allowed"
               )}
             >
-              <option value="">Select Engine/Trim</option>
-              {availableTrims.map((t) => (
-                <option key={t.id} value={t.id}>
-                  {t.name}
+              <option value="">{t.vehicleSelector.selectTrim}</option>
+              {availableTrims.map((trim) => (
+                <option key={trim.id} value={trim.id}>
+                  {trim.name}
                 </option>
               ))}
             </select>
@@ -214,12 +216,12 @@ export const VehicleSelectorBar: React.FC = () => {
             {isSavedNotice ? (
               <>
                 <Check className="w-4 h-4 stroke-[3]" />
-                <span>Fitment Active!</span>
+                <span>{t.vehicleSelector.fitmentActive}</span>
               </>
             ) : (
               <>
                 <Filter className="w-4 h-4" />
-                <span>Verify Parts Fitment</span>
+                <span>{t.vehicleSelector.verifyFitment}</span>
               </>
             )}
           </button>

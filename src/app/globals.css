@@ -41,6 +41,35 @@
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     overflow-x: hidden;
     transition: background-color 0.2s ease, color 0.2s ease;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Safe area for notched phones (iPhone etc.) */
+  html {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+
+  /* Prevent images from overflowing containers */
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Ensure minimum touch target size */
+  button, a, select, input[type="checkbox"] {
+    min-height: 36px;
+  }
+
+  /* Better select styling on mobile */
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233F72AF' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    padding-right: 2rem;
   }
 }
 
@@ -97,4 +126,28 @@
 .theme-accent {
   background-color: var(--accent-color);
   color: #1B262C;
+}
+
+/* Hide scrollbar for mobile horizontal scrollers */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive text utilities */
+@media (max-width: 640px) {
+  .mobile-text-sm {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+}
+
+/* Prevent long words from breaking layout on mobile */
+.break-words-safe {
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
 }

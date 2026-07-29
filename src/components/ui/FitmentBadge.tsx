@@ -4,6 +4,7 @@ import React from "react";
 import { CheckCircle2, AlertTriangle, Info, HelpCircle } from "lucide-react";
 import { FitmentStatus } from "@/types";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/lib/i18n/translations";
 
 interface FitmentBadgeProps {
   status: FitmentStatus;
@@ -18,6 +19,8 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
   showNotes = false,
   className,
 }) => {
+  const { t } = useTranslation();
+
   if (status === "FITS") {
     return (
       <div
@@ -30,8 +33,8 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
         )}
       >
         <CheckCircle2 className={cn("text-emerald-400 shrink-0", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-        <span>Fits Your Vehicle</span>
-        {showNotes && <span className="text-emerald-400/80 font-normal ml-1">| Direct Bolt-On OEM Spec</span>}
+        <span>{t.fitmentBadge.fits}</span>
+        {showNotes && <span className="text-emerald-400/80 font-normal ml-1">{t.fitmentBadge.fitsNote}</span>}
       </div>
     );
   }
@@ -48,8 +51,8 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
         )}
       >
         <AlertTriangle className={cn("text-rose-400 shrink-0 animate-pulse", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-        <span>Incompatible</span>
-        {showNotes && <span className="text-rose-400/80 font-normal ml-1">| Check compatibility list</span>}
+        <span>{t.fitmentBadge.incompatible}</span>
+        {showNotes && <span className="text-rose-400/80 font-normal ml-1">{t.fitmentBadge.incompatibleNote}</span>}
       </div>
     );
   }
@@ -66,8 +69,8 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
         )}
       >
         <Info className={cn("text-sky-400 shrink-0", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-        <span>Universal Fit</span>
-        {showNotes && <span className="text-sky-400/80 font-normal ml-1">| Fits all Cars & Motorbikes</span>}
+        <span>{t.fitmentBadge.universal}</span>
+        {showNotes && <span className="text-sky-400/80 font-normal ml-1">{t.fitmentBadge.universalNote}</span>}
       </div>
     );
   }
@@ -83,7 +86,7 @@ export const FitmentBadge: React.FC<FitmentBadgeProps> = ({
       )}
     >
       <HelpCircle className={cn("text-slate-500 shrink-0", size === "sm" ? "w-3.5 h-3.5" : size === "lg" ? "w-5 h-5" : "w-4 h-4")} />
-      <span>Select Vehicle to Check Fitment</span>
+      <span>{t.fitmentBadge.unknown}</span>
     </div>
   );
 };

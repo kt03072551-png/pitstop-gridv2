@@ -62,7 +62,7 @@ export default function HomePage() {
               <span>{t("heroBadge")}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-6xl font-mono font-black tracking-tight text-[#112D4E] dark:text-[#BBE1FA] uppercase leading-none">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-mono font-black tracking-tight text-[#112D4E] dark:text-[#BBE1FA] uppercase leading-none">
               {t("heroTitle1")} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#3F72AF] via-[#112D4E] to-[#3F72AF] dark:from-[#3282B8] dark:via-[#BBE1FA] dark:to-[#85B5D9]">
                 {t("heroTitle2")}
@@ -89,17 +89,17 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75] max-w-xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 pt-6 border-t border-[#DBE2EF] dark:border-[#0F4C75] max-w-xl">
               <div>
-                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t("statExactFit")}</span>
+                <span className="block text-xl sm:text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t("statExactFit")}</span>
                 <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">{t("statExactFitDesc")}</span>
               </div>
               <div>
-                <span className="block text-2xl font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">{t("statHub")}</span>
+                <span className="block text-xl sm:text-2xl font-mono font-bold text-[#3F72AF] dark:text-[#3282B8]">{t("statHub")}</span>
                 <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">{t("statHubDesc")}</span>
               </div>
               <div>
-                <span className="block text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t("statOcr")}</span>
+                <span className="block text-xl sm:text-2xl font-mono font-bold text-[#112D4E] dark:text-[#BBE1FA]">{t("statOcr")}</span>
                 <span className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] font-mono uppercase">{t("statOcrDesc")}</span>
               </div>
             </div>
@@ -264,7 +264,7 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
           {MOCK_PARTS_CATALOG.map((part) => {
             const fitStatus = mounted ? checkFitment(part) : "UNSELECTED";
             return (
@@ -340,9 +340,9 @@ export default function HomePage() {
             <div className="w-10 h-10 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center mb-3 mx-auto sm:mx-0">
               <ShieldCheck className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
-            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">Guaranteed Fitment Or Money Back</h3>
+            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">{t("feature1Title")}</h3>
             <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed font-medium">
-              If our compatibility engine indicates <span className="inline-flex items-center mx-1"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Fits Your Vehicle</span> and the part does not mount cleanly to your factory points, we provide 100% full refund plus return pickup.
+              {t("feature1Desc1")} <span className="inline-flex items-center mx-1"><CheckCircle2 className="w-3.5 h-3.5 mr-1" /> {t("feature1DescBadge")}</span>{t("feature1Desc2")}
             </p>
           </div>
 
@@ -350,9 +350,9 @@ export default function HomePage() {
             <div className="w-10 h-10 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center mb-3 mx-auto sm:mx-0">
               <Warehouse className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
-            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">2-Hour Warehouse Hub Pickup</h3>
+            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">{t("feature2Title")}</h3>
             <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed font-medium">
-              Need parts immediately before a track weekend? Order online, select In-Store Pickup, and collect right from our Bangna or Laksi warehouse bins within 120 minutes.
+              {t("feature2Desc")}
             </p>
           </div>
 
@@ -360,9 +360,9 @@ export default function HomePage() {
             <div className="w-10 h-10 rounded-xl bg-[#3F72AF]/20 dark:bg-[#3282B8]/20 border border-[#3F72AF] dark:border-[#3282B8] flex items-center justify-center mb-3 mx-auto sm:mx-0">
               <Zap className="w-5 h-5 text-[#3F72AF] dark:text-[#3282B8]" />
             </div>
-            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">AI Slip & PromptPay Verification</h3>
+            <h3 className="font-mono font-bold text-base text-[#112D4E] dark:text-[#BBE1FA] uppercase">{t("feature3Title")}</h3>
             <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] leading-relaxed font-medium">
-              Scan our exact-satang dynamic PromptPay QR code and upload your transfer slip. Our automated OCR system verifies transaction timestamps and releases orders to warehouse pickers in seconds.
+              {t("feature3Desc")}
             </p>
           </div>
         </div>

@@ -77,6 +77,34 @@ export interface TranslationDictionary {
     filterUniversal: string;
     searchPlaceholder: string;
     inspectPart: string;
+    synced: string;
+    noVehicleSelected: string;
+    filteringFitsOnly: string;
+    changeVehicle: string;
+    hideFilters: string;
+    resetAll: string;
+    searchLabel: string;
+    compatibilityLabel: string;
+    categoryLabel: string;
+    gradeLabel: string;
+    gradeOem: string;
+    gradePerformance: string;
+    gradeAftermarket: string;
+    immediateBinPicking: string;
+    binPickingDesc: string;
+    showing: string;
+    partsFor: string;
+    allCategories: string;
+    sortBy: string;
+    sortFeatured: string;
+    sortPriceAsc: string;
+    sortPriceDesc: string;
+    noPartsTitle: string;
+    noPartsDesc: string;
+    resetFilters: string;
+    explodedBlueprint: string;
+    priceLabel: string;
+    loadingCatalog: string;
   };
   cart: {
     step1: string;
@@ -98,6 +126,12 @@ export interface TranslationDictionary {
     shippingFee: string;
     total: string;
     proceedToCheckout: string;
+    itemsOrdered: string;
+    activeFitmentCheck: string;
+    eachLabel: string;
+    freeLabel: string;
+    loadingCart: string;
+    secureGateway: string;
   };
   checkout: {
     step2: string;
@@ -122,6 +156,80 @@ export interface TranslationDictionary {
     successTitle: string;
     successDesc: string;
     viewOrderBtn: string;
+    loadingPayment: string;
+    fitmentGuaranteeActive: string;
+    verifiedFor: string;
+    universalOrder: string;
+    fitmentPolicy: string;
+    orderItemsAudit: string;
+    fulfillmentSelection: string;
+    expressDelivery: string;
+    expressDeliveryDesc: string;
+    storePickup: string;
+    storePickupDesc: string;
+    totalPayable: string;
+    orderRef: string;
+    qrExpired: string;
+    regenerateBtn: string;
+    scanDesc: string;
+    fileFormats: string;
+    removeBtn: string;
+    scanningSlip: string;
+    ocrVerified: string;
+    transferTimestamp: string;
+    mismatchWarning: string;
+    freeLabel: string;
+  };
+  myOrders: {
+    pageTitle: string;
+    pageDesc: string;
+    loadingOrders: string;
+    noOrders: string;
+    statusVerifying: string;
+    statusConfirmed: string;
+    statusPreparing: string;
+    statusShipped: string;
+    statusUnknown: string;
+    totalAmount: string;
+    itemsSummary: string;
+    fulfillmentMethod: string;
+    viewDetails: string;
+  };
+  vehicleSelector: {
+    title: string;
+    oemVerified: string;
+    description: string;
+    stepMake: string;
+    stepModel: string;
+    stepYear: string;
+    stepTrim: string;
+    selectMake: string;
+    selectModel: string;
+    selectTrim: string;
+    fitmentActive: string;
+    verifyFitment: string;
+  };
+  fitmentBadge: {
+    fits: string;
+    fitsNote: string;
+    incompatible: string;
+    incompatibleNote: string;
+    universal: string;
+    universalNote: string;
+    unknown: string;
+  };
+  garageDrawer: {
+    title: string;
+    description: string;
+    savedVehicles: string;
+    fitmentSynced: string;
+    emptyTitle: string;
+    emptyDesc: string;
+    activeBadge: string;
+    clickToActivate: string;
+    removeTooltip: string;
+    manageGarage: string;
+    footerNote: string;
   };
   partDetail: {
     backToCatalog: string;
@@ -263,6 +371,47 @@ export interface TranslationDictionary {
     successMsg: string;
     errorMsg: string;
   };
+  orderReceipt: {
+    loading: string;
+    notFoundTitle: string;
+    notFoundDesc: string;
+    returnToCatalog: string;
+    step1Label: string;
+    step1Desc: string;
+    step2Label: string;
+    step2DescVerified: string;
+    step2DescAwaiting: string;
+    step3Label: string;
+    step3DescReleased: string;
+    step3DescPending: string;
+    step4Label: string;
+    step4DescPickup: string;
+    step4DescShipping: string;
+    step5LabelPickup: string;
+    step5LabelShipped: string;
+    step5DescPickup: string;
+    step5DescShipped: string;
+    successBadge: string;
+    receiptTitle: string;
+    receiptDesc: string;
+    printBtn: string;
+    statusTitle: string;
+    warehouseTitle: string;
+    warehouseDispatch: string;
+    warehouseDesc: string;
+    readyTimeLabel: string;
+    readyTimeValue: string;
+    auditTitle: string;
+    auditMethod: string;
+    auditMethodValue: string;
+    auditTotal: string;
+    auditRef: string;
+    auditValidation: string;
+    auditMatch: string;
+    auditPending: string;
+    continueShopping: string;
+    returnToOrders: string;
+  };
 }
 
 export const translations: Record<Language, TranslationDictionary> = {
@@ -343,6 +492,34 @@ export const translations: Record<Language, TranslationDictionary> = {
       filterUniversal: "Universal Fit Only",
       searchPlaceholder: "e.g. 15400-RTA or Spoon Hood...",
       inspectPart: "Inspect Part Details",
+      synced: "100% Synced",
+      noVehicleSelected: "No Vehicle Selected \u2014 Showing All Universal & Model-Specific Catalog Parts",
+      filteringFitsOnly: "Filtering Fits Only",
+      changeVehicle: "Change Vehicle",
+      hideFilters: "Hide Filters",
+      resetAll: "Reset All",
+      searchLabel: "Search Part / SKU / OEM",
+      compatibilityLabel: "Compatibility Verification",
+      categoryLabel: "Technical Category",
+      gradeLabel: "Part Grade / Condition",
+      gradeOem: "OEM Genuine",
+      gradePerformance: "Performance Spec",
+      gradeAftermarket: "Aftermarket",
+      immediateBinPicking: "Immediate Bin Picking",
+      binPickingDesc: "All listed parts display physical warehouse bin coordinates (Bin A12, Row 4) ready for 2-hour Express Pickup.",
+      showing: "Showing",
+      partsFor: "parts for",
+      allCategories: "All Categories",
+      sortBy: "Sort By:",
+      sortFeatured: "Featured / Stock Status",
+      sortPriceAsc: "Price: Low to High",
+      sortPriceDesc: "Price: High to Low",
+      noPartsTitle: "No Compatible Parts Found",
+      noPartsDesc: "We could not find items matching your filters or vehicle compatibility criteria. Try adjusting your grade selections or selecting Show All Parts.",
+      resetFilters: "Reset Catalog Filters",
+      explodedBlueprint: "\ud83d\udcd0 Exploded Blueprint",
+      priceLabel: "Price (Inc 7% VAT)",
+      loadingCatalog: "Loading Catalog & Fitment Matrix...",
     },
     cart: {
       step1: "Step 1 of 3: Cart Review",
@@ -364,6 +541,12 @@ export const translations: Record<Language, TranslationDictionary> = {
       shippingFee: "Shipping & Handling",
       total: "Total Amount",
       proceedToCheckout: "Proceed to Secure Checkout",
+      itemsOrdered: "Items Ordered",
+      activeFitmentCheck: "Active Fitment Re-Check",
+      eachLabel: "each",
+      freeLabel: "FREE",
+      loadingCart: "Loading Cart...",
+      secureGateway: "Secure SSL PromptPay Gateway & OCR Slip Check",
     },
     checkout: {
       step2: "Step 2 of 3: Checkout",
@@ -388,6 +571,80 @@ export const translations: Record<Language, TranslationDictionary> = {
       successTitle: "Order Confirmed!",
       successDesc: "Your slip is being verified by our OCR system. We'll send an email update shortly.",
       viewOrderBtn: "View Order Status",
+      loadingPayment: "Initializing Payment Gateway...",
+      fitmentGuaranteeActive: "Fitment Guarantee Active",
+      verifiedFor: "Verified for {vehicle}",
+      universalOrder: "Universal Order — Direct Factory Fulfillment",
+      fitmentPolicy: "Order covered by Pitstop Grid 100% Fitment Replacement Policy.",
+      orderItemsAudit: "Order Items Audit",
+      fulfillmentSelection: "Fulfillment Selection",
+      expressDelivery: "Express Courier Delivery",
+      expressDeliveryDesc: "Ships today via EMS/Kerry Express. Delivery within 1-2 business days.",
+      storePickup: "In-Store Warehouse Pickup",
+      storePickupDesc: "Pick up from Bangna or Laksi Hub within 2 hours.",
+      totalPayable: "Total Payable Amount (Down-to-Satang)",
+      orderRef: "Order Ref:",
+      qrExpired: "QR Code Expired",
+      regenerateBtn: "Regenerate",
+      scanDesc: "Scan with any Thai mobile banking app (K PLUS, SCB EASY, Krungthai NEXT).",
+      fileFormats: "JPG, PNG, PDF (Max 10MB)",
+      removeBtn: "Remove",
+      scanningSlip: "Scanning Slip QR & Extracting Details...",
+      ocrVerified: "OCR Verified:",
+      transferTimestamp: "Transfer Timestamp:",
+      mismatchWarning: "Warning: Uploaded slip shows {slipAmount} vs Order Total {orderTotal}. Admin review required.",
+      freeLabel: "FREE",
+    },
+    myOrders: {
+      pageTitle: "My Orders",
+      pageDesc: "Track your order status, payment verification, and shipping updates. Welcome back, {name}.",
+      loadingOrders: "Loading orders...",
+      noOrders: "No orders found.",
+      statusVerifying: "Verifying Payment",
+      statusConfirmed: "Confirmed",
+      statusPreparing: "Preparing Parts",
+      statusShipped: "Shipped",
+      statusUnknown: "Unknown",
+      totalAmount: "Total Amount",
+      itemsSummary: "Items Summary",
+      fulfillmentMethod: "Fulfillment Method",
+      viewDetails: "View Details",
+    },
+    vehicleSelector: {
+      title: "Smart Fitment Selector",
+      oemVerified: "OEM Verified",
+      description: "Filter 10,000+ parts guaranteed to bolt-on to your exact vehicle",
+      stepMake: "1. Make",
+      stepModel: "2. Model",
+      stepYear: "3. Year",
+      stepTrim: "4. Engine / Trim",
+      selectMake: "Select Make",
+      selectModel: "Select Model",
+      selectTrim: "Select Engine/Trim",
+      fitmentActive: "Fitment Active!",
+      verifyFitment: "Verify Parts Fitment",
+    },
+    fitmentBadge: {
+      fits: "Fits Your Vehicle",
+      fitsNote: "| Direct Bolt-On OEM Spec",
+      incompatible: "Incompatible",
+      incompatibleNote: "| Check compatibility list",
+      universal: "Universal Fit",
+      universalNote: "| Fits all Cars & Motorbikes",
+      unknown: "Select Vehicle to Check Fitment",
+    },
+    garageDrawer: {
+      title: "Smart Vehicle Garage",
+      description: "Switch vehicles to instantly filter 100% compatible parts",
+      savedVehicles: "Saved Vehicles",
+      fitmentSynced: "Fitment Synced",
+      emptyTitle: "Your Garage is empty",
+      emptyDesc: "Select your vehicle make, model, and year above to start verifying guaranteed fitment.",
+      activeBadge: "Active",
+      clickToActivate: "Click to activate",
+      removeTooltip: "Remove from garage",
+      manageGarage: "Manage Full Garage & VIN Lookup",
+      footerNote: "Fitment compatibility verified by Pitstop OEM Matrix",
     },
     partDetail: {
       backToCatalog: "Back to Catalog",
@@ -529,6 +786,47 @@ export const translations: Record<Language, TranslationDictionary> = {
       markShippedBtn: "Mark as Shipped",
       markCompletedBtn: "Mark as Completed",
     },
+    orderReceipt: {
+      loading: "Loading Order Details...",
+      notFoundTitle: "Order Not Found",
+      notFoundDesc: "The order you are looking for does not exist.",
+      returnToCatalog: "Return to Catalog",
+      step1Label: "Payment Submitted",
+      step1Desc: "Slip uploaded & scanned by OCR",
+      step2Label: "Slip Verification",
+      step2DescVerified: "Amount {amount} verified",
+      step2DescAwaiting: "Awaiting verification",
+      step3Label: "Order Approved",
+      step3DescReleased: "Released to Warehouse {branch}",
+      step3DescPending: "Pending approval",
+      step4Label: "Preparing Parts",
+      step4DescPickup: "Picker boxing items",
+      step4DescShipping: "Packaging for courier",
+      step5LabelPickup: "Ready for Pickup",
+      step5LabelShipped: "Shipped",
+      step5DescPickup: "Available at Branch within 120 mins",
+      step5DescShipped: "Handed over to logistics partner",
+      successBadge: "Order Confirmed & OCR Verified",
+      receiptTitle: "Receipt #{orderId}",
+      receiptDesc: "A digital tax invoice and warehouse collection pass have been sent to your email.",
+      printBtn: "Print Tax Invoice",
+      statusTitle: "Real-Time Order Fulfillment Status",
+      warehouseTitle: "Warehouse Collection Coordinates",
+      warehouseDispatch: "Dispatch Hub",
+      warehouseDesc: "Your items have been allocated from <strong class=\"text-emerald-600 dark:text-emerald-400 font-mono\">{branch}</strong> and are currently entering express picking boxes.",
+      readyTimeLabel: "Estimated Ready Time:",
+      readyTimeValue: "Within 120 Minutes",
+      auditTitle: "Payment Slip OCR Audit Record",
+      auditMethod: "Method:",
+      auditMethodValue: "PromptPay Bank Transfer",
+      auditTotal: "Total Paid:",
+      auditRef: "Transaction Ref:",
+      auditValidation: "OCR Validation:",
+      auditMatch: "100% Exact Match Approved",
+      auditPending: "Pending Validation",
+      continueShopping: "Continue Catalog Shopping",
+      returnToOrders: "Return to My Orders",
+    },
   },
   th: {
     navbar: {
@@ -607,6 +905,34 @@ export const translations: Record<Language, TranslationDictionary> = {
       filterUniversal: "อะไหล่สากล / ใช้ร่วมกันได้",
       searchPlaceholder: "เช่น 15400-RTA หรือ ฝากระโปรง Spoon...",
       inspectPart: "ดูรายละเอียดอะไหล่",
+      synced: "ซิงค์ 100%",
+      noVehicleSelected: "ยังไม่ได้เลือกรถ — แสดงอะไหล่สากลและเฉพาะรุ่นทั้งหมด",
+      filteringFitsOnly: "กรองเฉพาะตรงรุ่น",
+      changeVehicle: "เปลี่ยนรถ",
+      hideFilters: "ซ่อนตัวกรอง",
+      resetAll: "รีเซ็ตทั้งหมด",
+      searchLabel: "ค้นหาอะไหล่ / SKU / OEM",
+      compatibilityLabel: "ตรวจสอบความเข้ากันได้",
+      categoryLabel: "หมวดหมู่ทางเทคนิค",
+      gradeLabel: "เกรด / สภาพอะไหล่",
+      gradeOem: "OEM แท้",
+      gradePerformance: "เกรดแต่ง",
+      gradeAftermarket: "อะไหล่ทดแทน",
+      immediateBinPicking: "รับของได้ทันทีจากชั้นวาง",
+      binPickingDesc: "อะไหล่ทุกชิ้นแสดงตำแหน่งจัดเก็บในคลัง (Bin A12, Row 4) พร้อมรับของด่วนภายใน 2 ชั่วโมง",
+      showing: "แสดง",
+      partsFor: "รายการสำหรับ",
+      allCategories: "ทุกหมวดหมู่",
+      sortBy: "เรียงตาม:",
+      sortFeatured: "แนะนำ / สถานะสต็อก",
+      sortPriceAsc: "ราคา: ต่ำ → สูง",
+      sortPriceDesc: "ราคา: สูง → ต่ำ",
+      noPartsTitle: "ไม่พบอะไหล่ที่ตรงรุ่น",
+      noPartsDesc: "ไม่พบสินค้าที่ตรงกับตัวกรองหรือความตรงรุ่นของคุณ ลองปรับเกรดหรือเลือกแสดงอะไหล่ทั้งหมด",
+      resetFilters: "รีเซ็ตตัวกรองแคตตาล็อก",
+      explodedBlueprint: "📐 แบบแปลนแยกชิ้นส่วน",
+      priceLabel: "ราคา (รวม VAT 7%)",
+      loadingCatalog: "กำลังโหลดแคตตาล็อกและระบบตรวจสอบความตรงรุ่น...",
     },
     cart: {
       step1: "ขั้นตอนที่ 1 จาก 3: ตรวจสอบตะกร้า",
@@ -628,6 +954,12 @@ export const translations: Record<Language, TranslationDictionary> = {
       shippingFee: "ค่าจัดส่ง",
       total: "ยอดสุทธิที่ต้องชำระ",
       proceedToCheckout: "ดำเนินการชำระเงินอย่างปลอดภัย",
+      itemsOrdered: "รายการที่สั่งซื้อ",
+      activeFitmentCheck: "ตรวจสอบความตรงรุ่นอีกครั้ง",
+      eachLabel: "ต่อชิ้น",
+      freeLabel: "ฟรี",
+      loadingCart: "กำลังโหลดตะกร้าสินค้า...",
+      secureGateway: "ระบบชำระเงินพร้อมเพย์ SSL และตรวจสอบสลิป OCR",
     },
     checkout: {
       step2: "ขั้นตอนที่ 2 จาก 3: ชำระเงิน",
@@ -652,6 +984,80 @@ export const translations: Record<Language, TranslationDictionary> = {
       successTitle: "สั่งซื้อสำเร็จ!",
       successDesc: "ระบบ OCR กำลังตรวจสอบสลิปโอนเงินของคุณ เราจะแจ้งสถานะให้ทราบผ่านอีเมลในไม่ช้า",
       viewOrderBtn: "ดูสถานะคำสั่งซื้อ",
+      loadingPayment: "กำลังเตรียมระบบชำระเงิน...",
+      fitmentGuaranteeActive: "รับประกันความตรงรุ่น 100%",
+      verifiedFor: "ยืนยันตรงรุ่นสำหรับ {vehicle}",
+      universalOrder: "คำสั่งซื้ออะไหล่สากล — จัดส่งตรงจากโรงงาน",
+      fitmentPolicy: "คำสั่งซื้อนี้อยู่ภายใต้นโยบายเปลี่ยนคืนอะไหล่ไม่ตรงรุ่น 100% ของ Pitstop Grid",
+      orderItemsAudit: "ตรวจสอบรายการสั่งซื้อ",
+      fulfillmentSelection: "เลือกวิธีรับสินค้า",
+      expressDelivery: "จัดส่งพัสดุด่วน",
+      expressDeliveryDesc: "ส่งวันนี้ผ่าน EMS/Kerry Express รับของภายใน 1-2 วันทำการ",
+      storePickup: "รับด้วยตนเองที่คลังสินค้า",
+      storePickupDesc: "รับที่คลังสาขาบางนาหรือหลักสี่ภายใน 2 ชั่วโมง",
+      totalPayable: "ยอดชำระรวมทั้งสิ้น (สตางค์)",
+      orderRef: "เลขที่อ้างอิง:",
+      qrExpired: "QR Code หมดอายุแล้ว",
+      regenerateBtn: "สร้าง QR ใหม่",
+      scanDesc: "สแกนด้วยแอปธนาคารบนมือถือ (K PLUS, SCB EASY, Krungthai NEXT)",
+      fileFormats: "JPG, PNG, PDF (สูงสุด 10MB)",
+      removeBtn: "ลบ",
+      scanningSlip: "กำลังสแกน QR สลิปและดึงข้อมูล...",
+      ocrVerified: "OCR ตรวจสอบแล้ว:",
+      transferTimestamp: "เวลาโอน:",
+      mismatchWarning: "คำเตือน: สลิปแสดงยอด {slipAmount} แต่ยอดสั่งซื้อคือ {orderTotal} ต้องให้แอดมินตรวจสอบ",
+      freeLabel: "ฟรี",
+    },
+    myOrders: {
+      pageTitle: "คำสั่งซื้อของฉัน",
+      pageDesc: "ติดตามสถานะคำสั่งซื้อ การตรวจสอบการชำระเงิน และสถานะการจัดส่ง ยินดีต้อนรับกลับมา, {name}",
+      loadingOrders: "กำลังโหลดคำสั่งซื้อ...",
+      noOrders: "ไม่พบคำสั่งซื้อ",
+      statusVerifying: "กำลังตรวจสอบการชำระเงิน",
+      statusConfirmed: "ยืนยันแล้ว",
+      statusPreparing: "กำลังเตรียมอะไหล่",
+      statusShipped: "จัดส่งแล้ว",
+      statusUnknown: "ไม่ทราบสถานะ",
+      totalAmount: "ยอดรวม",
+      itemsSummary: "สรุปรายการสินค้า",
+      fulfillmentMethod: "วิธีการรับสินค้า",
+      viewDetails: "ดูรายละเอียด",
+    },
+    vehicleSelector: {
+      title: "ตัวเลือกอะไหล่ตรงรุ่นอัจฉริยะ",
+      oemVerified: "ยืนยันโดย OEM",
+      description: "กรองอะไหล่กว่า 10,000+ รายการที่รับประกันว่าใส่ตรงรุ่นกับรถของคุณ",
+      stepMake: "1. ยี่ห้อ",
+      stepModel: "2. รุ่น",
+      stepYear: "3. ปี",
+      stepTrim: "4. เครื่องยนต์ / รุ่นย่อย",
+      selectMake: "เลือกยี่ห้อ",
+      selectModel: "เลือกรุ่น",
+      selectTrim: "เลือกเครื่องยนต์/รุ่นย่อย",
+      fitmentActive: "ตรงรุ่นแล้ว!",
+      verifyFitment: "ตรวจสอบความตรงรุ่น",
+    },
+    fitmentBadge: {
+      fits: "ตรงรุ่นกับรถของคุณ",
+      fitsNote: "| ใส่ตรงรุ่น OEM ไม่ต้องดัดแปลง",
+      incompatible: "ไม่ตรงรุ่น",
+      incompatibleNote: "| ตรวจสอบรายการที่รองรับ",
+      universal: "อะไหล่สากล",
+      universalNote: "| ใช้ได้กับรถทุกรุ่น",
+      unknown: "เลือกรถเพื่อตรวจสอบความตรงรุ่น",
+    },
+    garageDrawer: {
+      title: "\u0e42\u0e23\u0e07\u0e23\u0e16\u0e2d\u0e31\u0e08\u0e09\u0e23\u0e34\u0e22\u0e30",
+      description: "\u0e2a\u0e25\u0e31\u0e1a\u0e23\u0e16\u0e40\u0e1e\u0e37\u0e48\u0e2d\u0e01\u0e23\u0e2d\u0e07\u0e2d\u0e30\u0e44\u0e2b\u0e25\u0e48\u0e17\u0e35\u0e48\u0e15\u0e23\u0e07\u0e23\u0e38\u0e48\u0e19 100% \u0e17\u0e31\u0e19\u0e17\u0e35",
+      savedVehicles: "รถที่บันทึกไว้",
+      fitmentSynced: "ซิงค์ความตรงรุ่นแล้ว",
+      emptyTitle: "โรงรถของคุณยังว่างเปล่า",
+      emptyDesc: "เลือกยี่ห้อ รุ่น และปีของรถด้านบนเพื่อเริ่มตรวจสอบความตรงรุ่น",
+      activeBadge: "กำลังใช้งาน",
+      clickToActivate: "คลิกเพื่อเปิดใช้งาน",
+      removeTooltip: "ลบออกจากโรงรถ",
+      manageGarage: "จัดการโรงรถ & ค้นหา VIN",
+      footerNote: "ความตรงรุ่นยืนยันโดยระบบ Pitstop OEM Matrix",
     },
     partDetail: {
       backToCatalog: "กลับสู่แคตตาล็อก",
@@ -792,6 +1198,47 @@ export const translations: Record<Language, TranslationDictionary> = {
       markReadyBtn: "ทำเครื่องหมายว่าพร้อมรับ",
       markShippedBtn: "ทำเครื่องหมายว่าจัดส่งแล้ว",
       markCompletedBtn: "ทำเครื่องหมายว่าเสร็จสิ้น",
+    },
+    orderReceipt: {
+      loading: "กำลังโหลดรายละเอียดคำสั่งซื้อ...",
+      notFoundTitle: "ไม่พบคำสั่งซื้อ",
+      notFoundDesc: "ไม่มีคำสั่งซื้อที่คุณกำลังค้นหา",
+      returnToCatalog: "กลับไปที่แคตตาล็อก",
+      step1Label: "ส่งการชำระเงินแล้ว",
+      step1Desc: "อัปโหลดและสแกนสลิปด้วยระบบ OCR แล้ว",
+      step2Label: "การตรวจสอบสลิป",
+      step2DescVerified: "ตรวจสอบยอดเงิน {amount} แล้ว",
+      step2DescAwaiting: "กำลังรอการตรวจสอบ",
+      step3Label: "อนุมัติคำสั่งซื้อแล้ว",
+      step3DescReleased: "ส่งไปยังคลังสินค้า {branch} แล้ว",
+      step3DescPending: "กำลังรอการอนุมัติ",
+      step4Label: "กำลังเตรียมอะไหล่",
+      step4DescPickup: "พนักงานกำลังจัดของลงกล่อง",
+      step4DescShipping: "กำลังบรรจุหีบห่อเพื่อจัดส่ง",
+      step5LabelPickup: "พร้อมให้รับสินค้า",
+      step5LabelShipped: "จัดส่งแล้ว",
+      step5DescPickup: "รับสินค้าได้ที่สาขาภายใน 120 นาที",
+      step5DescShipped: "ส่งมอบให้กับพันธมิตรด้านโลจิสติกส์แล้ว",
+      successBadge: "ยืนยันคำสั่งซื้อและตรวจสอบด้วย OCR แล้ว",
+      receiptTitle: "ใบเสร็จ #{orderId}",
+      receiptDesc: "ใบกำกับภาษีดิจิทัลและใบรับสินค้าจากคลังสินค้าได้ถูกส่งไปยังอีเมลของคุณแล้ว",
+      printBtn: "พิมพ์ใบกำกับภาษี",
+      statusTitle: "สถานะการจัดการคำสั่งซื้อแบบเรียลไทม์",
+      warehouseTitle: "พิกัดและจุดรับสินค้าจากคลัง",
+      warehouseDispatch: "ศูนย์กระจายสินค้า",
+      warehouseDesc: "รายการสินค้าของคุณได้รับการจัดสรรจาก <strong class=\"text-emerald-600 dark:text-emerald-400 font-mono\">{branch}</strong> และกำลังเข้าสู่ขั้นตอนการหยิบสินค้าด่วน",
+      readyTimeLabel: "เวลาที่คาดว่าจะพร้อม:",
+      readyTimeValue: "ภายใน 120 นาที",
+      auditTitle: "บันทึกการตรวจสอบสลิปชำระเงินด้วย OCR",
+      auditMethod: "วิธีการ:",
+      auditMethodValue: "โอนเงินผ่านธนาคารพร้อมเพย์",
+      auditTotal: "ยอดชำระรวม:",
+      auditRef: "รหัสอ้างอิงธุรกรรม (Ref):",
+      auditValidation: "การตรวจสอบ OCR:",
+      auditMatch: "ตรงกัน 100% และได้รับการอนุมัติ",
+      auditPending: "รอการตรวจสอบความถูกต้อง",
+      continueShopping: "เลือกซื้อสินค้าในแคตตาล็อกต่อ",
+      returnToOrders: "กลับไปยังคำสั่งซื้อของฉัน",
     },
   },
 };

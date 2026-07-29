@@ -46,9 +46,9 @@ function CatalogContent() {
   ];
 
   const grades: { label: string; value: PartGrade }[] = [
-    { label: "OEM Genuine", value: "OEM_GENUINE" },
-    { label: "Performance Spec", value: "PERFORMANCE" },
-    { label: "Aftermarket Grade A", value: "AFTERMARKET" },
+    { label: t.catalog.gradeOem, value: "OEM_GENUINE" },
+    { label: t.catalog.gradePerformance, value: "PERFORMANCE" },
+    { label: t.catalog.gradeAftermarket, value: "AFTERMARKET" },
   ];
 
   const toggleGrade = (grade: PartGrade) => {
@@ -129,19 +129,19 @@ function CatalogContent() {
                 </span>
                 {activeVehicle && (
                   <span className="text-[10px] bg-[#112D4E] dark:bg-[#BBE1FA] text-white dark:text-[#1B262C] border border-[#3F72AF] dark:border-[#3282B8] px-2.5 py-0.5 rounded font-mono font-bold">
-                    100% Synced
+                    {t.catalog.synced}
                   </span>
                 )}
               </div>
-              <h1 className="text-lg sm:text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] tracking-tight mt-0.5">
+              <h1 className="text-base sm:text-lg md:text-xl font-bold text-[#112D4E] dark:text-[#BBE1FA] tracking-tight mt-0.5 break-words-safe">
                 {activeVehicle 
                   ? `${activeVehicle.year} ${activeVehicle.make} ${activeVehicle.model} (${activeVehicle.trim})`
-                  : "No Vehicle Selected — Showing All Universal & Model-Specific Catalog Parts"}
+                  : t.catalog.noVehicleSelected}
               </h1>
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
+          <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
             {activeVehicle && (
               <button
                 onClick={() => setFitmentFilter(fitmentFilter === "FITS_ONLY" ? "ALL" : "FITS_ONLY")}
@@ -153,14 +153,14 @@ function CatalogContent() {
                 )}
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span className="flex items-center">{fitmentFilter === "FITS_ONLY" ? <><span className="mr-1">Filtering Fits Only</span> <CheckCircle2 className="w-3.5 h-3.5 ml-1" /></> : t.catalog.filterFits}</span>
+                <span className="flex items-center">{fitmentFilter === "FITS_ONLY" ? <><span className="mr-1">{t.catalog.filteringFitsOnly}</span> <CheckCircle2 className="w-3.5 h-3.5 ml-1" /></> : t.catalog.filterFits}</span>
               </button>
             )}
             <Link
               href="/garage"
               className="px-4 py-2 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] hover:border-[#3F72AF] dark:hover:border-[#3282B8] border border-[#DBE2EF] dark:border-[#0F4C75] text-[#112D4E] dark:text-[#BBE1FA] text-xs font-mono font-bold transition-colors min-h-[44px] flex items-center justify-center"
             >
-              Change Vehicle
+              {t.catalog.changeVehicle}
             </Link>
           </div>
         </div>
@@ -173,7 +173,7 @@ function CatalogContent() {
           >
             <span className="flex items-center gap-2">
               <SlidersHorizontal className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8]" />
-              {isMobileFiltersOpen ? "Hide Filters" : t.catalog.filtersTitle}
+              {isMobileFiltersOpen ? t.catalog.hideFilters : t.catalog.filtersTitle}
             </span>
             <span>{isMobileFiltersOpen ? "▲" : "▼"}</span>
           </button>
@@ -200,14 +200,14 @@ function CatalogContent() {
                   }}
                   className="text-xs text-rose-500 hover:text-rose-400 font-mono underline font-bold"
                 >
-                  Reset All
+                  {t.catalog.resetAll}
                 </button>
               )}
             </div>
 
             {/* Search Box */}
             <div className="space-y-1.5">
-              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Search Part / SKU / OEM</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.catalog.searchLabel}</label>
               <div className="relative">
                 <Search className="w-4 h-4 text-[#3F72AF] dark:text-[#3282B8] absolute left-3 top-3.5" />
                 <input
@@ -222,7 +222,7 @@ function CatalogContent() {
 
             {/* Fitment Status Filter */}
             <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Compatibility Verification</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.catalog.compatibilityLabel}</label>
               <div className="space-y-1.5">
                 <button
                   onClick={() => setFitmentFilter("ALL")}
@@ -270,7 +270,7 @@ function CatalogContent() {
 
             {/* Categories */}
             <div className="space-y-2">
-              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Technical Category</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.catalog.categoryLabel}</label>
               <div className="space-y-1">
                 {categories.map((cat) => (
                   <button
@@ -291,7 +291,7 @@ function CatalogContent() {
 
             {/* Grade Checkboxes */}
             <div className="space-y-2 pt-2 border-t border-[#DBE2EF] dark:border-[#0F4C75]">
-              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">Part Grade / Condition</label>
+              <label className="block text-xs font-mono uppercase text-[#112D4E]/70 dark:text-[#85B5D9] font-bold">{t.catalog.gradeLabel}</label>
               <div className="space-y-2.5">
                 {grades.map((g) => {
                   const isChecked = selectedGrades.includes(g.value);
@@ -317,10 +317,10 @@ function CatalogContent() {
             <div className="p-3.5 rounded-xl bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] space-y-1.5 text-xs text-[#112D4E]/70 dark:text-[#85B5D9] shadow-inner">
               <div className="flex items-center gap-1.5 text-[#3F72AF] dark:text-[#3282B8] font-mono font-bold">
                 <Warehouse className="w-4 h-4" />
-                <span>Immediate Bin Picking</span>
+                <span>{t.catalog.immediateBinPicking}</span>
               </div>
               <p className="text-[11px] leading-relaxed font-medium">
-                All listed parts display physical warehouse bin coordinates (`Bin A12`, `Row 4`) ready for 2-hour Express Pickup.
+                {t.catalog.binPickingDesc}
               </p>
             </div>
           </aside>
@@ -330,20 +330,20 @@ function CatalogContent() {
             {/* Top Sort & Count Bar */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-[#DBE2EF]/60 dark:bg-[#0F4C75]/60 border border-[#DBE2EF] dark:border-[#0F4C75]">
               <div className="font-mono text-xs text-[#112D4E]/80 dark:text-[#BBE1FA]/80">
-                Showing <strong className="text-[#3F72AF] dark:text-[#3282B8] font-bold text-sm">{filteredParts.length}</strong> parts for{" "}
-                <span className="text-[#112D4E] dark:text-white font-bold">{selectedCategory === "ALL" ? "All Categories" : selectedCategory}</span>
+                {t.catalog.showing} <strong className="text-[#3F72AF] dark:text-[#3282B8] font-bold text-sm">{filteredParts.length}</strong> {t.catalog.partsFor}{" "}
+                <span className="text-[#112D4E] dark:text-white font-bold">{selectedCategory === "ALL" ? t.catalog.allCategories : selectedCategory}</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <label className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] font-semibold">Sort By:</label>
+                <label className="text-xs font-mono text-[#112D4E]/70 dark:text-[#85B5D9] font-semibold">{t.catalog.sortBy}</label>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as "featured" | "price_asc" | "price_desc")}
                   className="min-h-[40px] bg-[#F9F7F7] dark:bg-[#1B262C] border border-[#DBE2EF] dark:border-[#0F4C75] rounded-xl px-3 py-1.5 text-xs font-semibold text-[#112D4E] dark:text-[#BBE1FA] focus:outline-none focus:border-[#3F72AF] dark:focus:border-[#3282B8] cursor-pointer shadow-sm"
                 >
-                  <option value="featured">Featured / Stock Status</option>
-                  <option value="price_asc">Price: Low to High</option>
-                  <option value="price_desc">Price: High to Low</option>
+                  <option value="featured">{t.catalog.sortFeatured}</option>
+                  <option value="price_asc">{t.catalog.sortPriceAsc}</option>
+                  <option value="price_desc">{t.catalog.sortPriceDesc}</option>
                 </select>
               </div>
             </div>
@@ -352,9 +352,9 @@ function CatalogContent() {
             {filteredParts.length === 0 ? (
               <div className="text-center py-20 border border-dashed border-[#DBE2EF] dark:border-[#0F4C75] rounded-2xl p-8 bg-[#DBE2EF]/30 dark:bg-[#0F4C75]/30 space-y-3">
                 <AlertTriangle className="w-12 h-12 text-[#3F72AF] dark:text-[#3282B8] mx-auto" />
-                <h3 className="font-mono text-lg font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase">No Compatible Parts Found</h3>
+                <h3 className="font-mono text-lg font-bold text-[#112D4E] dark:text-[#BBE1FA] uppercase">{t.catalog.noPartsTitle}</h3>
                 <p className="text-xs text-[#112D4E]/70 dark:text-[#85B5D9] max-w-md mx-auto font-medium">
-                  We could not find items matching your filters or vehicle compatibility criteria (`{fitmentFilter}`). Try adjusting your grade selections or selecting `Show All Parts`.
+                  {t.catalog.noPartsDesc}
                 </p>
                 <button
                   onClick={() => {
@@ -365,7 +365,7 @@ function CatalogContent() {
                   }}
                   className="min-h-[44px] px-6 py-2.5 rounded-xl bg-[#3F72AF] dark:bg-[#3282B8] text-white dark:text-[#1B262C] font-mono font-bold text-xs uppercase tracking-wide shadow-md hover:opacity-90 transition-all"
                 >
-                  Reset Catalog Filters
+                  {t.catalog.resetFilters}
                 </button>
               </div>
             ) : (
@@ -406,7 +406,7 @@ function CatalogContent() {
                         {part.images.some((i) => i.isExplodedDiagram) && (
                           <div className="absolute bottom-3 right-3 z-10">
                             <span className="px-2 py-1 rounded bg-[#3F72AF] text-white text-[10px] font-mono flex items-center gap-1.5 shadow-md font-bold">
-                              📐 Exploded Blueprint
+                              {t.catalog.explodedBlueprint}
                             </span>
                           </div>
                         )}
@@ -433,7 +433,7 @@ function CatalogContent() {
                         {/* Price & Action */}
                         <div className="pt-4 border-t border-[#DBE2EF] dark:border-[#0F4C75] flex items-center justify-between">
                           <div>
-                            <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">Price (Inc 7% VAT)</span>
+                            <span className="block text-[10px] font-mono text-[#112D4E]/60 dark:text-[#85B5D9] uppercase font-semibold">{t.catalog.priceLabel}</span>
                             <span className="font-mono font-black text-xl text-[#3F72AF] dark:text-[#3282B8]">{formatTHB(part.price)}</span>
                           </div>
                           <Link
@@ -462,7 +462,7 @@ export default function CatalogPage() {
       <div className="min-h-screen bg-[#F9F7F7] dark:bg-[#1B262C] flex items-center justify-center p-10">
         <div className="flex flex-col items-center gap-3 text-[#3F72AF] dark:text-[#3282B8] font-mono text-sm font-bold">
           <Loader2 className="w-8 h-8 animate-spin" />
-          <span>Loading Catalog & Fitment Matrix...</span>
+          <span className="animate-pulse">...</span>
         </div>
       </div>
     }>
